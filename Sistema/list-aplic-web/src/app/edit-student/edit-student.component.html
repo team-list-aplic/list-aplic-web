@@ -1,0 +1,18 @@
+<h4>Editar Discente</h4>
+<hr>
+<form (ngSubmit)="editStudent()">
+        <div class="form-group">
+            <label for="nome">Nome</label>
+            <input type="text" class="form-control" id="nome" aria-describedby="nomeHelp" placeholder="Digite o Nome"
+                [(ngModel)]="student.name" name="nome">
+    
+            <label for="senha">Senha</label>
+            <input type="password" class="form-control" id="senha" aria-describedby="senhaHelp" placeholder="Digite a Senha"
+                [(ngModel)]="student.password" name="senha">
+    
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Digite o Email"
+                [(ngModel)]="student.email" name="email">
+        </div>
+        <button type="submit" class="btn btn-primary">Editar</button>
+    </form>
