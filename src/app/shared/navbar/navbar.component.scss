@@ -1,0 +1,9 @@
+a {
+  font-weight: bold;
+}
+
+li {
+  &:hover {
+    opacity: .7;
+  }
+}

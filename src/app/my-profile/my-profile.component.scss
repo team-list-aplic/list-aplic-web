@@ -1,0 +1,23 @@
+button {
+  margin-left: 10px;
+  width: 20%;
+}
+
+.card-title {
+  margin-bottom: 30px;
+}
+
+.card {
+  margin-top: 20px;
+  width: 60vw;
+}
+
+.profile-content-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.buttons {
+  justify-content: flex-end;
+}

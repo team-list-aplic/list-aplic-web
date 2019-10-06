@@ -1,0 +1,21 @@
+<form #form="ngForm" (ngSubmit)="submitForm(form)">
+  <div class="form-group">
+    <input required name="nome" type="text" class="form-control" id="input-nome" placeholder="Nome"
+           [(ngModel)]="student.name">
+  </div>
+  <div class="form-group">
+    <input required name="email" type="email" class="form-control" id="input-email" placeholder="E-mail"
+           [(ngModel)]="student.email">
+  </div>
+  <div class="form-group">
+    <input required name="senha" type="password" class="form-control" id="input-password" placeholder="Senha"
+           [(ngModel)]="student.password">
+  </div>
+  <div class="form-group">
+    <input required name="repeat-senha" type="password" class="form-control" id="input-repeat-password"
+           placeholder="Confirmar Senha"
+           [(ngModel)]="repeatPassword">
+    <small *ngIf="arePasswordDiff" id="input-repeat-password-help" class="form-text text-muted crimson">Senhas diferentes.</small>
+  </div>
+  <button type="submit" class="btn btn-secondary" [disabled]="form.invalid || arePasswordDiff">Salvar</button>
+</form>

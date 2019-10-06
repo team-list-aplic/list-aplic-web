@@ -1,0 +1,32 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import "variables";
+
+body {
+  color: $base-black-color !important;
+  background-color: $background-gray-color;
+}
+
+a {
+  color: $base-black-color !important;
+}
+
+.navbar-bg {
+  background-color: $navbar-color;
+}
+
+.crimson {
+  color: crimson !important;
+}
+
+.btn-light {
+  background-color: white;
+  border: 1px solid $base-black-color;
+}
+
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
