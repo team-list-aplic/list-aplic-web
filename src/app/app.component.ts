@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
-import { StudentService } from './services/student.service';
-import { Student } from './models/student.model';
 import { LoginService } from "./services/login.service";
 
 enum View {
@@ -51,7 +49,7 @@ export class AppComponent {
   toogleCurrentView(view: View) {
     this.currentView = this.currentView == View.CREATE ? View.LIST : View.CREATE;
   }
-  
+
   get isLoggedUser(): boolean {
     return !!this._loginService.readLoggedUser();
   }

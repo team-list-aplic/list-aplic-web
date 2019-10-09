@@ -50,8 +50,6 @@ const appRoutes: Routes = [
     AppComponent,
     MyProfileComponent,
     EditProfileComponent,
-    LoadingComponent,
-    StudentFormComponent,
     ClassroomFormComponent,
     ClassroomComponent,
     DeleteClassroomComponent,
@@ -64,11 +62,11 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     SimpleNotificationsModule.forRoot(),
     ModalModule.forRoot(),
+    NgbModule,
+    SharedModule,
     FormsModule,
     HttpClientModule,
-    NgbModule,
     LoginModule,
-    SharedModule,
   ],
   entryComponents: [
     ParticipateClassroomComponent
