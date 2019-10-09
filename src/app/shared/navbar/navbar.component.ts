@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ParticipateClassroomComponent } from 'src/app/participate-classroom/participate-classroom.component';
 
 @Component({
   selector: 'list-aplic-navbar',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit() {
   }
 
+  openModalParticipateClassroom() {
+    const modalRef = this.modalService.open(ParticipateClassroomComponent);
+  }
 }

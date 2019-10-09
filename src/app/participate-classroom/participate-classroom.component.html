@@ -1,0 +1,17 @@
+<div class="modal-header">
+    <h4 class="modal-title">Entrar em Turma</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-row">
+        <div class="offset-md-1 col-md-10">
+            <input class="form-control" type="text" placeholder="Digite o código da turma">
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Cancelar</button>
+    <button type="submit" class="btn btn-dark">Entrar</button>
+</div>
