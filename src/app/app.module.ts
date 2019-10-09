@@ -6,25 +6,25 @@ import {RouterModule, Routes} from '@angular/router';
 
 import {AppComponent} from './app.component';
 import {StudentService} from './services/student.service';
-import {LoginComponent} from './login/login.component';
-import {NavbarComponent} from './shared/navbar/navbar.component';
 import {MyProfileComponent} from './my-profile/my-profile.component';
-import {SignUpComponent} from './sign-up/sign-up.component';
 import {EditProfileComponent} from './edit-profile/edit-profile.component';
 import {SimpleNotificationsModule} from 'angular2-notifications';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {LoadingComponent} from './shared/loading/loading.component';
-import {StudentFormComponent} from './shared/student-form/student-form.component';
 import {ModalModule} from 'ngx-bootstrap';
+import {LoginModule} from "./login/login.module";
+import {SharedModule} from "./shared/shared.module";
+import {AuthGuardService} from "./services/auth-guard.service";
 
 const appRoutes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'sign-up', component: SignUpComponent },
-  { path: 'my-profile', component: MyProfileComponent },
-  { path: 'edit-profile', component: EditProfileComponent },
+  { path: 'my-profile', component: MyProfileComponent, canActivate: [AuthGuardService] },
+  { path: 'edit-profile', component: EditProfileComponent, canActivate: [AuthGuardService] },
   { path: '',
     redirectTo: '/login',
     pathMatch: 'full'
+  },
+  {
+    path: 'login',
+    loadChildren: './login/login.module#LoginModule'
   },
   //{ path: '**', component: PageNotFoundComponent }
 ];
@@ -32,13 +32,8 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    NavbarComponent,
     MyProfileComponent,
-    SignUpComponent,
     EditProfileComponent,
-    LoadingComponent,
-    StudentFormComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -47,7 +42,9 @@ const appRoutes: Routes = [
     SimpleNotificationsModule.forRoot(),
     ModalModule.forRoot(),
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    LoginModule,
+    SharedModule,
   ],
   providers: [StudentService],
   bootstrap: [AppComponent]

@@ -5,10 +5,12 @@
         <h2 class="card-title text-center font-weight-bold">ListAplic</h2>
         <form>
           <div class="form-group">
-            <input type="email" class="form-control" id="input-email" placeholder="E-mail">
+            <input type="email" class="form-control" id="input-email" placeholder="E-mail" name="email"
+                   [(ngModel)]="email">
           </div>
           <div class="form-group">
-            <input type="password" class="form-control" id="input-password" placeholder="Senha">
+            <input type="password" class="form-control" id="input-password" placeholder="Senha" name="password"
+                   [(ngModel)]="password">
           </div>
           <button type="submit" class="btn btn-secondary" (click)="signIn()">Entrar</button>
         </form>

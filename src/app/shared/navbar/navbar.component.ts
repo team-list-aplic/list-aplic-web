@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {LoginService} from "../../services/login.service";
 
 @Component({
   selector: 'list-aplic-navbar',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(private readonly _loginService: LoginService) { }
 
   ngOnInit() {
+  }
+
+  logout() {
+    this._loginService.logout();
   }
 
 }

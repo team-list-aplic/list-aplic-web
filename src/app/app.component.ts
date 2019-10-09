@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { StudentService } from './services/student.service';
 import { Student } from './models/student.model';
+import {LoginService} from "./services/login.service";
 
 enum View {
   CREATE,
@@ -14,11 +15,9 @@ enum View {
 })
 export class AppComponent {
 
-  currentView = View.CREATE;
+  constructor(private readonly _loginService: LoginService) {}
 
-  constructor() {}
-
-  toogleCurrentView(view: View) {
-    this.currentView = this.currentView == View.CREATE ? View.LIST : View.CREATE;
+  get isLoggedUser(): boolean {
+    return !!this._loginService.readLoggedUser();
   }
 }
