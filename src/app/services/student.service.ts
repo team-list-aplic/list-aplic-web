@@ -19,25 +19,25 @@ export class StudentService {
     })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private readonly _http: HttpClient) { }
 
   save(student: Student): Promise<Student> {
-    return this.http.post<Student>(this._baseurl + '/students/', JSON.stringify(student), this._httpOptions).toPromise();
+    return this._http.post<Student>(this._baseurl + '/students/', JSON.stringify(student), this._httpOptions).toPromise();
   }
 
   findAll(): Promise<Student[]> {
-    return this.http.get<Student[]>(this._baseurl + '/students/').toPromise();
+    return this._http.get<Student[]>(this._baseurl + '/students/').toPromise();
   }
 
   update(student: Student): Promise<Student> {
-    return this.http.put<Student>(this._baseurl + '/students/' + student.id, JSON.stringify(student), this._httpOptions).toPromise();
+    return this._http.put<Student>(this._baseurl + '/students/' + student.id, JSON.stringify(student), this._httpOptions).toPromise();
   }
 
   delete(id: string): void {
-    this.http.delete<Student>(this._baseurl + '/students/' + id, this._httpOptions).toPromise();
+    this._http.delete<Student>(this._baseurl + '/students/' + id, this._httpOptions).toPromise();
   }
 
   findById(id: string): Promise<Student> {
-    return this.http.get<Student>(this._baseurl + '/students/' + id, this._httpOptions).toPromise();
+    return this._http.get<Student>(this._baseurl + '/students/' + id, this._httpOptions).toPromise();
   }
 }

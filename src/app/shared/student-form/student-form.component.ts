@@ -1,16 +1,18 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {Student} from "../../models/student.model";
 import {StudentService} from "../../services/student.service";
 import {NotificationsService} from "angular2-notifications";
 import {LoadingService} from "../../services/loading.service";
+import {LoginService} from "../../services/login.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'list-aplic-student-form',
   templateUrl: './student-form.component.html',
   styleUrls: ['./student-form.component.scss']
 })
-export class StudentFormComponent {
+export class StudentFormComponent implements OnInit {
 
   @Input() actionCreate: boolean;
 
@@ -20,7 +22,13 @@ export class StudentFormComponent {
   constructor(private readonly _studentService: StudentService,
               private readonly _notificationsService: NotificationsService,
               private readonly _loadingService: LoadingService,
+              private readonly _loginService: LoginService,
+              private readonly _router: Router,
   ) {
+  }
+
+  ngOnInit(): void {
+    this.student = this._loginService.readLoggedUser() || {};
   }
 
   submitForm(form: NgForm) {
@@ -44,6 +52,7 @@ export class StudentFormComponent {
   private async _signUp() {
     const student = await this._studentService.save(this.student);
     this._notificationsService.success('Discente Criado', student.name);
+    this._router.navigate(['login']);
   }
 
   private async _editStudent() {
