@@ -26,22 +26,19 @@ export class LoginService {
               private readonly _notificationsService: NotificationsService,
               private readonly _router: Router,) { }
 
-  async login(login: Object) {
-    this._httpOptions.params = login;
-    const studentDto = await this._http.post<Student>(this._baseurl + '/login/', JSON.stringify(login), this._httpOptions).toPromise();
-    this._storingStudent(studentDto);
-    this._router.navigate(['my-profile']);
+  async login(login: Object): Promise<Student> {
+    return await this._http.post<Student>(this._baseurl + '/login/', JSON.stringify(login), this._httpOptions).toPromise();
+
   }
 
-  private _storingStudent(student: Student) {
+  storingStudent(student: Student) {
     localStorage.setItem(LOGGED_USER_KEY, JSON.stringify(student));
-    this._notificationsService.success('Entrando...', 'logado');
   }
 
   logout() {
     localStorage.clear();
-    this._notificationsService.success('Saindo...', 'Deslogado');
     this._router.navigate(['login']);
+    this._notificationsService.success('Saindo...');
   }
 
   readLoggedUser(): Student {
