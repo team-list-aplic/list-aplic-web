@@ -33,8 +33,8 @@ export class StudentService {
     return this._http.put<Student>(this._baseurl + '/students/' + student.id, JSON.stringify(student), this._httpOptions).toPromise();
   }
 
-  delete(id: string): void {
-    this._http.delete<Student>(this._baseurl + '/students/' + id, this._httpOptions).toPromise();
+  delete(id: string): Promise<Student> {
+    return this._http.delete<Student>(this._baseurl + '/students/' + id, this._httpOptions).toPromise();
   }
 
   findById(id: string): Promise<Student> {

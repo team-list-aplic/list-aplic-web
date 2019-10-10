@@ -3,4 +3,5 @@ export interface Student {
     name?: string;
     email?: string;
     password?: string;
+    role?: string;
 }

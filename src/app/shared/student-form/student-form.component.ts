@@ -41,10 +41,14 @@ export class StudentFormComponent implements OnInit {
       }
       form.reset();
     } catch (error) {
-      (error.error.fieldErrors || []).forEach(error => {
-        this._notificationsService.error('Ocorreu um erro', error.message);
-      });
-    }finally {
+      if (!error.error.fieldErros || error.error.fieldErros == []) {
+        this._notificationsService.error('Ocorreu um erro', error.error.message);
+      } else {
+        (error.error.fieldErrors || []).forEach(error => {
+          this._notificationsService.error('Ocorreu um erro', error.message);
+        });
+      }
+    } finally {
       this._loadingService.processing = false;
     }
   }
@@ -57,6 +61,7 @@ export class StudentFormComponent implements OnInit {
 
   private async _editStudent() {
     const student = await this._studentService.update(this.student);
+
     this._notificationsService.success('Discente Editado', student.name);
   }
 
