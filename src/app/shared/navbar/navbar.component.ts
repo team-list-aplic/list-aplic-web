@@ -10,7 +10,11 @@ import { LoginService } from "../../services/login.service";
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private readonly _loginService: LoginService, private modalService: NgbModal) { }
+  accessUser: boolean;
+
+  constructor(private readonly _loginService: LoginService, private modalService: NgbModal) { 
+    this.accessUser = this._loginService.checkAccessUser();
+  }
 
   ngOnInit() {
   }
@@ -18,7 +22,7 @@ export class NavbarComponent implements OnInit {
   openModalParticipateClassroom() {
     const modalRef = this.modalService.open(ParticipateClassroomComponent);
   }
-  
+
   logout() {
     this._loginService.logout();
   }

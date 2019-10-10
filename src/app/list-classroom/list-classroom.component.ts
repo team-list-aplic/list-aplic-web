@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'list-aplic-list-classroom',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListClassroomComponent implements OnInit {
 
-  constructor() { }
+  constructor(private readonly _router: Router) { }
 
   ngOnInit() {
   }
 
+  editClassroom(id){
+    this._router.navigate(['/edit-classroom', { id: id}]);
+  }
 }

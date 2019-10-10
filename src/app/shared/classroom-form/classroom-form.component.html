@@ -1,12 +1,12 @@
 <form #form="ngForm" (ngSubmit)="submitForm(form)">
     <div class="form-group">
         <input required name="nome" type="text" class="form-control" id="input-nome" placeholder="* Nome da turma"
-            [(ngModel)]="class.name">
+            [(ngModel)]="classroom.name">
     </div>
 
     <div class="form-group">
-        <input required name="codTurma" type="text" class="form-control" id="input-codClasse" placeholder="* Cód da Turma"
-            [(ngModel)]="class.subjectCode">
+        <input required name="codTurma" type="text" class="form-control" id="input-codTurma" placeholder="* Cód da Turma"
+            [(ngModel)]="classroom.subjectCode">
     </div>
     
     <button type="submit" class="btn btn-secondary" [disabled]="form.invalid">Salvar</button>

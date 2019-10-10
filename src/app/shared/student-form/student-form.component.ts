@@ -43,6 +43,7 @@ export class StudentFormComponent implements OnInit {
     } catch (error) {
       (error.error.fieldErrors || []).forEach(error => {
         this._notificationsService.error('Ocorreu um erro', error.message);
+        console.log(error.message);
       });
     }finally {
       this._loadingService.processing = false;

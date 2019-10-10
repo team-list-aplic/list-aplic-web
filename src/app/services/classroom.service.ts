@@ -20,22 +20,22 @@ export class ClassroomService {
   constructor(private http: HttpClient) { }
 
   save(classroom: Classroom): Promise<Classroom> {
-    return this.http.post<Classroom>(this._baseurl + '/students/', JSON.stringify(classroom), this._httpOptions).toPromise();
+    return this.http.post<Classroom>(this._baseurl + '/classrooms/', JSON.stringify(classroom), this._httpOptions).toPromise();
   }
 
   findAll(): Promise<Classroom[]> {
-    return this.http.get<Classroom[]>(this._baseurl + '/students/').toPromise();
+    return this.http.get<Classroom[]>(this._baseurl + '/classrooms/').toPromise();
   }
 
   update(classroom: Classroom): Promise<Classroom> {
-    return this.http.put<Classroom>(this._baseurl + '/students/' + classroom.id, JSON.stringify(classroom), this._httpOptions).toPromise();
+    return this.http.put<Classroom>(this._baseurl + '/classrooms/' + classroom.id, JSON.stringify(classroom), this._httpOptions).toPromise();
   }
 
   delete(id: string): void {
-    this.http.delete<Classroom>(this._baseurl + '/students/' + id, this._httpOptions).toPromise();
+    this.http.delete<Classroom>(this._baseurl + '/classrooms/' + id, this._httpOptions).toPromise();
   }
 
   findById(id: string): Promise<Classroom> {
-    return this.http.get<Classroom>(this._baseurl + '/students/' + id, this._httpOptions).toPromise();
+    return this.http.get<Classroom>(this._baseurl + '/classrooms/' + id, this._httpOptions).toPromise();
   }
 }

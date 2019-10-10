@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Student} from "../models/student.model";
-import {NotificationsService} from "angular2-notifications";
-import {Router} from "@angular/router";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Student } from "../models/student.model";
+import { NotificationsService } from "angular2-notifications";
+import { Router } from "@angular/router";
 
 const LOGGED_USER_KEY = 'loggedUser';
 
@@ -23,8 +23,8 @@ export class LoginService {
   };
 
   constructor(private readonly _http: HttpClient,
-              private readonly _notificationsService: NotificationsService,
-              private readonly _router: Router,) { }
+    private readonly _notificationsService: NotificationsService,
+    private readonly _router: Router, ) { }
 
   async login(login: Object) {
     this._httpOptions.params = login;
@@ -46,5 +46,18 @@ export class LoginService {
 
   readLoggedUser(): Student {
     return JSON.parse(localStorage.getItem(LOGGED_USER_KEY));
+  }
+
+  //Retorna true se for doscente
+  //Retorna false se for discente
+  checkAccessUser(): boolean {
+    var user = JSON.parse(localStorage.getItem(LOGGED_USER_KEY));
+
+    if (user.email.indexOf("discente") > -1) {
+      return false;
+    }
+    else {
+      return true;
+    }
   }
 }

@@ -31,7 +31,8 @@ const appRoutes: Routes = [
   { path: 'my-profile', component: MyProfileComponent, canActivate: [AuthGuardService] },
   { path: 'edit-profile', component: EditProfileComponent, canActivate: [AuthGuardService] },
   { path: 'list-classroom', component: ListClassroomComponent },
-  { path: 'classroom', component: ClassroomComponent },
+  { path: 'add-classroom', component: ClassroomComponent },
+  { path: 'edit-classroom/:id', component: ClassroomComponent },
   { path: 'participate-classroom', component: ParticipateClassroomComponent },
   {
     path: '',
