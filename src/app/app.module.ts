@@ -6,14 +6,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { LoadingComponent } from './shared/loading/loading.component';
-import { StudentFormComponent } from './shared/student-form/student-form.component';
 import { ClassroomFormComponent } from './shared/classroom-form/classroom-form.component';
 import { ClassroomService } from './services/classroom.service';
 import { ClassroomComponent } from './classroom/classroom.component';
 import { DeleteClassroomComponent } from './delete-classroom/delete-classroom.component';
 import { ListClassroomComponent } from './list-classroom/list-classroom.component';
-import { ParticipateClassroomComponent } from './participate-classroom/participate-classroom.component';
 import { AppComponent } from './app.component';
 import { StudentService } from './services/student.service';
 import { MyProfileComponent } from './my-profile/my-profile.component';
@@ -24,6 +21,7 @@ import { ModalModule } from 'ngx-bootstrap';
 import { LoginModule } from "./login/login.module";
 import { SharedModule } from "./shared/shared.module";
 import { AuthGuardService } from "./services/auth-guard.service";
+import { EnrollmentClassroomComponent } from './enrollment-classroom/enrollment-classroom.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -33,7 +31,7 @@ const appRoutes: Routes = [
   { path: 'list-classroom', component: ListClassroomComponent },
   { path: 'add-classroom', component: ClassroomComponent },
   { path: 'edit-classroom/:id', component: ClassroomComponent },
-  { path: 'participate-classroom', component: ParticipateClassroomComponent },
+  { path: 'enrollment-classroom', component: EnrollmentClassroomComponent },
   {
     path: '',
     redirectTo: '/login',
@@ -55,7 +53,7 @@ const appRoutes: Routes = [
     ClassroomComponent,
     DeleteClassroomComponent,
     ListClassroomComponent,
-    ParticipateClassroomComponent,
+    EnrollmentClassroomComponent,
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -68,9 +66,6 @@ const appRoutes: Routes = [
     FormsModule,
     HttpClientModule,
     LoginModule,
-  ],
-  entryComponents: [
-    ParticipateClassroomComponent
   ],
   providers: [StudentService, ClassroomService],
   bootstrap: [AppComponent]

@@ -28,6 +28,8 @@ export class StudentFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    debugger
+    this.actionCreate;
     this.student = this._loginService.readLoggedUser() || {};
   }
 
@@ -43,7 +45,6 @@ export class StudentFormComponent implements OnInit {
     } catch (error) {
       (error.error.fieldErrors || []).forEach(error => {
         this._notificationsService.error('Ocorreu um erro', error.message);
-        console.log(error.message);
       });
     }finally {
       this._loadingService.processing = false;
@@ -58,6 +59,7 @@ export class StudentFormComponent implements OnInit {
 
   private async _editStudent() {
     const student = await this._studentService.update(this.student);
+
     this._notificationsService.success('Discente Editado', student.name);
   }
 

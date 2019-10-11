@@ -11,11 +11,11 @@
       </li>
     </ul>
     <ul class="navbar-nav my-2 my-lg-0">
-      <li class="nav-item" *ngIf="!accessUser">
+      <li class="nav-item" *ngIf="accessUser">
         <a class="nav-link" routerLink="add-classroom">Criar Turma</a>
       </li>
       <li class="nav-item" *ngIf="!accessUser">
-        <a class="nav-link" routerLink="" (click)="openModalParticipateClassroom()">Participar de Turma</a>
+        <a class="nav-link" routerLink="enrollment-classroom">Participar de Turma</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#" (click)="logout()">Logout</a>

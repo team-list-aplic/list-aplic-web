@@ -8,23 +8,20 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ClassroomComponent implements OnInit {
 
-  actionCreate: boolean;
   title: string;
+  id: string;
 
   constructor(private readonly _route: ActivatedRoute) {
-    let id = this._route.snapshot.paramMap.get('id');
+    this.id = this._route.snapshot.paramMap.get('id');
 
-    if (id === null) {
-      this.actionCreate = true;
+    if (this.id === null) {
       this.title = "Criar Turma"
     }
     else {
-      this.actionCreate = false;
       this.title = "Editar Turma"
     }
   }
 
   ngOnInit() {
   }
-
 }

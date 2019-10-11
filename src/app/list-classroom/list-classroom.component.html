@@ -1,19 +1,29 @@
 <br>
 <div class="container">
     <div class="form-row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Técnicas avançadas de atuação</h5>
-                    <small>Bette Davis</small>
-                </div>
-                <div class="card-body">
-                    <p>Como ser mais expressivo no dia a dia</p>
+        <div class="col-md-4" *ngFor="let classroom of listClassrooms">
+            <div class="form-group">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>{{ classroom.name }}</h5>
+                        <a *ngIf="this.accessUser" (click)="showSubjectCode(subjectCodeModal, classroom.subjectCode)"
+                            style="font-size:13px; text-decoration: underline; cursor: pointer;">Exibir código da
+                            Turma</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-row" *ngIf="this.accessUser">
+                            <div class="col-md-12 text-right">
+                                <button class="btn btn-sm btn-outline-dark"
+                                    [routerLink]="['/edit-classroom', classroom.id]">Editar</button>&nbsp;
+                                <button class="btn btn-sm btn-outline-danger"
+                                    (click)="deleteClassroom(deleteModal, classroom.id)">Excluir</button>
+                            </div>
+                        </div>
 
-                    <div class="form-row">
-                        <div class="col-md-12 text-right">
-                            <button class="btn btn-sm btn-outline-dark" [routerLink]="['/edit-classroom', 5]">Editar</button>&nbsp;
-                            <button class="btn btn-sm btn-outline-danger">Excluir</button>
+                        <div class="form-row" *ngIf="!this.accessUser">
+                            <div class="col-md-12 text-right">
+                                <button class="btn btn-sm btn-outline-primary" type="button">Visualizar turma</button>&nbsp;
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -21,3 +31,33 @@
         </div>
     </div>
 </div>
+
+<ng-template #deleteModal>
+    <div class="modal-header">
+        <h5 class="modal-title">Exclusão de Turma</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        Tem certeza de que deseja excluir essa Turma? Esta ação é irrevessível.
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="decline()">Não</button>
+        <button type="button" class="btn btn-primary" (click)="confirm()">Sim</button>
+    </div>
+</ng-template>
+
+<ng-template #subjectCodeModal>
+    <div class="modal-header">
+        <h5 class="modal-title">Código da Turma</h5>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <br>
+        <h1 style="text-align: center;">{{ subjectCodeForShow }}</h1>
+        <br>
+    </div>
+</ng-template>
