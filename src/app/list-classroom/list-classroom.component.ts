@@ -1,11 +1,12 @@
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Router } from '@angular/router';
-import { ClassroomService } from '../services/classroom.service';
+
 import { Classroom } from '../models/classroom.model';
-import { NotificationsService } from 'angular2-notifications';
+import { ClassroomService } from '../services/classroom.service';
 import { LoadingService } from '../services/loading.service';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { LoginService } from '../services/login.service';
+import { NotificationsService } from 'angular2-notifications';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'list-aplic-list-classroom',
@@ -41,7 +42,7 @@ export class ListClassroomComponent implements OnInit {
     this._loadingService.processing = true;
 
     if (this.accessUser) {
-      this._classroomService.findAll()
+      this._classroomService.findAllByInstructorId(this.user.id)
         .then(data => {
           this.response = data;
 
@@ -60,7 +61,7 @@ export class ListClassroomComponent implements OnInit {
         });
     }
     else {
-      this._classroomService.findAll()
+      this._classroomService.findAllByStudentId(this.user.id)
         .then(data => {
           this.response = data;
 

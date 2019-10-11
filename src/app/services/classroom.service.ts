@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { Classroom } from '../models/classroom.model';
-import { parse } from 'querystring';
-import { Student } from '../models/student.model';
-import { LoginService } from './login.service';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +18,7 @@ export class ClassroomService {
     })
   };
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
   }
 
   save(classroom: Classroom): Promise<Classroom> {
@@ -40,11 +38,21 @@ export class ClassroomService {
   }
 
   findAllByInstructorId(id: string): Promise<Classroom[]> {
-    return this.http.get<Classroom[]>(this._baseurl + '/classrooms/instructor/' + id, this._httpOptions).toPromise();
+    return this.http.get<Classroom[]>(this._baseurl + '/classrooms/instructor/', {
+      params: {
+        instructorId: id
+      }
+    })
+    .toPromise();
   }
 
   findAllByStudentId(id: string): Promise<Classroom[]> {
-    return this.http.get<Classroom[]>(this._baseurl + '/classrooms/student/' + id, this._httpOptions).toPromise();
+    return this.http.get<Classroom[]>(this._baseurl + '/classrooms/student/', {
+      params: {
+        studentId: id
+      }
+    })
+    .toPromise();
   }
 
   update(classroom: Classroom): Promise<Classroom> {
