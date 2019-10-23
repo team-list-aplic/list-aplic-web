@@ -1,8 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Student } from '../models/student.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {Student} from '../models/student.model';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +17,8 @@ export class StudentService {
     })
   };
 
-  constructor(private readonly _http: HttpClient) { }
+  constructor(private readonly _http: HttpClient) {
+  }
 
   save(student: Student): Promise<Student> {
     return this._http.post<Student>(this._baseurl + '/students/', JSON.stringify(student), this._httpOptions).toPromise();
@@ -30,7 +29,8 @@ export class StudentService {
   }
 
   update(student: Student): Promise<Student> {
-    return this._http.put<Student>(this._baseurl + '/students/' + student.id, JSON.stringify(student), this._httpOptions).toPromise();
+    return this._http.put<Student>(this._baseurl + '/students/' + student.id, JSON.stringify(student),
+      this._httpOptions).toPromise();
   }
 
   delete(id: string): Promise<Student> {
@@ -42,14 +42,8 @@ export class StudentService {
   }
 
   enrollmentStudentInClassroom(id: string, subjectCode: string): Promise<Student> {
-    return new Promise(resolve => {
-      this._http.get<Student>(this._baseurl + '/students/' + id + '/enrollment/', this._httpOptions)
-        .subscribe(data => {
-          resolve(data);
-        },
-          err => {
-            resolve(err);
-          });
-    });
+    const classRoomCode = {code: subjectCode};
+    return this._http.post(this._baseurl + '/students/' + id + '/enrollment/', JSON.stringify(classRoomCode),
+      this._httpOptions).toPromise();
   }
 }
