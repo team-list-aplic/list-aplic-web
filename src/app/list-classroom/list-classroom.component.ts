@@ -19,7 +19,7 @@ export class ListClassroomComponent implements OnInit {
   response: any;
   modalRef: BsModalRef;
   idClassroomDelete: any;
-  subjectCodeForShow: string;
+  codeForShow: string;
 
   accessUser: boolean;
   user: any;
@@ -114,8 +114,8 @@ export class ListClassroomComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  showSubjectCode(template: TemplateRef<any>, subjectCode) {
-    this.subjectCodeForShow = subjectCode;
+  showClassroomCode(template: TemplateRef<any>, code) {
+    this.codeForShow = code;
     this.modalRef = this._modalService.show(template);
   }
 }

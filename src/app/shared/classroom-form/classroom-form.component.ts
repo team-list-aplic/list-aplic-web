@@ -19,6 +19,7 @@ export class ClassroomFormComponent implements OnInit {
   classroom: Classroom = {};
   response: any;
   accessUser: boolean;
+  user: any;
 
   constructor(private readonly _classroomService: ClassroomService,
     private readonly _notificationsService: NotificationsService,
@@ -27,6 +28,7 @@ export class ClassroomFormComponent implements OnInit {
     private readonly _loginService: LoginService,
   ) {
     this.accessUser = this._loginService.checkAccessUser();
+    this.user = this._loginService.readLoggedUser();
   }
 
   ngOnInit(): void {
@@ -45,7 +47,7 @@ export class ClassroomFormComponent implements OnInit {
         //Error
         if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
           this.response.error.fieldErrors.forEach(error => {
-            this._notificationsService.error('Ocorreu um erro', error.message, 3000);
+            this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
           });
         }
         //Success
@@ -73,8 +75,8 @@ export class ClassroomFormComponent implements OnInit {
   }
 
   private async _addClassroom() {
-    //instructorId Temporario
-    this.classroom.instructorId = "91b4a2dd-1797-48bb-8353-1231888129a1";
+    //pega instructorId de acordo com o usuário logado
+    this.classroom.instructorId = this.user.id;
 
     await this._classroomService.save(this.classroom)
       .then(data => {
@@ -83,12 +85,12 @@ export class ClassroomFormComponent implements OnInit {
         //Error
         if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
           this.response.error.fieldErrors.forEach(error => {
-            this._notificationsService.error('Ocorreu um erro', error.message, 3000);
+            this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
           });
         }
         //Success
         else {
-          this._notificationsService.success('Turma Criada', this.classroom.name, 3000);
+          this._notificationsService.success('Turma Criada', this.classroom.name, { timeOut: 3000 });
           this._router.navigate(['list-classroom']);
         }
       });
@@ -102,12 +104,12 @@ export class ClassroomFormComponent implements OnInit {
         //Error
         if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
           this.response.error.fieldErrors.forEach(error => {
-            this._notificationsService.error('Ocorreu um erro', error.message, 3000);
+            this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
           });
         }
         //Success
         else {
-          this._notificationsService.success('Turma Editada', this.classroom.name, 3000);
+          this._notificationsService.success('Turma Editada', this.classroom.name, { timeOut: 3000 });
           this._router.navigate(['list-classroom']);
         }
       });

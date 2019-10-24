@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h5>{{ classroom.name }}</h5>
-                        <a *ngIf="this.accessUser" (click)="showSubjectCode(subjectCodeModal, classroom.subjectCode)"
+                        <a *ngIf="this.accessUser" (click)="showClassroomCode(codeModal, classroom.code)"
                             style="font-size:13px; text-decoration: underline; cursor: pointer;">Exibir código da
                             Turma</a>
                     </div>
@@ -48,7 +48,7 @@
     </div>
 </ng-template>
 
-<ng-template #subjectCodeModal>
+<ng-template #codeModal>
     <div class="modal-header">
         <h5 class="modal-title">Código da Turma</h5>
         <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
@@ -57,7 +57,7 @@
     </div>
     <div class="modal-body">
         <br>
-        <h1 style="text-align: center;">{{ subjectCodeForShow }}</h1>
+        <h1 style="text-align: center;">{{ codeForShow }}</h1>
         <br>
     </div>
 </ng-template>

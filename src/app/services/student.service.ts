@@ -3,6 +3,7 @@ import { Student } from '../models/student.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
+import { reject } from 'q';
 
 @Injectable({
   providedIn: 'root'
@@ -41,9 +42,9 @@ export class StudentService {
     return this._http.get<Student>(this._baseurl + '/students/' + id, this._httpOptions).toPromise();
   }
 
-  enrollmentStudentInClassroom(id: string, subjectCode: string): Promise<Student> {
+  enrollmentStudentInClassroom(id: string, code: string): Promise<Student> {
     return new Promise(resolve => {
-      this._http.get<Student>(this._baseurl + '/students/' + id + '/enrollment/', this._httpOptions)
+      this._http.post<Student>(this._baseurl + '/students/' + id + '/enrollment?code=' + code, this._httpOptions)
         .subscribe(data => {
           resolve(data);
         },

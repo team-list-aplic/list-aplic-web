@@ -42,8 +42,7 @@ export class ClassroomService {
       params: {
         instructorId: id
       }
-    })
-    .toPromise();
+    }).toPromise();
   }
 
   findAllByStudentId(id: string): Promise<Classroom[]> {
@@ -52,7 +51,7 @@ export class ClassroomService {
         studentId: id
       }
     })
-    .toPromise();
+      .toPromise();
   }
 
   update(classroom: Classroom): Promise<Classroom> {

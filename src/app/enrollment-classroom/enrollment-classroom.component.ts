@@ -33,24 +33,31 @@ export class EnrollmentClassroomComponent implements OnInit {
     try {
       this._loadingService.processing = true;
 
-      this._studentService.enrollmentStudentInClassroom(this.user.id, this.classroom.subjectCode)
+      this._studentService.enrollmentStudentInClassroom(this.user.id, this.classroom.code)
         .then(data => {
+          debugger
           this.response = data;
 
           //Error
-          if (this.response.error !== undefined) {
+          if (this.response !== null && this.response.error !== undefined) {
             if (this.response.error.message != undefined) {
-              this._notificationsService.error('Ocorreu um erro', this.response.error.message, 3000);
+              //Trata erro: Turma não encontrada
+              if (this.response.error.message === "Classroom not found") {
+                this._notificationsService.error('Ocorreu um erro', "Turma não encontrada...", { timeOut: 3000 });
+              }
+              else {
+                this._notificationsService.error('Ocorreu um erro', this.response.error.message, { timeOut: 3000 });
+              }
             }
             else {
               this.response.error.fieldErrors.forEach(error => {
-                this._notificationsService.error('Ocorreu um erro', error.message, 3000);
+                this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
               });
             }
           }
           //Success
           else {
-            this._notificationsService.success('Você entrou na turma: ', this.classroom.subjectCode, 3000);
+            this._notificationsService.success('Você entrou na turma: ', this.classroom.code, { timeOut: 3000 });
             this._router.navigate(['list-classroom']);
           }
         });
