@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Student } from '../models/student.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { retry, catchError } from 'rxjs/operators';
-import { reject } from 'q';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +17,8 @@ export class StudentService {
     })
   };
 
-  constructor(private readonly _http: HttpClient) { }
+  constructor(private readonly _http: HttpClient) {
+  }
 
   save(student: Student): Promise<Student> {
     return this._http.post<Student>(this._baseurl + '/students/', JSON.stringify(student), this._httpOptions).toPromise();
@@ -31,7 +29,8 @@ export class StudentService {
   }
 
   update(student: Student): Promise<Student> {
-    return this._http.put<Student>(this._baseurl + '/students/' + student.id, JSON.stringify(student), this._httpOptions).toPromise();
+    return this._http.put<Student>(this._baseurl + '/students/' + student.id, JSON.stringify(student),
+      this._httpOptions).toPromise();
   }
 
   delete(id: string): Promise<Student> {

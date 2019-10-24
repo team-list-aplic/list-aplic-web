@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Classroom } from '../models/classroom.model';
-import { NgForm } from '@angular/forms';
-import { StudentService } from '../services/student.service';
-import { NotificationsService } from 'angular2-notifications';
-import { LoadingService } from '../services/loading.service';
-import { Router } from '@angular/router';
-import { LoginService } from '../services/login.service';
+import {Component, OnInit} from '@angular/core';
+import {Classroom} from '../models/classroom.model';
+import {NgForm} from '@angular/forms';
+import {StudentService} from '../services/student.service';
+import {NotificationsService} from 'angular2-notifications';
+import {LoadingService} from '../services/loading.service';
+import {Router} from '@angular/router';
+import {LoginService} from '../services/login.service';
 
 @Component({
   selector: 'list-aplic-enrollment-classroom',
@@ -15,8 +15,8 @@ import { LoginService } from '../services/login.service';
 export class EnrollmentClassroomComponent implements OnInit {
 
   classroom: Classroom = {};
-  response: any;
   user: any;
+  response: any;
 
   constructor(private readonly _studentService: StudentService,
     private readonly _notificationsService: NotificationsService,
@@ -29,10 +29,9 @@ export class EnrollmentClassroomComponent implements OnInit {
   ngOnInit() {
   }
 
-  submitForm(form: NgForm) {
+  async submitForm(form: NgForm) {
     try {
       this._loadingService.processing = true;
-
       this._studentService.enrollmentStudentInClassroom(this.user.id, this.classroom.code)
         .then(data => {
           debugger
