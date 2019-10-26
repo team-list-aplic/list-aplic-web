@@ -22,6 +22,7 @@ import { LoginModule } from "./login/login.module";
 import { SharedModule } from "./shared/shared.module";
 import { AuthGuardService } from "./services/auth-guard.service";
 import { EnrollmentClassroomComponent } from './enrollment-classroom/enrollment-classroom.component';
+import { ViewClassroomComponent } from './view-classroom/view-classroom.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -32,6 +33,7 @@ const appRoutes: Routes = [
   { path: 'add-classroom', component: ClassroomComponent },
   { path: 'edit-classroom/:id', component: ClassroomComponent },
   { path: 'enrollment-classroom', component: EnrollmentClassroomComponent },
+  { path: 'view-classroom/:id', component: ViewClassroomComponent },
   {
     path: '',
     redirectTo: '/login',
@@ -54,6 +56,7 @@ const appRoutes: Routes = [
     DeleteClassroomComponent,
     ListClassroomComponent,
     EnrollmentClassroomComponent,
+    ViewClassroomComponent,
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

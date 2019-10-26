@@ -22,7 +22,10 @@
 
                         <div class="form-row" *ngIf="!this.accessUser">
                             <div class="col-md-12 text-right">
-                                <button class="btn btn-sm btn-outline-primary" type="button">Visualizar turma</button>&nbsp;
+                                <button class="btn btn-sm btn-outline-primary" type="button"
+                                    [routerLink]="['/view-classroom', classroom.id]">
+                                    Visualizar turma
+                                </button>&nbsp;
                             </div>
                         </div>
                     </div>
