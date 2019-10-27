@@ -1,17 +1,16 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Classroom } from '../models/classroom.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ClassroomService } from '../services/classroom.service';
 import { NotificationsService } from 'angular2-notifications';
 import { LoadingService } from '../services/loading.service';
-import { $ } from 'protractor';
 
 @Component({
-  selector: 'list-aplic-view-classroom',
-  templateUrl: './view-classroom.component.html',
-  styleUrls: ['./view-classroom.component.scss']
+  selector: 'list-aplic-search-classroom',
+  templateUrl: './search-classroom.component.html',
+  styleUrls: ['./search-classroom.component.scss']
 })
-export class ViewClassroomComponent implements OnInit {
+export class SearchClassroomComponent implements OnInit {
 
   classroom: Classroom = {};
   response: any;
@@ -19,12 +18,10 @@ export class ViewClassroomComponent implements OnInit {
   constructor(private readonly _route: ActivatedRoute,
     private readonly _classroomService: ClassroomService,
     private readonly _notificationsService: NotificationsService,
-    private readonly _loadingService: LoadingService,
-    private readonly _router: Router,
-    private el: ElementRef) {
+    private readonly _loadingService: LoadingService) {
     this.classroom.id = this._route.snapshot.paramMap.get('id');
   }
-
+  
   ngOnInit(): void {
     if (this.classroom.id !== null) {
       this.loadDataClassroom(this.classroom.id);
@@ -53,20 +50,4 @@ export class ViewClassroomComponent implements OnInit {
       });
   }
 
-  tab(e) {
-    e.preventDefault();
-
-    let myTagActive = this.el.nativeElement.querySelector(".active");
-    let myTabActive = this.el.nativeElement.querySelector(".show");
-
-    myTagActive.classList.remove('active');
-    myTabActive.classList.remove('active');
-    myTabActive.classList.remove('show');
-
-    let tab = this.el.nativeElement.querySelector("." + e.currentTarget.id);
-
-    e.currentTarget.classList.add('active');
-    tab.classList.add('active');
-    tab.classList.add('show');
-  }
 }
