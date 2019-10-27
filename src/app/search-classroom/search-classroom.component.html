@@ -4,11 +4,76 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title font-weight-bold">{{ classroom.name }}</h4>
-                    <p>Rubens de Castro - <span style="font-style: italic;">{{ classroom.subjectCode }}</span></p>
+                    <h4 class="card-title font-weight-bold"><i class="fas fa-search"></i> Buscar Lista</h4>
+                    <p>Turma: {{ classroom.name }}</p>
                 </div>
                 <div class="card-body">
+                    <form>
+                        <div class="row">
+                            <div class="offset-md-2 col-md-8">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" autofocus
+                                        placeholder="Insira o nome da lista que deseja pesquisar...">
+                                </div>
+                            </div>
+                        </div>
 
+                        <div class="row" style="margin-top: 10px;">
+                            <div class="offset-md-2 col-md-8">
+                                <div class="form-group">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" name="filterType"
+                                            id="radioFiltrarPorDisciplina" checked>
+                                        <label class="custom-control-label" for="radioFiltrarPorDisciplina">Filtrar por
+                                            disciplina</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="offset-md-2 col-md-8">
+                                <div class="form-group">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" class="custom-control-input" name="filterType"
+                                            id="radioListaAleatoria">
+                                        <label class="custom-control-label" for="radioListaAleatoria">Lista
+                                            Aleatória</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="offset-md-2 col-md-8 text-right">
+                                <div class="form-group">
+                                    <button class="btn btn-dark" type="submit">Buscar lista</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="offset-md-2 col-md-8">
+                            <h5>Resultados:</h5>
+
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="card" style="background:#f7f7f7;">
+                                            <div class="card-body" style="padding: 10px; padding-top: 15px; padding-left: 20px;">
+                                                <h6>Questões sobre expressividade
+                                                    <a href="#">
+                                                        <i style="float: right; font-size: 20px;" class="fas fa-ellipsis-v"></i>
+                                                    </a>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
