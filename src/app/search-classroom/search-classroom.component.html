@@ -8,12 +8,13 @@
                     <p>Turma: {{ classroom.name }}</p>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form #form="ngForm" (ngSubmit)="submitFilter(form)">
                         <div class="row">
                             <div class="offset-md-2 col-md-8">
                                 <div class="form-group">
                                     <input class="form-control" type="text" autofocus
-                                        placeholder="Insira o nome da lista que deseja pesquisar...">
+                                        placeholder="Insira o nome da lista que deseja pesquisar..."
+                                        [(ngModel)]="nameList" name="nameList">
                                 </div>
                             </div>
                         </div>
@@ -22,8 +23,8 @@
                             <div class="offset-md-2 col-md-8">
                                 <div class="form-group">
                                     <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" name="filterType"
-                                            id="radioFiltrarPorDisciplina" checked>
+                                        <input type="radio" class="custom-control-input" name="typeFilter" value="Filtrar por
+                                        disciplina" id="radioFiltrarPorDisciplina" [(ngModel)]="typeFilter">
                                         <label class="custom-control-label" for="radioFiltrarPorDisciplina">Filtrar por
                                             disciplina</label>
                                     </div>
@@ -33,8 +34,8 @@
                             <div class="offset-md-2 col-md-8">
                                 <div class="form-group">
                                     <div class="custom-control custom-radio">
-                                        <input type="radio" class="custom-control-input" name="filterType"
-                                            id="radioListaAleatoria">
+                                        <input type="radio" class="custom-control-input" name="typeFilter"
+                                            id="radioListaAleatoria" [(ngModel)]="typeFilter" value="Lista Aleatória">
                                         <label class="custom-control-label" for="radioListaAleatoria">Lista
                                             Aleatória</label>
                                     </div>
@@ -53,22 +54,35 @@
 
                     <hr>
 
-                    <div class="row">
+                    <div class="row" *ngIf="showResult">
                         <div class="offset-md-2 col-md-8">
                             <h5>Resultados:</h5>
 
-                            <div class="row" style="margin-top: 15px;">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <div class="card" style="background:#f7f7f7;">
-                                            <div class="card-body" style="padding: 10px; padding-top: 15px; padding-left: 20px;">
-                                                <h6>Questões sobre expressividade
-                                                    <a href="#">
-                                                        <i style="float: right; font-size: 20px;" class="fas fa-ellipsis-v"></i>
-                                                    </a>
-                                                </h6>
+                            <div *ngIf="lists">
+                                <div class="row" style="margin-top: 15px;" *ngFor="let list of lists">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="card" style="background:#f7f7f7;">
+                                                <div class="card-body"
+                                                    style="padding: 10px; padding-top: 15px; padding-left: 20px;">
+                                                    <h6>{{ list.name }}
+                                                        <a href="#">
+                                                            <i style="float: right; font-size: 20px;"
+                                                                class="fas fa-ellipsis-v"></i>
+                                                        </a>
+                                                    </h6>
+                                                </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 25px;" *ngIf="!lists">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <p class="text-center" style="font-style: italic;">Nenhuma lista foi
+                                            encontrada...</p>
                                     </div>
                                 </div>
                             </div>

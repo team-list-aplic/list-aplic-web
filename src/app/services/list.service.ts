@@ -22,13 +22,20 @@ export class ListService {
   }
 
   findListsByFilter(aleatory: boolean, name: string, subjectCode: string, user: string): Promise<List[]> {
-    return this.http.get<List[]>(this._baseurl + '/lists/', {
-      params: {
-        aleatory: aleatory.toString(),
-        name: name,
-        subjectCode: subjectCode,
-        user: user
-      }
-    }).toPromise();
+    return new Promise(resolve => {
+      this.http.get<List[]>(this._baseurl + '/lists/', {
+        params: {
+          aleatory: aleatory.toString(),
+          name: name,
+          subjectCode: subjectCode,
+          user: user
+        }
+      }).subscribe(data => {
+        resolve(data);
+      },
+        err => {
+          resolve(err);
+        });
+    });
   }
 }
