@@ -37,6 +37,11 @@
             </div>
         </div>
     </div>
+  <ng-container *ngIf="!listClassrooms || listClassrooms?.length <= 0">
+    <div class="none-classroom">
+      <p>Não há turmas ministradas por você!</p>
+    </div>
+  </ng-container>
 </div>
 
 <ng-template #deleteModal>

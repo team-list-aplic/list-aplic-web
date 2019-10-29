@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Classroom } from '../models/classroom.model';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { List } from '../models/list.model';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {List} from '../models/list.model';
+
+const ALLCLASSROOM = 'allClassRoom';
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +19,17 @@ export class ListService {
     })
   };
 
-  constructor(private http: HttpClient) {
+  constructor(private readonly _http: HttpClient) {
   }
 
   findListsByFilter(aleatory: boolean, name: string, subjectCode: string, user: string): Promise<List[]> {
     return new Promise(resolve => {
-      this.http.get<List[]>(this._baseurl + '/lists/', {
+      this._http.get<List[]>(this._baseurl + '/lists/', {
         params: {
           aleatory: aleatory.toString(),
-          name: name,
-          subjectCode: subjectCode,
-          user: user
+          name,
+          subjectCode,
+          user
         }
       }).subscribe(data => {
         resolve(data);
@@ -37,5 +38,14 @@ export class ListService {
           resolve(err);
         });
     });
+  }
+
+  sendListToGroup(group: string, subjectCode: string): Promise<any> {
+    const body = {
+      allClass: group === ALLCLASSROOM,
+      group,
+      subjectCode,
+    };
+    return this._http.post<List[]>(this._baseurl + '/lists/', JSON.stringify(body), this._httpOptions).toPromise();
   }
 }

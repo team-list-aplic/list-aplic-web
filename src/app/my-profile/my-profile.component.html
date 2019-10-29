@@ -4,13 +4,16 @@
       <div class="card-body">
         <h4 class="card-title font-weight-bold">Minha Conta</h4>
         <div class="container">
+          <span [ngClass]="student?.role == 'DISCENTE'? 'badge-success' : 'badge-primary'" class="badge">
+            {{student?.role}}
+          </span>
           <div class="profile-content-row">
             <div>
-              <p class="font-weight-bold">Nome</p>
+              <p *ngIf="student?.role == 'DISCENTE'" class="font-weight-bold">Nome</p>
               <p class="font-weight-bold">E-mail</p>
             </div>
             <div>
-              <p class="text-right">{{student?.name}}</p>
+              <p *ngIf="student?.role == 'DISCENTE'" class="text-right">{{student?.name}}</p>
               <p class="text-right">{{student?.email}}</p>
             </div>
           </div>

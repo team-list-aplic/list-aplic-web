@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Student } from "../models/student.model";
-import { NotificationsService } from "angular2-notifications";
-import { Router } from "@angular/router";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Student} from "../models/student.model";
+import {NotificationsService} from "angular2-notifications";
+import {Router} from "@angular/router";
 
 const LOGGED_USER_KEY = 'loggedUser';
 
@@ -28,7 +28,6 @@ export class LoginService {
 
   async login(login: Object): Promise<Student> {
     return await this._http.post<Student>(this._baseurl + '/login/', JSON.stringify(login), this._httpOptions).toPromise();
-
   }
 
   storingStudent(student: Student) {
@@ -45,16 +44,10 @@ export class LoginService {
     return JSON.parse(localStorage.getItem(LOGGED_USER_KEY));
   }
 
-  //Retorna true se for doscente
+  //Retorna true se for docente
   //Retorna false se for discente
   checkAccessUser(): boolean {
-    var user = JSON.parse(localStorage.getItem(LOGGED_USER_KEY));
-
-    if (user.role === "DISCENTE") {
-      return false;
-    }
-    else {
-      return true;
-    }
+    const user = JSON.parse(localStorage.getItem(LOGGED_USER_KEY));
+    return user.role !== 'DISCENTE';
   }
 }

@@ -32,9 +32,8 @@ export class EnrollmentClassroomComponent implements OnInit {
   async submitForm(form: NgForm) {
     try {
       this._loadingService.processing = true;
-      this._studentService.enrollmentStudentInClassroom(this.user.id, this.classroom.code)
+      this._studentService.enrollmentStudentInClassroom('91b4a2dd-1797-48bb-8353-1231888129a2', this.classroom.code)
         .then(data => {
-          debugger
           this.response = data;
 
           //Error

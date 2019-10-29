@@ -1,5 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NgForm} from "@angular/forms";
 import {Student} from "../../models/student.model";
 import {StudentService} from "../../services/student.service";
 import {NotificationsService} from "angular2-notifications";
@@ -28,39 +27,44 @@ export class StudentFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    debugger
-    this.actionCreate;
     this.student = this._loginService.readLoggedUser() || {};
   }
 
-  submitForm(form: NgForm) {
-    try {
-      this._loadingService.processing = true;
-      if (this.actionCreate) {
-        this._signUp();
-      } else {
-        this._editStudent();
-      }
-      form.reset();
-    } catch (error) {
-      (error.error.fieldErrors || []).forEach(error => {
-        this._notificationsService.error('Ocorreu um erro', error.message);
-      });
-    }finally {
-      this._loadingService.processing = false;
+  submitForm() {
+    if (this.actionCreate) {
+      this._signUp();
+    } else {
+      this._editStudent();
     }
   }
 
   private async _signUp() {
-    const student = await this._studentService.save(this.student);
-    this._notificationsService.success('Discente Criado', student.name);
-    this._router.navigate(['login']);
+    try {
+      this._loadingService.processing = true;
+      const student = await this._studentService.save(this.student);
+      this._notificationsService.success('Discente Criado', student.name);
+      this._router.navigate(['login']);
+    } catch (error) {
+      (error.error.fieldErrors || []).forEach(error => {
+        this._notificationsService.error('Ocorreu um erro', error.message);
+      });
+    } finally {
+      this._loadingService.processing = false;
+    }
   }
 
   private async _editStudent() {
-    const student = await this._studentService.update(this.student);
-
-    this._notificationsService.success('Discente Editado', student.name);
+    try {
+      this._loadingService.processing = true;
+      const student = await this._studentService.update(this.student);
+      this._notificationsService.success('Discente Editado', student.name);
+    } catch (error) {
+      (error.error.fieldErrors || []).forEach(error => {
+        this._notificationsService.error('Ocorreu um erro', error.message);
+      });
+    } finally {
+      this._loadingService.processing = false;
+    }
   }
 
   get arePasswordDiff(): boolean {
