@@ -25,6 +25,7 @@ export class SearchClassroomComponent implements OnInit {
   typeFilter: string;
   showResult: boolean = false;
   lists: List[];
+  currentList: List;
 
   selectedGroup?: string;
 
@@ -110,14 +111,15 @@ export class SearchClassroomComponent implements OnInit {
     }
   }
 
-  openApplyListModal(template: TemplateRef<any>) {
+  openApplyListModal(template: TemplateRef<any>, list: List) {
+    this.currentList = list;
     this.modalRef = this._modalService.show(template);
   }
 
   async confirm() {
     try {
       this._loadingService.processing = true;
-      const value = await this._listService.sendListToGroup(this.selectedGroup, '');
+      const value = await this._listService.sendListToGroup(this.selectedGroup, this.classroom.id, this.currentList.id);
       this._notificationsService.success('Lista enviada');
     } catch (error) {
       if (!error.error.fieldErrors || error.error.fieldErrors === []) {
