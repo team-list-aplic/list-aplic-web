@@ -40,12 +40,12 @@ export class ListService {
     });
   }
 
-  sendListToGroup(group: string, classroomId: string, list: string): Promise<any> {
+  sendListToGroup(group: string, classroomId: string, listId: string): Promise<any> {
     const body = {
-      allClass: group === ALLCLASSROOM,
+      allClassroom: group === ALLCLASSROOM,
       group,
       classroomId,
-      list,
+      listId,
     };
     return this._http.post<List[]>(this._baseurl + '/lists/apply', JSON.stringify(body), this._httpOptions).toPromise();
   }
