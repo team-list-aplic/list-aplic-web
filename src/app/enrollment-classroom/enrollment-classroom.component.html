@@ -10,11 +10,10 @@
             <div class="offset-md-2 col-md-8">
               <form #form="ngForm" (ngSubmit)="submitForm(form)">
                 <div class="form-group">
-                  <select [(ngModel)]="classroom.code" class="custom-select" name="classroomCode">
-                    <option [defaultSelected]="true" [value]="undefined">Código da turma que deseja entrar...</option>
-                    <option *ngFor="let classr of classrooms" [value]="classr.code">{{classr.code}}
-                      - {{classr.name}}</option>
-                  </select>
+                  <input [(ngModel)]="classroom.code" class="form-control" id="input-codTurma" name="codTurma"
+                         placeholder="Código da turma que deseja entrar..."
+                         required
+                         type="text">
                 </div>
                 <button [disabled]="form.invalid" class="btn btn-secondary"
                         type="submit">Entrar
