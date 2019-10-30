@@ -6,7 +6,6 @@ import {NotificationsService} from 'angular2-notifications';
 import {LoadingService} from '../services/loading.service';
 import {Router} from '@angular/router';
 import {LoginService} from '../services/login.service';
-import {ClassroomService} from "../services/classroom.service";
 
 @Component({
   selector: 'list-aplic-enrollment-classroom',
@@ -16,7 +15,6 @@ import {ClassroomService} from "../services/classroom.service";
 export class EnrollmentClassroomComponent implements OnInit {
 
   classroom: Classroom = {};
-  classrooms: Classroom[] = []
   user: any;
   response: any;
 
@@ -24,13 +22,11 @@ export class EnrollmentClassroomComponent implements OnInit {
               private readonly _notificationsService: NotificationsService,
               private readonly _loadingService: LoadingService,
               private readonly _router: Router,
-              private readonly _loginService: LoginService,
-              private readonly classroomService: ClassroomService) {
+              private readonly _loginService: LoginService,) {
     this.user = this._loginService.readLoggedUser();
   }
 
   ngOnInit() {
-    this._loadClassrooms();
   }
 
   async submitForm(form: NgForm) {
@@ -64,9 +60,5 @@ export class EnrollmentClassroomComponent implements OnInit {
     } finally {
       this._loadingService.processing = false;
     }
-  }
-
-  private async _loadClassrooms() {
-    this.classrooms = await this.classroomService.findAll();
   }
 }
