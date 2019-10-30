@@ -1,107 +1,52 @@
 <br>
 <div class="container">
-    <div class="form-row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title font-weight-bold">{{ classroom.name }}</h4>
-                    <p>Rubens de Castro - <span style="font-style: italic;">{{ classroom.subjectCode }}</span></p>
-                </div>
-                <div class="card-body">
-                    <div class="bd-example bd-example-tabs">
-                        <div class="row">
-                            <div class="col-4">
-                                <h6>Listas Pendentes:</h6>
-                                <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
-                                    aria-orientation="vertical">
-                                    <a class="nav-link active" id="listasPendentes" data-toggle="pill" href="#"
-                                        role="tab" aria-selected="true" (click)="tab($event)">
-                                        Questões sobre expressividade
-                                    </a>
-                                    <a class="nav-link" id="listasRealizadas" data-toggle="pill" href="#" role="tab"
-                                        aria-selected="false" (click)="tab($event)">
-                                        Questões sobre tom de voz
-                                    </a>
-                                    <a class="nav-link" id="buscarListas" data-toggle="pill" href="#" role="tab"
-                                        aria-selected="false" (click)="tab($event)">
-                                        Inteligência artificial
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-8">
-                                <div class="tab-content" id="v-pills-tabContent">
-                                    <div class="tab-pane listasPendentes fade show active" role="tabpanel">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <span>1 - O que é mais importante na atuação: linguagem corporal ou
-                                                        expressividade?</span>
-                                                    <textarea style="margin-top: 5px;" class="form-control"
-                                                        placeholder="Resposta..."></textarea>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <span>2 - O que é mais importante na atuação: linguagem corporal ou
-                                                        expressividade?</span>
-                                                    <textarea style="margin-top: 5px;" class="form-control"
-                                                        placeholder="Resposta..."></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane listasRealizadas fade" role="tabpanel">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <span>1 - O que é mais importante na atuação: linguagem corporal ou
-                                                        expressividade?</span>
-                                                    <textarea style="margin-top: 5px;" class="form-control"
-                                                        placeholder="Resposta..."></textarea>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <span>2 - O que é mais importante na atuação: linguagem corporal ou
-                                                        expressividade?</span>
-                                                    <textarea style="margin-top: 5px;" class="form-control"
-                                                        placeholder="Resposta..."></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane buscarListas fade" role="tabpanel">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <span>1 - O que é mais importante na atuação: linguagem corporal ou
-                                                        expressividade?</span>
-                                                    <textarea style="margin-top: 5px;" class="form-control"
-                                                        placeholder="Resposta..."></textarea>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <span>2 - O que é mais importante na atuação: linguagem corporal ou
-                                                        expressividade?</span>
-                                                    <textarea style="margin-top: 5px;" class="form-control"
-                                                        placeholder="Resposta..."></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <hr>
-                                <button style="float: right;" class="btn btn-primary">Enviar Respostas</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="form-row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title font-weight-bold">{{ classroom.name }}</h4>
+          <p><span style="font-style: italic;">{{ classroom.subjectCode }}</span></p>
         </div>
+        <div class="card-body">
+          <div class="bd-example bd-example-tabs">
+            <div class="row">
+              <div class="col-12">
+                <h6>Listas Pendentes:</h6>
+                <div class="col-md-12" *ngFor="let list of pendingList">
+                  <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link" id="listasPendentes" data-toggle="pill" href="#" role="tab" aria-selected="true"
+                      (click)="tab($event, list)">
+                      {{list.name}}
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="pendingList?.length == 0">
+                    Nenhuma lista pendente
+                </div>
+              </div>
+              <div class="col-12">
+                <div class="tab-content" id="v-pills-tabContent">
+                  <div class="tab-pane listasPendentes fade show active" role="tabpanel">
+                    <div class="row">
+                      <div class="col-md-12" *ngFor="let question of questions">
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <span>{{question.name}}</span>
+                            <textarea style="margin-top: 5px;" class="form-control" [(ngModel)]="question.answer"
+                              placeholder="Resposta..." required></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <button style="float: right;" (click)="sendAnswers()" class="btn btn-primary">Enviar Respostas</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
