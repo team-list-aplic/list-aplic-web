@@ -1,7 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {List} from '../models/list.model';
-import {Subject} from "../models/subject.model";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { Injectable } from '@angular/core';
+import { List } from '../models/list.model';
+import { Subject } from "../models/subject.model";
 
 const ALLCLASSROOM = 'allClassroom';
 
@@ -50,6 +51,22 @@ export class ListService {
     });
   }
 
+  findPendingLists(studentId: string): Promise<List[]> {
+    const params = {
+      studentId: studentId
+    };
+    return new Promise(resolve => {
+      this._http.get<List[]>(this._baseurl + '/lists/pending', {
+        params
+      }).subscribe(data => {
+        resolve(data);
+      },
+        err => {
+          resolve(err);
+        });
+    });
+  }
+
   sendListToGroup(group: string, classroomId: string, listId: string): Promise<any> {
     const body = {
       allClassroom: group === ALLCLASSROOM,
@@ -58,6 +75,10 @@ export class ListService {
       listId,
     };
     return this._http.post<List[]>(this._baseurl + '/lists/apply', JSON.stringify(body), this._httpOptions).toPromise();
+  }
+
+  sendAnswers(list: any, studentId: string): Promise<any> {
+    return this._http.post<List[]>(this._baseurl + '/lists/answer?studentId=' + studentId, list, this._httpOptions).toPromise();
   }
 
   getAllSubjects(): Promise<Subject[]> {
