@@ -76,7 +76,7 @@ export class ClassroomFormComponent implements OnInit {
 
   private async _addClassroom() {
     //pega instructorId de acordo com o usuário logado
-    this.classroom.instructorId = '91b4a2dd-1797-48bb-8353-1231888129a2';
+    this.classroom.instructorId = this.user.id;
 
     await this._classroomService.save(this.classroom)
       .then(data => {

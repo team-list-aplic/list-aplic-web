@@ -42,7 +42,7 @@ export class ListClassroomComponent implements OnInit {
     this._loadingService.processing = true;
 
     if (this.accessUser) {
-      this._classroomService.findAllByInstructorId('91b4a2dd-1797-48bb-8353-1231888129a2')
+      this._classroomService.findAllByInstructorId(this.user.id)
         .then(data => {
           this.response = data;
 

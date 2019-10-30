@@ -24,10 +24,11 @@ export class SearchClassroomComponent implements OnInit {
   nameList: string;
   typeFilter: string;
   showResult: boolean = false;
-  lists: List[];
+  lists: List[] = [];
   currentList: List;
 
   selectedGroup?: string;
+  showWarning = false;
 
   modalRef: BsModalRef;
 
@@ -42,15 +43,22 @@ export class SearchClassroomComponent implements OnInit {
     this.user = this._loginService.readLoggedUser();
   }
 
+  get noGroupSelected(): boolean {
+    return !this.selectedGroup || this.selectedGroup.length <= 0;
+  }
+
   ngOnInit(): void {
     if (this.classroom.id !== null) {
       this.typeFilter = "Lista Aleatória";
       this.loadDataClassroom(this.classroom.id);
     }
-  }
-
-  get noGroupSelected(): boolean {
-    return this.selectedGroup && this.selectedGroup.length <= 0;
+    const mockList: List = {
+      id: 'c299c8a0-f235-40a7-bf27-97a434655518',
+      name: 'Lista de Prática em Engenharia de Software',
+      subjectCode: 'INF0150',
+      user: 'professor@ufg.br',
+    };
+    this.lists.push(mockList);
   }
 
   loadDataClassroom(id) {
@@ -100,7 +108,6 @@ export class SearchClassroomComponent implements OnInit {
           }
           //Success
           else {
-            this.showResult = true;
             this.lists = data;
           }
 
@@ -108,6 +115,7 @@ export class SearchClassroomComponent implements OnInit {
         });
     } finally {
       this._loadingService.processing = false;
+      this.showResult = true;
     }
   }
 
@@ -117,6 +125,10 @@ export class SearchClassroomComponent implements OnInit {
   }
 
   async confirm() {
+    if (this.noGroupSelected) {
+      this.showWarning = true;
+      return;
+    }
     try {
       this._loadingService.processing = true;
       const value = await this._listService.sendListToGroup(this.selectedGroup, this.classroom.id, this.currentList.id);

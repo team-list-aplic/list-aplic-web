@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {List} from '../models/list.model';
 
-const ALLCLASSROOM = 'allClassRoom';
+const ALLCLASSROOM = 'allClassroom';
 
 @Injectable({
   providedIn: 'root'
