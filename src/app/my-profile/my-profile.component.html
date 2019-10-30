@@ -17,7 +17,7 @@
               <p class="text-right">{{student?.email}}</p>
             </div>
           </div>
-          <div class="profile-content-row buttons">
+          <div *ngIf="student?.role == 'DISCENTE'" class="profile-content-row buttons">
             <button class="btn btn-light" routerLink="/edit-profile">Editar Dados</button>
             <button class="btn btn-light" (click)="deleteProfile(deleteModal)">Excluir Conta</button>
           </div>

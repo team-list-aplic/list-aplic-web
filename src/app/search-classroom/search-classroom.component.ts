@@ -9,6 +9,7 @@ import {List} from '../models/list.model';
 import {ListService} from '../services/list.service';
 import {LoginService} from '../services/login.service';
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
+import {Subject} from "../models/subject.model";
 
 @Component({
   selector: 'list-aplic-search-classroom',
@@ -22,13 +23,16 @@ export class SearchClassroomComponent implements OnInit {
   user: any;
 
   nameList: string;
-  typeFilter: string;
+  subjectFilter: string;
+  filterSubject = false;
   showResult: boolean = false;
   lists: List[] = [];
   currentList: List;
 
+  subjects: Subject[] = [];
   selectedGroup?: string;
-  showWarning = false;
+  showGroupWarning = false;
+  showSubjectWarning = false;
 
   modalRef: BsModalRef;
 
@@ -49,52 +53,26 @@ export class SearchClassroomComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.classroom.id !== null) {
-      this.typeFilter = "Lista Aleatória";
       this.loadDataClassroom(this.classroom.id);
     }
-    const mockList: List = {
-      id: 'c299c8a0-f235-40a7-bf27-97a434655518',
-      name: 'Lista de Prática em Engenharia de Software',
-      subjectCode: 'INF0150',
-      user: 'professor@ufg.br',
-    };
-    this.lists.push(mockList);
-  }
-
-  loadDataClassroom(id) {
-    this._loadingService.processing = true;
-
-    this._classroomService.findById(id)
-      .then(data => {
-        this.response = data;
-
-        //Error
-        if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
-          this.response.error.fieldErrors.forEach(error => {
-            this._notificationsService.error('Ocorreu um erro', error.message, {timeOut: 3000});
-          });
-        }
-        //Success
-        else {
-          this.classroom = data;
-        }
-
-        this._loadingService.processing = false;
-      });
+    this._loadSubjects();
   }
 
   async submitFilter(form: NgForm) {
     try {
       this._loadingService.processing = true;
-      let aleatory: boolean;
 
-      if (this.typeFilter === "Lista Aleatória") {
-        aleatory = true;
+      if (!this.filterSubject) {
+        this.subjectFilter = '';
       } else {
-        aleatory = false;
+        if (!this.subjectFilter || this.subjectFilter.length <= 0 || this.subjectFilter === 'undefined') {
+          this.showSubjectWarning = true;
+          return;
+        } else {
+          this.showSubjectWarning = false;
+        }
       }
-
-      this._listService.findListsByFilter(aleatory, this.nameList, this.classroom.subjectCode, this.user.email)
+      this._listService.findListsByFilter(this.nameList, this.subjectFilter)
         .then(data => {
           this.response = data;
 
@@ -119,20 +97,38 @@ export class SearchClassroomComponent implements OnInit {
     }
   }
 
-  openApplyListModal(template: TemplateRef<any>, list: List) {
-    this.currentList = list;
-    this.modalRef = this._modalService.show(template);
+  loadDataClassroom(id) {
+    this._loadingService.processing = true;
+
+    this._classroomService.findById(id)
+      .then(data => {
+        this.response = data;
+
+        //Error
+        if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
+          this.response.error.fieldErrors.forEach(error => {
+            this._notificationsService.error('Ocorreu um erro', error.message, {timeOut: 3000});
+          });
+        }
+        //Success
+        else {
+          this.classroom = data;
+        }
+
+        this._loadingService.processing = false;
+      });
   }
 
   async confirm() {
     if (this.noGroupSelected) {
-      this.showWarning = true;
+      this.showGroupWarning = true;
       return;
     }
     try {
       this._loadingService.processing = true;
       const value = await this._listService.sendListToGroup(this.selectedGroup, this.classroom.id, this.currentList.id);
       this._notificationsService.success('Lista enviada');
+      this.modalRef.hide();
     } catch (error) {
       if (!error.error.fieldErrors || error.error.fieldErrors === []) {
         this._notificationsService.error('Ocorreu um erro', error.error.message);
@@ -144,5 +140,14 @@ export class SearchClassroomComponent implements OnInit {
     } finally {
       this._loadingService.processing = false;
     }
+  }
+
+  openApplyListModal(template: TemplateRef<any>, list: List) {
+    this.currentList = list;
+    this.modalRef = this._modalService.show(template);
+  }
+
+  private async _loadSubjects() {
+    this.subjects = await this._listService.getAllSubjects();
   }
 }

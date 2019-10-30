@@ -6,6 +6,7 @@ import {NotificationsService} from 'angular2-notifications';
 import {LoadingService} from '../services/loading.service';
 import {Router} from '@angular/router';
 import {LoginService} from '../services/login.service';
+import {ClassroomService} from "../services/classroom.service";
 
 @Component({
   selector: 'list-aplic-enrollment-classroom',
@@ -15,18 +16,21 @@ import {LoginService} from '../services/login.service';
 export class EnrollmentClassroomComponent implements OnInit {
 
   classroom: Classroom = {};
+  classrooms: Classroom[] = []
   user: any;
   response: any;
 
   constructor(private readonly _studentService: StudentService,
-    private readonly _notificationsService: NotificationsService,
-    private readonly _loadingService: LoadingService,
-    private readonly _router: Router,
-    private readonly _loginService: LoginService, ) {
+              private readonly _notificationsService: NotificationsService,
+              private readonly _loadingService: LoadingService,
+              private readonly _router: Router,
+              private readonly _loginService: LoginService,
+              private readonly classroomService: ClassroomService) {
     this.user = this._loginService.readLoggedUser();
   }
 
   ngOnInit() {
+    this._loadClassrooms();
   }
 
   async submitForm(form: NgForm) {
@@ -41,27 +45,28 @@ export class EnrollmentClassroomComponent implements OnInit {
             if (this.response.error.message != undefined) {
               //Trata erro: Turma não encontrada
               if (this.response.error.message === "Classroom not found") {
-                this._notificationsService.error('Ocorreu um erro', "Turma não encontrada...", { timeOut: 3000 });
+                this._notificationsService.error('Ocorreu um erro', "Turma não encontrada...", {timeOut: 3000});
+              } else {
+                this._notificationsService.error('Ocorreu um erro', this.response.error.message, {timeOut: 3000});
               }
-              else {
-                this._notificationsService.error('Ocorreu um erro', this.response.error.message, { timeOut: 3000 });
-              }
-            }
-            else {
+            } else {
               this.response.error.fieldErrors.forEach(error => {
-                this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
+                this._notificationsService.error('Ocorreu um erro', error.message, {timeOut: 3000});
               });
             }
           }
           //Success
           else {
-            this._notificationsService.success('Você entrou na turma: ', this.classroom.code, { timeOut: 3000 });
+            this._notificationsService.success('Você entrou na turma: ', this.classroom.code, {timeOut: 3000});
             this._router.navigate(['list-classroom']);
           }
         });
-    }
-    finally {
+    } finally {
       this._loadingService.processing = false;
     }
+  }
+
+  private async _loadClassrooms() {
+    this.classrooms = await this.classroomService.findAll();
   }
 }

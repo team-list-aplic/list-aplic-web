@@ -6,6 +6,8 @@ import {ClassroomService} from 'src/app/services/classroom.service';
 import {NgForm} from '@angular/forms';
 import {Router} from '@angular/router';
 import {LoginService} from 'src/app/services/login.service';
+import {ListService} from "../../services/list.service";
+import {Subject} from "../../models/subject.model";
 
 @Component({
   selector: 'list-aplic-classroom-form',
@@ -17,15 +19,17 @@ export class ClassroomFormComponent implements OnInit {
   @Input() id: string;
 
   classroom: Classroom = {};
+  subjects: Subject[] = [];
   response: any;
   accessUser: boolean;
   user: any;
 
   constructor(private readonly _classroomService: ClassroomService,
-    private readonly _notificationsService: NotificationsService,
-    private readonly _loadingService: LoadingService,
-    private readonly _router: Router,
-    private readonly _loginService: LoginService,
+              private readonly _notificationsService: NotificationsService,
+              private readonly _loadingService: LoadingService,
+              private readonly _router: Router,
+              private readonly _loginService: LoginService,
+              private readonly _listService: ListService,
   ) {
     this.accessUser = this._loginService.checkAccessUser();
     this.user = this._loginService.readLoggedUser();
@@ -35,6 +39,7 @@ export class ClassroomFormComponent implements OnInit {
     if (this.id !== null) {
       this.loadDataClassroom(this.id);
     }
+    this._loadSubjects();
   }
 
   loadDataClassroom(id) {
@@ -47,7 +52,7 @@ export class ClassroomFormComponent implements OnInit {
         //Error
         if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
           this.response.error.fieldErrors.forEach(error => {
-            this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
+            this._notificationsService.error('Ocorreu um erro', error.message, {timeOut: 3000});
           });
         }
         //Success
@@ -68,10 +73,13 @@ export class ClassroomFormComponent implements OnInit {
       } else {
         this._editClassroom();
       }
-    }
-    finally {
+    } finally {
       this._loadingService.processing = false;
     }
+  }
+
+  private async _loadSubjects() {
+    this.subjects = await this._listService.getAllSubjects();
   }
 
   private async _addClassroom() {
@@ -85,12 +93,12 @@ export class ClassroomFormComponent implements OnInit {
         //Error
         if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
           this.response.error.fieldErrors.forEach(error => {
-            this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
+            this._notificationsService.error('Ocorreu um erro', error.message, {timeOut: 3000});
           });
         }
         //Success
         else {
-          this._notificationsService.success('Turma Criada', this.classroom.name, { timeOut: 3000 });
+          this._notificationsService.success('Turma Criada', this.classroom.name, {timeOut: 3000});
           this._router.navigate(['list-classroom']);
         }
       });
@@ -104,12 +112,12 @@ export class ClassroomFormComponent implements OnInit {
         //Error
         if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
           this.response.error.fieldErrors.forEach(error => {
-            this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
+            this._notificationsService.error('Ocorreu um erro', error.message, {timeOut: 3000});
           });
         }
         //Success
         else {
-          this._notificationsService.success('Turma Editada', this.classroom.name, { timeOut: 3000 });
+          this._notificationsService.success('Turma Editada', this.classroom.name, {timeOut: 3000});
           this._router.navigate(['list-classroom']);
         }
       });

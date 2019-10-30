@@ -1,8 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {List} from '../models/list.model';
+import {Subject} from "../models/subject.model";
 
 const ALLCLASSROOM = 'allClassroom';
+
+interface SearchListOptions {
+  name?: string;
+  subjectCode?: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -22,15 +28,19 @@ export class ListService {
   constructor(private readonly _http: HttpClient) {
   }
 
-  findListsByFilter(aleatory: boolean, name: string, subjectCode: string, user: string): Promise<List[]> {
+  findListsByFilter(name: string, subjectCode: string): Promise<List[]> {
+    console.log(subjectCode);
+    const params = {};
+    if (name && name.length > 0) {
+      (params as SearchListOptions).name = name;
+    }
+    if (subjectCode && subjectCode.length > 0) {
+      (params as SearchListOptions).subjectCode = subjectCode;
+    }
+    console.log(params);
     return new Promise(resolve => {
       this._http.get<List[]>(this._baseurl + '/lists/', {
-        params: {
-          aleatory: aleatory.toString(),
-          name,
-          subjectCode,
-          user
-        }
+        params
       }).subscribe(data => {
         resolve(data);
       },
@@ -48,5 +58,9 @@ export class ListService {
       listId,
     };
     return this._http.post<List[]>(this._baseurl + '/lists/apply', JSON.stringify(body), this._httpOptions).toPromise();
+  }
+
+  getAllSubjects(): Promise<Subject[]> {
+    return this._http.get<Subject[]>(this._baseurl + '/subjects', this._httpOptions).toPromise();
   }
 }

@@ -41,9 +41,10 @@ export class StudentService {
     return this._http.get<Student>(this._baseurl + '/students/' + id, this._httpOptions).toPromise();
   }
 
-  enrollmentStudentInClassroom(id: string, code: string): Promise<Student> {
+  enrollmentStudentInClassroom(id: string, classroomCode: string): Promise<Student> {
+    const code = {code: classroomCode};
     return new Promise(resolve => {
-      this._http.post<Student>(this._baseurl + '/students/' + id + '/enrollment?code=' + code, this._httpOptions)
+      this._http.post<Student>(this._baseurl + '/students/' + id + '/enrollment', JSON.stringify(code), this._httpOptions)
         .subscribe(data => {
           resolve(data);
         },

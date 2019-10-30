@@ -22,22 +22,22 @@
             <div class="row" style="margin-top: 10px;">
               <div class="offset-md-2 col-md-8">
                 <div class="form-group">
-                  <div class="custom-control custom-radio">
-                    <input class="custom-control-input" name="typeFilter" type="radio" value="Filtrar por
-                                        disciplina" id="radioFiltrarPorDisciplina" [(ngModel)]="typeFilter">
-                    <label class="custom-control-label" for="radioFiltrarPorDisciplina">Filtrar por
-                      disciplina</label>
+                  <div class="custom-control custom-checkbox">
+                    <input [(ngModel)]="filterSubject" class="custom-control-input" id="customCheck1"
+                           name="filterSubject"
+                           type="checkbox">
+                    <label class="custom-control-label" for="customCheck1">Filtrar por Disciplina</label>
                   </div>
-                </div>
-              </div>
 
-              <div class="offset-md-2 col-md-8">
-                <div class="form-group">
-                  <div class="custom-control custom-radio">
-                    <input [(ngModel)]="typeFilter" class="custom-control-input" id="radioListaAleatoria"
-                           name="typeFilter" type="radio" value="Lista Aleatória">
-                    <label class="custom-control-label" for="radioListaAleatoria">Lista
-                      Aleatória</label>
+                  <div *ngIf="filterSubject" class="custom-control">
+                    <select [(ngModel)]="subjectFilter" class="custom-select" name="subjectFilter">
+                      <option [defaultSelected]="true" [value]="undefined">Selecione a Disciplina</option>
+                      <option *ngFor="let subject of subjects" [value]="subject.code">{{subject.code}}
+                        - {{subject.name}}</option>
+                    </select>
+                    <small *ngIf="showSubjectWarning" class="form-text text-muted crimson">
+                      Selecione uma disciplina
+                    </small>
                   </div>
                 </div>
               </div>
@@ -123,7 +123,7 @@
               <option [defaultSelected]="true" [value]="undefined">Selecione um Grupo</option>
               <option value="allClassroom">Toda a Turma</option>
             </select>
-            <small *ngIf="showWarning && noGroupSelected" class="form-text text-muted crimson">
+            <small *ngIf="showGroupWarning && noGroupSelected" class="form-text text-muted crimson">
               Selecione pelo menos um grupo
             </small>
           </div>
