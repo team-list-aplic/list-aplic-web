@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
       this._router.navigate(['my-profile']);
       this._notificationsService.success('Entrando...');
     } catch (error) {
-      if (!error.error.fieldErros || error.error.fieldErros == []) {
+      if (!error.error.fieldErrors || error.error.fieldErrors === []) {
         this._notificationsService.error('Ocorreu um erro', error.error.message);
       } else {
         (error.error.fieldErrors || []).forEach(error => {

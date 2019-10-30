@@ -1,0 +1,137 @@
+<br>
+<div class="container">
+  <div class="form-row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title font-weight-bold"><i class="fas fa-search"></i> Buscar Lista</h4>
+          <p>Turma: {{ classroom.name }}</p>
+        </div>
+        <div class="card-body">
+          <form #form="ngForm" (ngSubmit)="submitFilter(form)">
+            <div class="row">
+              <div class="offset-md-2 col-md-8">
+                <div class="form-group">
+                  <input [(ngModel)]="nameList" autofocus class="form-control"
+                         name="nameList"
+                         placeholder="Insira o nome da lista que deseja pesquisar..." type="text">
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px;">
+              <div class="offset-md-2 col-md-8">
+                <div class="form-group">
+                  <div class="custom-control custom-radio">
+                    <input class="custom-control-input" name="typeFilter" type="radio" value="Filtrar por
+                                        disciplina" id="radioFiltrarPorDisciplina" [(ngModel)]="typeFilter">
+                    <label class="custom-control-label" for="radioFiltrarPorDisciplina">Filtrar por
+                      disciplina</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="offset-md-2 col-md-8">
+                <div class="form-group">
+                  <div class="custom-control custom-radio">
+                    <input [(ngModel)]="typeFilter" class="custom-control-input" id="radioListaAleatoria"
+                           name="typeFilter" type="radio" value="Lista Aleatória">
+                    <label class="custom-control-label" for="radioListaAleatoria">Lista
+                      Aleatória</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="offset-md-2 col-md-8 text-right">
+                <div class="form-group">
+                  <button class="btn btn-dark" type="submit">Buscar lista</button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <hr>
+
+          <div *ngIf="showResult" class="row">
+            <div class="offset-md-2 col-md-8">
+              <h5>Resultados:</h5>
+
+              <div *ngIf="lists">
+                <div *ngFor="let list of lists" class="row" style="margin-top: 15px;">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="card" style="background:#f7f7f7;">
+                        <div class="card-body list-header"
+                             style="padding: 10px; padding-top: 15px; padding-left: 20px;">
+                          <div>
+                            <h6>{{ list.name }}</h6>
+                          </div>
+                          <div class="btn-group dropright">
+                            <button aria-expanded="false" aria-haspopup="true"
+                                    class="btn btn-light dropdown-toggle"
+                                    data-toggle="dropdown" type="button">
+                              <i class="fas fa-ellipsis-v"
+                                 style="float: right; font-size: 20px;"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                              <button (click)="openApplyListModal(applyListModal, list)" class="dropdown-item"
+                                      type="button">Aplicar Lista
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="!lists || lists?.length <= 0" class="row" style="margin-top: 25px;">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <p class="text-center" style="font-style: italic;">Nenhuma lista foi
+                      encontrada...</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #applyListModal>
+  <div class="modal-header">
+    <h5 class="modal-title">Aplicar Lista</h5>
+    <button (click)="modalRef.hide()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="modal-content-row">
+      <div>
+        <p>Para</p>
+      </div>
+      <div>
+        <form #form="ngForm">
+          <div class="form-group">
+            <select [(ngModel)]="selectedGroup" class="form-control" id="exampleFormControlSelect2" name="group">
+              <option [defaultSelected]="true" [value]="undefined">Selecione um Grupo</option>
+              <option value="allClassroom">Toda a Turma</option>
+            </select>
+            <small *ngIf="showWarning && noGroupSelected" class="form-text text-muted crimson">
+              Selecione pelo menos um grupo
+            </small>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button (click)="confirm()" class="btn btn-secondary" type="button">Confirmar</button>
+  </div>
+</ng-template>

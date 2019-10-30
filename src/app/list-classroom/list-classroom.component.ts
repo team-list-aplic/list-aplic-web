@@ -1,12 +1,12 @@
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import {BsModalRef, BsModalService} from 'ngx-bootstrap';
+import {Component, OnInit, TemplateRef} from '@angular/core';
 
-import { Classroom } from '../models/classroom.model';
-import { ClassroomService } from '../services/classroom.service';
-import { LoadingService } from '../services/loading.service';
-import { LoginService } from '../services/login.service';
-import { NotificationsService } from 'angular2-notifications';
-import { Router } from '@angular/router';
+import {Classroom} from '../models/classroom.model';
+import {ClassroomService} from '../services/classroom.service';
+import {LoadingService} from '../services/loading.service';
+import {LoginService} from '../services/login.service';
+import {NotificationsService} from 'angular2-notifications';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'list-aplic-list-classroom',
@@ -56,9 +56,7 @@ export class ListClassroomComponent implements OnInit {
           else {
             this.listClassrooms = data;
           }
-
-          this._loadingService.processing = false;
-        });
+        }).finally(() => this._loadingService.processing = false);
     }
     else {
       this._classroomService.findAllByStudentId(this.user.id)
@@ -75,9 +73,8 @@ export class ListClassroomComponent implements OnInit {
           else {
             this.listClassrooms = data;
           }
-
-          this._loadingService.processing = false;
-        });
+        }).finally(() => this._loadingService.processing = false);
+      ;
     }
   }
 

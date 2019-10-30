@@ -34,7 +34,6 @@ export class EnrollmentClassroomComponent implements OnInit {
       this._loadingService.processing = true;
       this._studentService.enrollmentStudentInClassroom(this.user.id, this.classroom.code)
         .then(data => {
-          debugger
           this.response = data;
 
           //Error

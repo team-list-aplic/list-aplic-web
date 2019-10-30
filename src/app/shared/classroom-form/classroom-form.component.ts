@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Classroom } from 'src/app/models/classroom.model';
-import { LoadingService } from 'src/app/services/loading.service';
-import { NotificationsService } from 'angular2-notifications';
-import { ClassroomService } from 'src/app/services/classroom.service';
-import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { LoginService } from 'src/app/services/login.service';
+import {Component, Input, OnInit} from '@angular/core';
+import {Classroom} from 'src/app/models/classroom.model';
+import {LoadingService} from 'src/app/services/loading.service';
+import {NotificationsService} from 'angular2-notifications';
+import {ClassroomService} from 'src/app/services/classroom.service';
+import {NgForm} from '@angular/forms';
+import {Router} from '@angular/router';
+import {LoginService} from 'src/app/services/login.service';
 
 @Component({
   selector: 'list-aplic-classroom-form',
