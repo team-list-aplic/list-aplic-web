@@ -1,26 +1,29 @@
 <br>
 <div class="container">
-    <div class="form-row">
-        <div class="offset-md-3 col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Participar de Turma</h4>
+  <div class="form-row">
+    <div class="offset-md-3 col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h4>Participar de Turma</h4>
 
-                    <div class="form-row">
-                        <div class="offset-md-2 col-md-8">
-                            <form #form="ngForm" (ngSubmit)="submitForm(form)">
-                                <div class="form-group">
-                                    <input required name="codTurma" type="text" class="form-control" id="input-codTurma"
-                                        placeholder="Código da turma que deseja entrar..."
-                                        [(ngModel)]="classroom.code">
-                                </div>
-                                <button type="submit" class="btn btn-secondary"
-                                    [disabled]="form.invalid">Entrar</button>
-                            </form>
-                        </div>
-                    </div>
+          <div class="form-row">
+            <div class="offset-md-2 col-md-8">
+              <form #form="ngForm" (ngSubmit)="submitForm(form)">
+                <div class="form-group">
+                  <select [(ngModel)]="classroom.code" class="custom-select" name="classroomCode">
+                    <option [defaultSelected]="true" [value]="undefined">Código da turma que deseja entrar...</option>
+                    <option *ngFor="let classr of classrooms" [value]="classr.code">{{classr.code}}
+                      - {{classr.name}}</option>
+                  </select>
                 </div>
+                <button [disabled]="form.invalid" class="btn btn-secondary"
+                        type="submit">Entrar
+                </button>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
