@@ -49,7 +49,7 @@ export class ListClassroomComponent implements OnInit {
           //Error
           if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
             this.response.error.fieldErrors.forEach(error => {
-              this._notificationsService.error('Ocorreu um erro', error.message);
+              this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
             });
           }
           //Success
@@ -66,7 +66,7 @@ export class ListClassroomComponent implements OnInit {
           //Error
           if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
             this.response.error.fieldErrors.forEach(error => {
-              this._notificationsService.error('Ocorreu um erro', error.message);
+              this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
             });
           }
           //Success
@@ -95,13 +95,13 @@ export class ListClassroomComponent implements OnInit {
         //Error
         if (this.response != null && this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
           this.response.error.fieldErrors.forEach(error => {
-            this._notificationsService.error('Ocorreu um erro', error.message, 3000);
+            this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
           });
         }
         //Success
         else {
           this.modalRef.hide();
-          this._notificationsService.success('Turma Excluída');
+          this._notificationsService.success('Turma Excluída', '', { timeOut: 3000 });
           this.listAllClassroom();
         }
       });

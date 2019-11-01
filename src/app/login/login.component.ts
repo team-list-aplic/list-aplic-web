@@ -37,13 +37,13 @@ export class LoginComponent implements OnInit {
       const studentDto = await this._loginService.login(login);
       this._loginService.storingStudent(studentDto);
       this._router.navigate(['my-profile']);
-      this._notificationsService.success('Entrando...');
+      this._notificationsService.success('Entrando...', '', { timeOut: 2000 });
     } catch (error) {
       if (!error.error.fieldErrors || error.error.fieldErrors === []) {
-        this._notificationsService.error('Ocorreu um erro', error.error.message);
+        this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
       } else {
         (error.error.fieldErrors || []).forEach(error => {
-          this._notificationsService.error('Ocorreu um erro', error.message);
+          this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
         });
       }
     } finally {

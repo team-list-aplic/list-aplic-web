@@ -39,10 +39,10 @@ export class MyProfileComponent implements OnInit {
       this._loginService.logout();
     } catch (error) {
       if (!error.error.fieldErros || error.error.fieldErros == []) {
-        this._notificationsService.error('Ocorreu um erro', error.error.message);
+        this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
       } else {
         (error.error.fieldErrors || []).forEach(error => {
-          this._notificationsService.error('Ocorreu um erro', error.message);
+          this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
         });
       }
     } finally {

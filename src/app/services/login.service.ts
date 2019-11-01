@@ -37,7 +37,6 @@ export class LoginService {
   logout() {
     localStorage.clear();
     this._router.navigate(['login']);
-    this._notificationsService.success('Saindo...');
   }
 
   readLoggedUser(): any {

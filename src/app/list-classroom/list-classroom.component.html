@@ -14,7 +14,7 @@
                         <div class="form-row" *ngIf="this.accessUser">
                             <div class="col-md-6 text-left">
                                 <button class="btn btn-sm btn-outline-primary"
-                                        [routerLink]="['/search-classroom', classroom.id]">Aplicar lista
+                                    [routerLink]="['/search-classroom', classroom.id]">Aplicar lista
                                 </button>&nbsp;
                             </div>
                             <div class="col-md-6 text-right">
@@ -38,11 +38,11 @@
             </div>
         </div>
     </div>
-  <ng-container *ngIf="!listClassrooms || listClassrooms?.length <= 0">
-    <div class="none-classroom">
-      <p>Nenhum resultado encontrado!</p>
-    </div>
-  </ng-container>
+    <ng-container *ngIf="!listClassrooms || listClassrooms?.length <= 0">
+        <div class="none-classroom">
+            <p>Nenhum resultado encontrado!</p>
+        </div>
+    </ng-container>
 </div>
 
 <ng-template #deleteModal>

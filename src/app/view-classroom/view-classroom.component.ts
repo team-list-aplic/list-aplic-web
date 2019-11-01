@@ -75,7 +75,7 @@ export class ViewClassroomComponent implements OnInit {
         //Error
         if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
           this.response.error.fieldErrors.forEach(error => {
-            this._notificationsService.error('Ocorreu um erro', error.message);
+            this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
           });
         }
         //Success
@@ -101,21 +101,21 @@ export class ViewClassroomComponent implements OnInit {
       try {
         this._loadingService.processing = true;
         await this._listService.sendAnswers(this.list, this.user.id);
-        this._notificationsService.success('Respostas enviadas');
+        this._notificationsService.success('Respostas enviadas', '', { timeOut: 3000 });
         this.ngOnInit();
       } catch (error) {
         if (!error.error.fieldErrors || error.error.fieldErrors === []) {
-          this._notificationsService.error('Ocorreu um erro', error.error.message);
+          this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
         } else {
           (error.error.fieldErrors || []).forEach(error => {
-            this._notificationsService.error('Ocorreu um erro', error.message);
+            this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
           });
         }
       } finally {
         this._loadingService.processing = false;
       }
     } else {
-      this._notificationsService.error('Algumas perguntas ainda não foram respondidas.');
+      this._notificationsService.error('Algumas perguntas ainda não foram respondidas.', '', { timeOut: 3000 });
     }
   }
 

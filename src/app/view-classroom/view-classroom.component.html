@@ -10,7 +10,7 @@
         <div class="card-body">
           <div class="bd-example bd-example-tabs">
             <div class="row">
-              <div class="col-12">
+              <div class="col-md-4">
                 <h6>Listas Pendentes:</h6>
                 <div class="col-md-12" *ngFor="let list of pendingList">
                   <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
@@ -21,27 +21,36 @@
                   </div>
                 </div>
                 <div class="col-md-12" *ngIf="pendingList?.length == 0">
-                    Nenhuma lista pendente
+                  Nenhuma lista pendente
                 </div>
               </div>
-              <div class="col-12">
-                <div class="tab-content" id="v-pills-tabContent">
-                  <div class="tab-pane listasPendentes fade show active" role="tabpanel">
-                    <div class="row">
-                      <div class="col-md-12" *ngFor="let question of questions">
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <span>{{question.name}}</span>
-                            <textarea style="margin-top: 5px;" class="form-control" [(ngModel)]="question.answer"
-                              placeholder="Resposta..." required></textarea>
+              <div class="col-md-8">
+                <div *ngIf="questions">
+                  <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane listasPendentes fade show active" role="tabpanel">
+                      <div class="row">
+                        <div class="col-md-12" *ngFor="let question of questions">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <span>{{question.name}}</span>
+                              <textarea style="margin-top: 5px;" class="form-control" [(ngModel)]="question.answer"
+                                placeholder="Resposta..." required></textarea>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                  <hr>
+
+                  <button style="float: right;" (click)="sendAnswers()" class="btn btn-primary">Enviar
+                    Respostas
+                  </button>
                 </div>
-                <hr>
-                <button style="float: right;" (click)="sendAnswers()" class="btn btn-primary">Enviar Respostas</button>
+                <div *ngIf="!questions&&pendingList?.length > 0">
+                  <br>
+                  <p  class="text-center">Selecione uma lista pendente ao lado para responder...</p>
+                </div>
               </div>
             </div>
           </div>

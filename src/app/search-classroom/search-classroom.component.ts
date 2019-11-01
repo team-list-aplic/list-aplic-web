@@ -127,14 +127,14 @@ export class SearchClassroomComponent implements OnInit {
     try {
       this._loadingService.processing = true;
       const value = await this._listService.sendListToGroup(this.selectedGroup, this.classroom.id, this.currentList.id);
-      this._notificationsService.success('Lista enviada');
+      this._notificationsService.success('Lista enviada', '', { timeOut: 3000 });
       this.modalRef.hide();
     } catch (error) {
       if (!error.error.fieldErrors || error.error.fieldErrors === []) {
-        this._notificationsService.error('Ocorreu um erro', error.error.message);
+        this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
       } else {
         (error.error.fieldErrors || []).forEach(error => {
-          this._notificationsService.error('Ocorreu um erro', error.message);
+          this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
         });
       }
     } finally {

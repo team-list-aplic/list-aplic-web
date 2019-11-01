@@ -42,11 +42,11 @@ export class StudentFormComponent implements OnInit {
     try {
       this._loadingService.processing = true;
       const student = await this._studentService.save(this.student);
-      this._notificationsService.success('Discente Criado', student.name);
+      this._notificationsService.success('Discente Criado', student.name, { timeOut: 3000 });
       this._router.navigate(['login']);
     } catch (error) {
       (error.error.fieldErrors || []).forEach(error => {
-        this._notificationsService.error('Ocorreu um erro', error.message);
+        this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
       });
     } finally {
       this._loadingService.processing = false;
@@ -57,10 +57,10 @@ export class StudentFormComponent implements OnInit {
     try {
       this._loadingService.processing = true;
       const student = await this._studentService.update(this.student);
-      this._notificationsService.success('Discente Editado', student.name);
+      this._notificationsService.success('Discente Editado', student.name, { timeOut: 3000 });
     } catch (error) {
       (error.error.fieldErrors || []).forEach(error => {
-        this._notificationsService.error('Ocorreu um erro', error.message);
+        this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
       });
     } finally {
       this._loadingService.processing = false;
