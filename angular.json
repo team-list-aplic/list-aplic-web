@@ -67,6 +67,29 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "development": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
             }
           }
         },
@@ -78,6 +101,9 @@
           "configurations": {
             "production": {
               "browserTarget": "list-aplic-web:build:production"
+            },
+            "development": {
+              "browserTarget": "list-aplic-web:build:development"
             }
           }
         },
@@ -126,6 +152,9 @@
           "configurations": {
             "production": {
               "devServerTarget": "list-aplic-web:serve:production"
+            },
+            "development": {
+              "devServerTarget": "list-aplic-web:serve:development"
             }
           }
         }
