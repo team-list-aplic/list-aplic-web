@@ -3,6 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  apiUrl: 'http://list-aplic-api-staging.herokuapp.com/api/',
   production: false
 };
 

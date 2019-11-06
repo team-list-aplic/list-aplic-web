@@ -1,6 +1,7 @@
-import {Injectable} from '@angular/core';
-import {Student} from '../models/student.model';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Student } from '../models/student.model';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class StudentService {
 
   // Base Url
-  private readonly _baseurl = 'https://list-aplic-api.herokuapp.com/api';
+  private readonly _baseurl = environment.apiUrl;
 
   // Http Headers
   private _httpOptions = {
