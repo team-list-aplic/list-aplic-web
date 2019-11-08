@@ -16,41 +16,9 @@ export class MyProfileComponent implements OnInit {
   student: Student = {};
   modalRef: BsModalRef;
 
-  constructor(private readonly _studentService: StudentService,
-              private readonly _modalService: BsModalService,
-              private readonly _loginService: LoginService,
-              private readonly _notificationsService: NotificationsService,
-              private readonly _loadingService: LoadingService,
-  ) { }
+  constructor(private readonly _loginService: LoginService) { }
 
   ngOnInit() {
     this.student = this._loginService.readLoggedUser();
-  }
-
-  deleteProfile(template: TemplateRef<any>) {
-    this.modalRef = this._modalService.show(template);
-  }
-
-  async confirm() {
-    try {
-      this._loadingService.processing = true;
-      const student = await this._studentService.delete(this.student.id);
-      this.modalRef.hide();
-      this._loginService.logout();
-    } catch (error) {
-      if (!error.error.fieldErros || error.error.fieldErros == []) {
-        this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
-      } else {
-        (error.error.fieldErrors || []).forEach(error => {
-          this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
-        });
-      }
-    } finally {
-      this._loadingService.processing = false;
-    }
-  }
-
-  decline() {
-    this.modalRef.hide();
   }
 }

@@ -12,9 +12,8 @@
             <div class="row">
               <div class="offset-md-2 col-md-8">
                 <div class="form-group">
-                  <input [(ngModel)]="nameList" autofocus class="form-control"
-                         name="nameList"
-                         placeholder="Insira o nome da lista que deseja pesquisar..." type="text">
+                  <input [(ngModel)]="nameList" autofocus class="form-control" name="nameList"
+                    placeholder="Insira o nome da lista que deseja pesquisar..." type="text">
                 </div>
               </div>
             </div>
@@ -24,8 +23,7 @@
                 <div class="form-group">
                   <div class="custom-control custom-checkbox">
                     <input [(ngModel)]="filterSubject" class="custom-control-input" id="customCheck1"
-                           name="filterSubject"
-                           type="checkbox">
+                      name="filterSubject" type="checkbox">
                     <label class="custom-control-label" for="customCheck1">Filtrar por Disciplina</label>
                   </div>
 
@@ -64,20 +62,18 @@
                     <div class="form-group">
                       <div class="card" style="background:#f7f7f7;">
                         <div class="card-body list-header"
-                             style="padding: 10px; padding-top: 15px; padding-left: 20px;">
+                          style="padding: 10px; padding-top: 15px; padding-left: 20px;">
                           <div>
                             <h6>{{ list.name }}</h6>
                           </div>
                           <div class="btn-group dropright">
-                            <button aria-expanded="false" aria-haspopup="true"
-                                    class="btn btn-light dropdown-toggle"
-                                    data-toggle="dropdown" type="button">
-                              <i class="fas fa-ellipsis-v"
-                                 style="float: right; font-size: 20px;"></i>
+                            <button aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle"
+                              data-toggle="dropdown" type="button">
+                              <i class="fas fa-ellipsis-v" style="float: right; font-size: 20px;"></i>
                             </button>
                             <div class="dropdown-menu">
                               <button (click)="openApplyListModal(applyListModal, list)" class="dropdown-item"
-                                      type="button">Aplicar Lista
+                                type="button">Aplicar Lista
                               </button>
                             </div>
                           </div>
@@ -112,12 +108,13 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="modal-content-row">
-      <div>
-        <p>Para</p>
-      </div>
-      <div>
-        <form #form="ngForm">
+    <form #form="ngForm">
+      <div class="form-row">
+        <div class="col-md-5">
+          <p>Para:</p>
+        </div>
+
+        <div class="col-md-7">
           <div class="form-group">
             <select [(ngModel)]="selectedGroup" class="form-control" id="exampleFormControlSelect2" name="group">
               <option [defaultSelected]="true" [value]="undefined">Selecione um Grupo</option>
@@ -127,9 +124,63 @@
               Selecione pelo menos um grupo
             </small>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
+
+      <div class="form-row">
+        <div class="col-md-5">
+          <p>Iniciar em:</p>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <input class="form-control" type="date">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon1"><i class="far fa-calendar-alt"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <input class="form-control" type="time">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon1"><i class="far fa-clock"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-5">
+          <p>Entregar em:</p>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <input class="form-control" type="date">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon1"><i class="far fa-calendar-alt"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <input class="form-control" type="time">
+              <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon1"><i class="far fa-clock"></i></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
   </div>
   <div class="modal-footer">
     <button (click)="confirm()" class="btn btn-secondary" type="button">Confirmar</button>

@@ -10,6 +10,7 @@ import {ListService} from '../services/list.service';
 import {LoginService} from '../services/login.service';
 import {BsModalRef, BsModalService} from "ngx-bootstrap";
 import {Subject} from "../models/subject.model";
+import { Time } from '@angular/common';
 
 @Component({
   selector: 'list-aplic-search-classroom',
@@ -31,6 +32,11 @@ export class SearchClassroomComponent implements OnInit {
 
   subjects: Subject[] = [];
   selectedGroup?: string;
+  initialDateAplication: Date;
+  finalDateAplication: Date;
+  initialTimeAplication: Time;
+  finalTimeAplication: Time;
+
   showGroupWarning = false;
   showSubjectWarning = false;
 
@@ -144,6 +150,7 @@ export class SearchClassroomComponent implements OnInit {
 
   openApplyListModal(template: TemplateRef<any>, list: List) {
     this.currentList = list;
+    this._modalService.config.class = "modal-lg";
     this.modalRef = this._modalService.show(template);
   }
 

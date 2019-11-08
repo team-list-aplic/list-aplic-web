@@ -20,8 +20,6 @@
                             <div class="col-md-6 text-right">
                                 <button class="btn btn-sm btn-outline-dark"
                                     [routerLink]="['/edit-classroom', classroom.id]">Editar</button>&nbsp;
-                                <button class="btn btn-sm btn-outline-danger"
-                                    (click)="deleteClassroom(deleteModal, classroom.id)">Excluir</button>
                             </div>
                         </div>
 
@@ -44,22 +42,6 @@
         </div>
     </ng-container>
 </div>
-
-<ng-template #deleteModal>
-    <div class="modal-header">
-        <h5 class="modal-title">Exclusão de Turma</h5>
-        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        Tem certeza de que deseja excluir essa Turma? Esta ação é irrevessível.
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="decline()">Não</button>
-        <button type="button" class="btn btn-primary" (click)="confirm()">Sim</button>
-    </div>
-</ng-template>
 
 <ng-template #codeModal>
     <div class="modal-header">

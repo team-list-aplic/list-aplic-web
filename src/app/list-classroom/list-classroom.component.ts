@@ -18,7 +18,6 @@ export class ListClassroomComponent implements OnInit {
   listClassrooms: Classroom[];
   response: any;
   modalRef: BsModalRef;
-  idClassroomDelete: any;
   codeForShow: string;
 
   accessUser: boolean;
@@ -80,31 +79,6 @@ export class ListClassroomComponent implements OnInit {
 
   editClassroom(id) {
     this._router.navigate(['/edit-classroom', { id: id }]);
-  }
-
-  deleteClassroom(template: TemplateRef<any>, id: any) {
-    this.idClassroomDelete = id;
-    this.modalRef = this._modalService.show(template);
-  }
-
-  async confirm() {
-    await this._classroomService.delete(this.idClassroomDelete)
-      .then(data => {
-        this.response = data;
-
-        //Error
-        if (this.response != null && this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
-          this.response.error.fieldErrors.forEach(error => {
-            this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
-          });
-        }
-        //Success
-        else {
-          this.modalRef.hide();
-          this._notificationsService.success('Turma Excluída', '', { timeOut: 3000 });
-          this.listAllClassroom();
-        }
-      });
   }
 
   decline() {

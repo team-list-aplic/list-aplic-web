@@ -1,10 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Student} from "../../models/student.model";
-import {StudentService} from "../../services/student.service";
-import {NotificationsService} from "angular2-notifications";
-import {LoadingService} from "../../services/loading.service";
-import {LoginService} from "../../services/login.service";
-import {Router} from "@angular/router";
+import { Component, Input, OnInit } from '@angular/core';
+import { Student } from "../../models/student.model";
+import { StudentService } from "../../services/student.service";
+import { NotificationsService } from "angular2-notifications";
+import { LoadingService } from "../../services/loading.service";
+import { LoginService } from "../../services/login.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'list-aplic-student-form',
@@ -19,10 +19,10 @@ export class StudentFormComponent implements OnInit {
   repeatPassword?: string;
 
   constructor(private readonly _studentService: StudentService,
-              private readonly _notificationsService: NotificationsService,
-              private readonly _loadingService: LoadingService,
-              private readonly _loginService: LoginService,
-              private readonly _router: Router,
+    private readonly _notificationsService: NotificationsService,
+    private readonly _loadingService: LoadingService,
+    private readonly _loginService: LoginService,
+    private readonly _router: Router,
   ) {
   }
 
@@ -58,6 +58,7 @@ export class StudentFormComponent implements OnInit {
       this._loadingService.processing = true;
       const student = await this._studentService.update(this.student);
       this._notificationsService.success('Discente Editado', student.name, { timeOut: 3000 });
+      this._router.navigate(['my-profile']);
     } catch (error) {
       (error.error.fieldErrors || []).forEach(error => {
         this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
