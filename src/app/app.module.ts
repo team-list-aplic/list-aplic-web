@@ -9,18 +9,17 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { ClassroomFormComponent } from './shared/classroom-form/classroom-form.component';
 import { ClassroomService } from './services/classroom.service';
 import { ClassroomComponent } from './classroom/classroom.component';
-import { DeleteClassroomComponent } from './delete-classroom/delete-classroom.component';
 import { ListClassroomComponent } from './list-classroom/list-classroom.component';
 import { AppComponent } from './app.component';
 import { StudentService } from './services/student.service';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap';
-import { LoginModule } from "./login/login.module";
-import { SharedModule } from "./shared/shared.module";
-import { AuthGuardService } from "./services/auth-guard.service";
+import { LoginModule } from './login/login.module';
+import { SharedModule } from './shared/shared.module';
+import { AuthGuardService } from './services/auth-guard.service';
 import { EnrollmentClassroomComponent } from './enrollment-classroom/enrollment-classroom.component';
 import { ViewClassroomComponent } from './view-classroom/view-classroom.component';
 import { SearchClassroomComponent } from './search-classroom/search-classroom.component';
@@ -45,7 +44,7 @@ const appRoutes: Routes = [
     path: 'login',
     loadChildren: './login/login.module#LoginModule'
   },
-  //{ path: '**', component: PageNotFoundComponent }
+  // { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
@@ -55,7 +54,6 @@ const appRoutes: Routes = [
     EditProfileComponent,
     ClassroomFormComponent,
     ClassroomComponent,
-    DeleteClassroomComponent,
     ListClassroomComponent,
     EnrollmentClassroomComponent,
     ViewClassroomComponent,
