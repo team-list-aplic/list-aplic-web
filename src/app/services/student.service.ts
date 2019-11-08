@@ -34,10 +34,6 @@ export class StudentService {
       this._httpOptions).toPromise();
   }
 
-  delete(id: string): Promise<Student> {
-    return this._http.delete<Student>(this._baseurl + '/students/' + id, this._httpOptions).toPromise();
-  }
-
   findById(id: string): Promise<Student> {
     return this._http.get<Student>(this._baseurl + '/students/' + id, this._httpOptions).toPromise();
   }

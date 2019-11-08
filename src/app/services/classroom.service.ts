@@ -67,18 +67,6 @@ export class ClassroomService {
     });
   }
 
-  delete(id: string): Promise<any> {
-    return new Promise(resolve => {
-      this.http.delete<Classroom>(this._baseurl + '/classrooms/' + id, this._httpOptions)
-        .subscribe(data => {
-            resolve(data);
-          },
-          err => {
-            resolve(err);
-          });
-    });
-  }
-
   findById(id: string): Promise<Classroom> {
     return this.http.get<Classroom>(this._baseurl + '/classrooms/' + id, this._httpOptions).toPromise();
   }
