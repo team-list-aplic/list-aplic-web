@@ -1,8 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Student} from "../models/student.model";
-import {NotificationsService} from "angular2-notifications";
-import {Router} from "@angular/router";
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Student } from "../models/student.model";
+import { NotificationsService } from "angular2-notifications";
+import { Router } from "@angular/router";
+import { environment } from '../../environments/environment';
 
 const LOGGED_USER_KEY = 'loggedUser';
 
@@ -12,7 +13,7 @@ const LOGGED_USER_KEY = 'loggedUser';
 export class LoginService {
 
   // Base Url
-  private readonly _baseurl = 'https://list-aplic-api.herokuapp.com/api';
+  private readonly _baseurl = environment.apiUrl;
 
   // Http Headers
   private _httpOptions = {
