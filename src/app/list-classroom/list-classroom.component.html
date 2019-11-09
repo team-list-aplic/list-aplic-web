@@ -14,19 +14,20 @@
                         <div class="form-row">
                             <div class="col-md-12">
                                 <div class="list-group">
-                                    <a href="#" [routerLink]="['/search-classroom', classroom.id]"
-                                        class="list-group-item list-group-item-action">
+                                    <button type="button"
+                                        (click)="showStudentsClassroom(studentsClassroom, classroom.id, classroom.name)"
+                                        class=" list-group-item list-group-item-action">
                                         <i class="fas fa-users" style="margin-right: 2px;"></i>
                                         Ver alunos inscritos
-                                    </a>
-                                    <a href="#" class="list-group-item list-group-item-action">
+                                    </button>
+                                    <button type="button" class="list-group-item list-group-item-action">
                                         <i class="far fa-chart-bar" style="font-size: 20px; margin-right: 2px;"></i>
                                         Ver estatísticas da turma
-                                    </a>
-                                    <a href="#" class="list-group-item list-group-item-action">
+                                    </button>
+                                    <button type="button" class="list-group-item list-group-item-action">
                                         <i class="fas fa-file-alt" style="font-size: 19px; margin-right: 8px"></i>
                                         Ver listas aplicadas
-                                    </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -76,5 +77,36 @@
         <br>
         <h1 style="text-align: center;">{{ codeForShow }}</h1>
         <br>
+    </div>
+</ng-template>
+
+<ng-template #studentsClassroom>
+    <div class="modal-header">
+        <h5 class="modal-title">Alunos inscritos em: "{{ classroomName }}" </h5>
+        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="alert-info">#</th>
+                            <th class="alert-info">Nome do aluno</th>
+                            <th class="alert-info">Email do aluno</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let student of listStudents; let i = index">
+                            <td>{{i+1}} {{item}}</td>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.email }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </ng-template>

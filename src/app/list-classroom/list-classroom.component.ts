@@ -1,12 +1,13 @@
-import {BsModalRef, BsModalService} from 'ngx-bootstrap';
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 
-import {Classroom} from '../models/classroom.model';
-import {ClassroomService} from '../services/classroom.service';
-import {LoadingService} from '../services/loading.service';
-import {LoginService} from '../services/login.service';
-import {NotificationsService} from 'angular2-notifications';
-import {Router} from '@angular/router';
+import { Classroom } from '../models/classroom.model';
+import { ClassroomService } from '../services/classroom.service';
+import { LoadingService } from '../services/loading.service';
+import { LoginService } from '../services/login.service';
+import { NotificationsService } from 'angular2-notifications';
+import { Router } from '@angular/router';
+import { Student } from '../models/student.model';
 
 @Component({
   selector: 'list-aplic-list-classroom',
@@ -16,9 +17,11 @@ import {Router} from '@angular/router';
 export class ListClassroomComponent implements OnInit {
 
   listClassrooms: Classroom[];
+  listStudents: Student[];
   response: any;
   modalRef: BsModalRef;
   codeForShow: string;
+  classroomName: string;
 
   accessUser: boolean;
   user: any;
@@ -88,5 +91,35 @@ export class ListClassroomComponent implements OnInit {
   showClassroomCode(template: TemplateRef<any>, code) {
     this.codeForShow = code;
     this.modalRef = this._modalService.show(template);
+  }
+
+  showStudentsClassroom(template: TemplateRef<any>, id, name) {
+    this.classroomName = name;
+    this._modalService.config.class = "modal-lg";
+    this.modalRef = this._modalService.show(template);
+
+    this.listStudents = [
+      {
+        name: "Natália Lopes da Silva",
+        email: "natalia@gmail.com"
+      },
+      {
+        name: "Natália Lopes da Silva",
+        email: "natalia@gmail.com"
+      },
+      {
+        name: "Natália Lopes da Silva",
+        email: "natalia@gmail.com"
+      },
+      {
+        name: "Natália Lopes da Silva",
+        email: "natalia@gmail.com"
+      },
+      {
+        name: "Natália Lopes da Silva",
+        email: "natalia@gmail.com"
+      }
+    ]
+
   }
 }
