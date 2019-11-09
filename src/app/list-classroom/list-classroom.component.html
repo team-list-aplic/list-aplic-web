@@ -11,6 +11,28 @@
                             Turma</a>
                     </div>
                     <div class="card-body">
+                        <div class="form-row">
+                            <div class="col-md-12">
+                                <div class="list-group">
+                                    <a href="#" [routerLink]="['/search-classroom', classroom.id]"
+                                        class="list-group-item list-group-item-action">
+                                        <i class="fas fa-users" style="margin-right: 2px;"></i>
+                                        Ver alunos inscritos
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <i class="far fa-chart-bar" style="font-size: 20px; margin-right: 2px;"></i>
+                                        Ver estatísticas da turma
+                                    </a>
+                                    <a href="#" class="list-group-item list-group-item-action">
+                                        <i class="fas fa-file-alt" style="font-size: 19px; margin-right: 8px"></i>
+                                        Ver listas aplicadas
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+
                         <div class="form-row" *ngIf="this.accessUser">
                             <div class="col-md-6 text-left">
                                 <button class="btn btn-sm btn-outline-primary"
