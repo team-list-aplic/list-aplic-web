@@ -8,6 +8,8 @@ import { LoginService } from '../services/login.service';
 import { NotificationsService } from 'angular2-notifications';
 import { Router } from '@angular/router';
 import { Student } from '../models/student.model';
+import { StatisticsService } from "../services/statistics.service";
+import { Statistic } from "../models/statistic.model";
 
 @Component({
   selector: 'list-aplic-list-classroom',
@@ -26,12 +28,16 @@ export class ListClassroomComponent implements OnInit {
   accessUser: boolean;
   user: any;
 
+  innerHTMLToStatistics = '';
+
   constructor(private readonly _router: Router,
-    private readonly _classroomService: ClassroomService,
-    private readonly _notificationsService: NotificationsService,
-    private readonly _loadingService: LoadingService,
-    private readonly _modalService: BsModalService,
-    private readonly _loginService: LoginService) {
+              private readonly _classroomService: ClassroomService,
+              private readonly _notificationsService: NotificationsService,
+              private readonly _loadingService: LoadingService,
+              private readonly _modalService: BsModalService,
+              private readonly _loginService: LoginService,
+              private readonly _statisticsService: StatisticsService
+  ) {
     this.accessUser = this._loginService.checkAccessUser();
     this.user = this._loginService.readLoggedUser();
   }
@@ -59,8 +65,7 @@ export class ListClassroomComponent implements OnInit {
             this.listClassrooms = data;
           }
         }).finally(() => this._loadingService.processing = false);
-    }
-    else {
+    } else {
       this._classroomService.findAllByStudentId(this.user.id)
         .then(data => {
           this.response = data;
@@ -122,4 +127,31 @@ export class ListClassroomComponent implements OnInit {
     ]
 
   }
+
+  async openStatisticsModal(template: TemplateRef<any>, classroomId: string) {
+    try {
+      this._loadingService.processing = true;
+      const statistics = await this._statisticsService.getAnsweredListsPercentByClassroom(classroomId);
+      this.buildInnerHTMLToStatistics(statistics);
+      this.modalRef = this._modalService.show(template);
+    } catch (error) {
+      (error.error.fieldErrors || []).forEach(error => {
+        this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
+      });
+    } finally {
+      this._loadingService.processing = false;
+    }
+  }
+
+  private buildInnerHTMLToStatistics(statistic: Statistic) {
+    if (statistic && statistic.errorMessage) {
+      this.innerHTMLToStatistics =
+        `<p>${ statistic.errorMessage }</p>`;
+    } else if (statistic) {
+      this.innerHTMLToStatistics =
+        `<p>Porcentagem de listas respondidas:</p>
+        <p><h3 style="text-align: center">${ ((statistic.completionPercentage || 0) * 100).toFixed(2) }%</h3></p>`;
+    }
+  }
+
 }
