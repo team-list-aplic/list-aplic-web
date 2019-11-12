@@ -20,7 +20,9 @@
                                         <i class="fas fa-users" style="margin-right: 2px;"></i>
                                         Ver alunos inscritos
                                     </button>
-                                    <button type="button" class="list-group-item list-group-item-action">
+                                  <button (click)="openStatisticsModal(statisticsModal, classroom.id)"
+                                          class="list-group-item list-group-item-action"
+                                          type="button">
                                         <i class="far fa-chart-bar" style="font-size: 20px; margin-right: 2px;"></i>
                                         Ver estatísticas da turma
                                     </button>
@@ -109,4 +111,12 @@
             </div>
         </div>
     </div>
+</ng-template>
+
+<ng-template #statisticsModal>
+  <list-aplic-modal-info
+    [innerHTML]="innerHTMLToStatistics"
+    [modalRef]="modalRef"
+    title="Estatísticas da Turma"
+  ></list-aplic-modal-info>
 </ng-template>

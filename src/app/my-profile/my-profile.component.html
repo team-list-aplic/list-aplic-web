@@ -4,24 +4,61 @@
       <div class="card-body">
         <h4 class="card-title font-weight-bold">Minha Conta</h4>
         <div class="container">
-          <span [ngClass]="student?.role == 'DISCENTE'? 'badge-success' : 'badge-primary'" class="badge">
-            {{student?.role}}
+          <span [ngClass]="loggedUser?.role == 'DISCENTE'? 'badge-success' : 'badge-primary'" class="badge">
+            {{loggedUser?.role}}
           </span>
           <div class="profile-content-row">
             <div>
-              <p *ngIf="student?.role == 'DISCENTE'" class="font-weight-bold">Nome</p>
+              <p *ngIf="loggedUser?.role == 'DISCENTE'" class="font-weight-bold">Nome</p>
               <p class="font-weight-bold">E-mail</p>
             </div>
             <div>
-              <p *ngIf="student?.role == 'DISCENTE'" class="text-right">{{student?.name}}</p>
-              <p class="text-right">{{student?.email}}</p>
+              <p *ngIf="loggedUser?.role == 'DISCENTE'" class="text-right">{{loggedUser?.name}}</p>
+              <p class="text-right">{{loggedUser?.email}}</p>
             </div>
           </div>
-          <div *ngIf="student?.role == 'DISCENTE'" class="profile-content-row buttons">
+          <div *ngIf="loggedUser?.role == 'DISCENTE'" class="profile-content-row buttons">
             <button class="btn btn-light" routerLink="/edit-profile">Editar Dados</button>
+          </div>
+          <div align="center">
+            <a (click)="openStatisticsModal(statisticsModal)" class="statistics-link">Consultar Estatísticas do
+              Docente</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #statisticsModal>
+  <div class="modal-header">
+    <h5 class="modal-title">Estatísticas do Docente</h5>
+    <button (click)="modalRef.hide()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="card-subtitle">
+        <i>Top 5 questões mais aplicadas</i>
+      </div>
+      <div *ngIf="!statistics.errorMessage; else message" class="questions-content-row">
+        <div>
+          <i class="font-weight-bold">Questão</i>
+          <p *ngFor="let question of statistics.questions; let i = index">
+            {{i + 1}}ª - {{question.name || 'Não identificado'}}
+          </p>
+        </div>
+        <div>
+          <i class="font-weight-bold">Número de aplicações</i>
+          <p *ngFor="let question of statistics.questions">
+            {{question.counter + ' vezes' || 'Não identificado'}}
+          </p>
+        </div>
+      </div>
+      <ng-template #message>
+        <p><i>{{statistics.errorMessage}}</i></p>
+      </ng-template>
+    </div>
+  </div>
+</ng-template>
