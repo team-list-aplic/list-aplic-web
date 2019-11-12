@@ -45,13 +45,13 @@
       <div *ngIf="!statistics.errorMessage; else message" class="questions-content-row">
         <div>
           <i class="font-weight-bold">Questão</i>
-          <p *ngFor="let question of statistics.questions; let i = index">
+          <p *ngFor="let question of statistics.topFiveQuestions; let i = index">
             {{i + 1}}ª - {{question.name || 'Não identificado'}}
           </p>
         </div>
         <div>
           <i class="font-weight-bold">Número de aplicações</i>
-          <p *ngFor="let question of statistics.questions">
+          <p *ngFor="let question of statistics.topFiveQuestions">
             {{question.counter + ' vezes' || 'Não identificado'}}
           </p>
         </div>

@@ -16,7 +16,7 @@ export class MyProfileComponent implements OnInit {
 
   loggedUser: Student = {};
   modalRef: BsModalRef;
-  statistics: Statistic = { questions: [{ name: 'x', counter: 2 }, { name: 'xx', counter: 3 }] };
+  statistics: Statistic = { topFiveQuestions: [{ name: 'x', counter: 2 }, { name: 'xx', counter: 3 }] };
 
   constructor(private readonly _loginService: LoginService,
               private readonly _loadingService: LoadingService,
@@ -33,7 +33,7 @@ export class MyProfileComponent implements OnInit {
   async openStatisticsModal(template: TemplateRef<any>) {
     try {
       this._loadingService.processing = true;
-      //this.statistics = await this._statisticsService.getTopQuestionsByInstructor(this.loggedUser.id || '');
+      this.statistics = await this._statisticsService.getTopQuestionsByInstructor(this.loggedUser.id || '');
       this._modalService.config.class = "modal-lg";
       this.modalRef = this._modalService.show(template);
     } catch (error) {

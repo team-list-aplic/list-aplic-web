@@ -22,10 +22,10 @@ export class StatisticsService {
   }
 
   async getAnsweredListsPercentByClassroom(classroomId: string): Promise<Statistic> {
-    return this.http.get<Statistic>(this._baseurl + 'statistics/classroom/' + classroomId, this._httpOptions).toPromise();
+    return this.http.get<Statistic>(this._baseurl + '/statistics/classroom/' + classroomId, this._httpOptions).toPromise();
   }
 
   async getTopQuestionsByInstructor(instructorId: string): Promise<Statistic> {
-    return this.http.get<Statistic>(this._baseurl + 'statistics/instructor/' + instructorId, this._httpOptions).toPromise();
+    return this.http.get<Statistic>(this._baseurl + '/statistics/instructor/' + instructorId, this._httpOptions).toPromise();
   }
 }

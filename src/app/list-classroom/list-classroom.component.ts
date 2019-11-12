@@ -131,8 +131,8 @@ export class ListClassroomComponent implements OnInit {
   async openStatisticsModal(template: TemplateRef<any>, classroomId: string) {
     try {
       this._loadingService.processing = true;
-      //const statistics = await this._statisticsService.getAnsweredListsPercentByClassroom(classroomId);
-      this.buildInnerHTMLToStatistics({ percent: 60 });
+      const statistics = await this._statisticsService.getAnsweredListsPercentByClassroom(classroomId);
+      this.buildInnerHTMLToStatistics(statistics);
       this.modalRef = this._modalService.show(template);
     } catch (error) {
       (error.error.fieldErrors || []).forEach(error => {
@@ -150,7 +150,7 @@ export class ListClassroomComponent implements OnInit {
     } else if (statistic) {
       this.innerHTMLToStatistics =
         `<p>Porcentagem de listas respondidas:</p>
-        <p><h3 style="text-align: center">${ statistic.percent || 0 }%</h3></p>`;
+        <p><h3 style="text-align: center">${ ((statistic.completionPercentage || 0) * 100).toFixed(2) }%</h3></p>`;
     }
   }
 
