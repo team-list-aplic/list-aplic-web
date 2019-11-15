@@ -1,16 +1,17 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {Classroom} from '../models/classroom.model';
-import {ActivatedRoute} from '@angular/router';
-import {ClassroomService} from '../services/classroom.service';
-import {NotificationsService} from 'angular2-notifications';
-import {LoadingService} from '../services/loading.service';
-import {NgForm} from '@angular/forms';
-import {List} from '../models/list.model';
-import {ListService} from '../services/list.service';
-import {LoginService} from '../services/login.service';
-import {BsModalRef, BsModalService} from "ngx-bootstrap";
-import {Subject} from "../models/subject.model";
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Classroom } from '../models/classroom.model';
+import { ActivatedRoute } from '@angular/router';
+import { ClassroomService } from '../services/classroom.service';
+import { NotificationsService } from 'angular2-notifications';
+import { LoadingService } from '../services/loading.service';
+import { NgForm } from '@angular/forms';
+import { List } from '../models/list.model';
+import { ListService } from '../services/list.service';
+import { LoginService } from '../services/login.service';
+import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { Subject } from "../models/subject.model";
 import { Time } from '@angular/common';
+import { DifficultyLevel } from "../models/enums/difficulty-level";
 
 @Component({
   selector: 'list-aplic-search-classroom',
@@ -148,6 +149,12 @@ export class SearchClassroomComponent implements OnInit {
     }
   }
 
+  openListModal(template: TemplateRef<any>, list: List) {
+    this.currentList = list;
+    this._modalService.config.class = "modal-lg";
+    this.modalRef = this._modalService.show(template);
+  }
+
   openApplyListModal(template: TemplateRef<any>, list: List) {
     this.currentList = list;
     this._modalService.config.class = "modal-lg";
@@ -156,5 +163,9 @@ export class SearchClassroomComponent implements OnInit {
 
   private async _loadSubjects() {
     this.subjects = await this._listService.getAllSubjects();
+  }
+
+  translateDifficultyLevel(level: number = 1) {
+    return Object.values(DifficultyLevel)[level - 1];
   }
 }
