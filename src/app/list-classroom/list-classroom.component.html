@@ -36,22 +36,23 @@
 
                         <br>
 
-                        <div class="form-row" *ngIf="this.accessUser">
+                        <div *ngIf="this.accessUser" class="form-row">
                             <div class="col-md-6 text-left">
-                                <button class="btn btn-sm btn-outline-primary"
-                                    [routerLink]="['/search-classroom', classroom.id]">Aplicar lista
+                                <button [routerLink]="['/search-classroom', classroom.id]"
+                                    class="btn btn-sm btn-outline-primary">Aplicar lista
                                 </button>&nbsp;
                             </div>
                             <div class="col-md-6 text-right">
-                                <button class="btn btn-sm btn-outline-dark"
-                                    [routerLink]="['/edit-classroom', classroom.id]">Editar</button>&nbsp;
+                                <button [routerLink]="['/edit-classroom', classroom.id]"
+                                    class="btn btn-sm btn-outline-dark">Editar
+                                </button>&nbsp;
                             </div>
                         </div>
 
-                        <div class="form-row" *ngIf="!this.accessUser">
+                        <div *ngIf="!this.accessUser" class="form-row">
                             <div class="col-md-12 text-right">
-                                <button class="btn btn-sm btn-outline-primary" type="button"
-                                    [routerLink]="['/view-classroom', classroom.id]">
+                                <button [routerLink]="['/view-classroom', classroom.id]"
+                                    class="btn btn-sm btn-outline-primary" type="button">
                                     Visualizar turma
                                 </button>&nbsp;
                             </div>
@@ -71,7 +72,7 @@
 <ng-template #codeModal>
     <div class="modal-header">
         <h5 class="modal-title">Código da Turma</h5>
-        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <button (click)="modalRef.hide()" aria-label="Close" class="close" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -85,7 +86,7 @@
 <ng-template #studentsClassroom>
     <div class="modal-header">
         <h5 class="modal-title">Alunos inscritos em: "{{ classroomName }}" </h5>
-        <button type="button" class="close" aria-label="Close" (click)="modalRef.hide()">
+        <button (click)="modalRef.hide()" aria-label="Close" class="close" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -102,7 +103,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let student of listStudents; let i = index">
-                            <td>{{i+1}} {{item}}</td>
+                            <td>{{i + 1}}</td>
                             <td>{{ student.name }}</td>
                             <td>{{ student.email }}</td>
                         </tr>
@@ -114,9 +115,6 @@
 </ng-template>
 
 <ng-template #statisticsModal>
-  <list-aplic-modal-info
-    [innerHTML]="innerHTMLToStatistics"
-    [modalRef]="modalRef"
-    title="Estatísticas da Turma"
-  ></list-aplic-modal-info>
+    <list-aplic-modal-info [innerHTML]="innerHTMLToStatistics" [modalRef]="modalRef" title="Estatísticas da Turma">
+    </list-aplic-modal-info>
 </ng-template>
