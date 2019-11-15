@@ -39,7 +39,7 @@ export class StudentService {
   }
 
   enrollmentStudentInClassroom(id: string, classroomCode: string): Promise<Student> {
-    const code = {code: classroomCode};
+    const code = { code: classroomCode };
     return new Promise(resolve => {
       this._http.post<Student>(this._baseurl + '/students/' + id + '/enrollment', JSON.stringify(code), this._httpOptions)
         .subscribe(data => {
@@ -48,6 +48,22 @@ export class StudentService {
           err => {
             resolve(err);
           });
+    });
+  }
+
+  findStudentsByClassroom(classroomId: string): Promise<Student[]> {
+    const params = {
+      classroomId: classroomId
+    };
+    return new Promise(resolve => {
+      this._http.get<Student[]>(this._baseurl + '/students/enrollment', {
+        params
+      }).subscribe(data => {
+        resolve(data);
+      },
+        err => {
+          resolve(err);
+        });
     });
   }
 }

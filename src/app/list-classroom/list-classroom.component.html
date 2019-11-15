@@ -14,17 +14,17 @@
                         <div class="form-row">
                             <div class="col-md-12">
                                 <div class="list-group">
-                                    <button type="button"
+                                    <button type="button" *ngIf="this.accessUser"
                                         (click)="showStudentsClassroom(studentsClassroom, classroom.id, classroom.name)"
                                         class=" list-group-item list-group-item-action">
                                         <i class="fas fa-users" style="margin-right: 2px;"></i>
                                         Ver alunos inscritos
                                     </button>
-                                    <button type="button" class="list-group-item list-group-item-action">
+                                    <button type="button" *ngIf="this.accessUser" class="list-group-item list-group-item-action">
                                         <i class="far fa-chart-bar" style="font-size: 20px; margin-right: 2px;"></i>
                                         Ver estatísticas da turma
                                     </button>
-                                    <button type="button" class="list-group-item list-group-item-action">
+                                    <button type="button" *ngIf="this.accessUser" class="list-group-item list-group-item-action">
                                         <i class="fas fa-file-alt" style="font-size: 19px; margin-right: 8px"></i>
                                         Ver listas aplicadas
                                     </button>

@@ -8,6 +8,7 @@ import { LoginService } from '../services/login.service';
 import { NotificationsService } from 'angular2-notifications';
 import { Router } from '@angular/router';
 import { Student } from '../models/student.model';
+import { StudentService } from '../services/student.service';
 
 @Component({
   selector: 'list-aplic-list-classroom',
@@ -28,6 +29,7 @@ export class ListClassroomComponent implements OnInit {
 
   constructor(private readonly _router: Router,
     private readonly _classroomService: ClassroomService,
+    private readonly _studentService: StudentService,
     private readonly _notificationsService: NotificationsService,
     private readonly _loadingService: LoadingService,
     private readonly _modalService: BsModalService,
@@ -94,32 +96,26 @@ export class ListClassroomComponent implements OnInit {
   }
 
   showStudentsClassroom(template: TemplateRef<any>, id, name) {
+    this.listStudents = [];
     this.classroomName = name;
     this._modalService.config.class = "modal-lg";
     this.modalRef = this._modalService.show(template);
 
-    this.listStudents = [
-      {
-        name: "Natália Lopes da Silva",
-        email: "natalia@gmail.com"
-      },
-      {
-        name: "Natália Lopes da Silva",
-        email: "natalia@gmail.com"
-      },
-      {
-        name: "Natália Lopes da Silva",
-        email: "natalia@gmail.com"
-      },
-      {
-        name: "Natália Lopes da Silva",
-        email: "natalia@gmail.com"
-      },
-      {
-        name: "Natália Lopes da Silva",
-        email: "natalia@gmail.com"
-      }
-    ]
+    this._studentService.findStudentsByClassroom(id)
+      .then(data => {
+        
+        this.response = data;
 
+        //Error
+        if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
+          this.response.error.fieldErrors.forEach(error => {
+            this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
+          });
+        }
+        //Success
+        else {
+          this.listStudents = data;
+        }
+      }).finally(() => this._loadingService.processing = false);
   }
 }

@@ -101,14 +101,14 @@
 </div>
 
 <ng-template #applyListModal>
-  <div class="modal-header">
-    <h5 class="modal-title">Aplicar Lista</h5>
-    <button (click)="modalRef.hide()" aria-label="Close" class="close" type="button">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <form #form="ngForm">
+  <form #form="ngForm">
+    <div class="modal-header">
+      <h5 class="modal-title">Aplicar Lista</h5>
+      <button (click)="modalRef.hide()" aria-label="Close" class="close" type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
       <div class="form-row">
         <div class="col-md-5">
           <p>Para:</p>
@@ -120,7 +120,7 @@
               <option [defaultSelected]="true" [value]="undefined">Selecione um Grupo</option>
               <option value="allClassroom">Toda a Turma</option>
             </select>
-            <small *ngIf="showGroupWarning && noGroupSelected" class="form-text text-muted crimson">
+            <small *ngIf="!validForm && !selectedGroup" class="form-text text-muted crimson">
               Selecione pelo menos um grupo
             </small>
           </div>
@@ -135,21 +135,29 @@
         <div class="col-md-4">
           <div class="form-group">
             <div class="input-group mb-3">
-              <input class="form-control" type="date">
+              <input required name="initialDateAplication" type="date" class="form-control"
+                id="input-initialDateAplication" [(ngModel)]="initialDateAplication">
               <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon1"><i class="far fa-calendar-alt"></i></span>
               </div>
             </div>
+            <small *ngIf="!validForm && !initialDateAplication" class="form-text text-muted crimson" style="margin-top: -10px;">
+              Selecione uma data
+            </small>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
             <div class="input-group mb-3">
-              <input class="form-control" type="time">
+              <input required name="initialTimeAplication" type="time" class="form-control"
+                id="input-initialTimeAplication" [(ngModel)]="initialTimeAplication">
               <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon1"><i class="far fa-clock"></i></span>
               </div>
             </div>
+            <small *ngIf="!validForm && !initialTimeAplication" class="form-text text-muted crimson" style="margin-top: -10px;">
+              Selecione um horário
+            </small>
           </div>
         </div>
       </div>
@@ -161,28 +169,36 @@
         <div class="col-md-4">
           <div class="form-group">
             <div class="input-group mb-3">
-              <input class="form-control" type="date">
+              <input required name="finalDateAplication" type="date" class="form-control" id="input-finalDateAplication"
+                [(ngModel)]="finalDateAplication">
               <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon1"><i class="far fa-calendar-alt"></i></span>
               </div>
             </div>
+            <small *ngIf="!validForm && !finalDateAplication" class="form-text text-muted crimson" style="margin-top: -10px;">
+              Selecione uma data
+            </small>
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
             <div class="input-group mb-3">
-              <input class="form-control" type="time">
+              <input required name="finalTimeAplication" type="time" class="form-control" id="input-finalTimeAplication"
+                [(ngModel)]="finalTimeAplication">
               <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon1"><i class="far fa-clock"></i></span>
               </div>
             </div>
+
+            <small *ngIf="!validForm && !finalTimeAplication" class="form-text text-muted crimson" style="margin-top: -10px;">
+              Selecione um horário
+            </small>
           </div>
         </div>
       </div>
-    </form>
-
-  </div>
-  <div class="modal-footer">
-    <button (click)="confirm()" class="btn btn-secondary" type="button">Confirmar</button>
-  </div>
+    </div>
+    <div class="modal-footer">
+      <button (click)="confirm(ngForm)" class="btn btn-secondary" type="submit">Confirmar</button>
+    </div>
+  </form>
 </ng-template>

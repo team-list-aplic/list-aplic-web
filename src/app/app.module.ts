@@ -23,6 +23,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { EnrollmentClassroomComponent } from './enrollment-classroom/enrollment-classroom.component';
 import { ViewClassroomComponent } from './view-classroom/view-classroom.component';
 import { SearchClassroomComponent } from './search-classroom/search-classroom.component';
+import { DatePipe } from '@angular/common';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -69,9 +70,9 @@ const appRoutes: Routes = [
     SharedModule,
     FormsModule,
     HttpClientModule,
-    LoginModule,
+    LoginModule
   ],
-  providers: [StudentService, ClassroomService],
+  providers: [StudentService, ClassroomService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
