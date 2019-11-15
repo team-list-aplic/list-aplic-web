@@ -10,8 +10,9 @@ import { ListService } from '../services/list.service';
 import { LoginService } from '../services/login.service';
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
 import { Subject } from "../models/subject.model";
-import { Time, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { Apply } from '../models/apply.model';
+import { DifficultyLevel } from "../models/enums/difficulty-level";
 
 @Component({
   selector: 'list-aplic-search-classroom',
@@ -185,6 +186,12 @@ export class SearchClassroomComponent implements OnInit {
     }
   }
 
+  openListModal(template: TemplateRef<any>, list: List) {
+    this.currentList = list;
+    this._modalService.config.class = "modal-lg";
+    this.modalRef = this._modalService.show(template);
+  }
+
   openApplyListModal(template: TemplateRef<any>, list: List) {
     this.currentList = list;
     this._modalService.config.class = "modal-lg";
@@ -193,5 +200,9 @@ export class SearchClassroomComponent implements OnInit {
 
   private async _loadSubjects() {
     this.subjects = await this._listService.getAllSubjects();
+  }
+
+  translateDifficultyLevel(level: number = 1) {
+    return Object.values(DifficultyLevel)[level - 1];
   }
 }

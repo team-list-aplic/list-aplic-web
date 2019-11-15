@@ -31,7 +31,7 @@
                     <select [(ngModel)]="subjectFilter" class="custom-select" name="subjectFilter">
                       <option [defaultSelected]="true" [value]="undefined">Selecione a Disciplina</option>
                       <option *ngFor="let subject of subjects" [value]="subject.code">{{subject.code}}
-                        - {{subject.name}}</option>
+                        - {{subject.descricao}}</option>
                     </select>
                     <small *ngIf="showSubjectWarning" class="form-text text-muted crimson">
                       Selecione uma disciplina
@@ -56,32 +56,35 @@
             <div class="offset-md-2 col-md-8">
               <h5>Resultados:</h5>
 
-              <div *ngIf="lists">
-                <div *ngFor="let list of lists" class="row" style="margin-top: 15px;">
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <div class="card" style="background:#f7f7f7;">
-                        <div class="card-body list-header"
-                          style="padding: 10px; padding-top: 15px; padding-left: 20px;">
-                          <div>
-                            <h6>{{ list.name }}</h6>
-                          </div>
-                          <div class="btn-group dropright">
-                            <button aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle"
-                              data-toggle="dropdown" type="button">
-                              <i class="fas fa-ellipsis-v" style="float: right; font-size: 20px;"></i>
+              <div *ngIf="lists" class="table-responsive">
+                <table class="table">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th scope="col">Lista</th>
+                      <th class="text-right" scope="col">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr (dblclick)="openListModal(listModal, list)" *ngFor="let list of lists" style="cursor: pointer">
+                      <th>{{ list.name }}</th>
+                      <td class="text-right">
+                        <div class="btn-group dropright">
+                          <button aria-expanded="false" aria-haspopup="true" class="btn btn-light dropdown-toggle"
+                            data-toggle="dropdown" type="button">
+                            <i class="fas fa-ellipsis-v" style="float: right; font-size: 20px;"></i>
+                          </button>
+                          <div class="dropdown-menu">
+                            <button (click)="openListModal(listModal, list)" class="dropdown-item" type="button">Ver
+                              Lista
                             </button>
-                            <div class="dropdown-menu">
-                              <button (click)="openApplyListModal(applyListModal, list)" class="dropdown-item"
-                                type="button">Aplicar Lista
-                              </button>
-                            </div>
+                            <button (click)="openApplyListModal(applyListModal, list)" class="dropdown-item"
+                              type="button">Aplicar Lista
+                            </button>
                           </div>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      </td>
+                  </tbody>
+                </table>
               </div>
 
               <div *ngIf="!lists || lists?.length <= 0" class="row" style="margin-top: 25px;">
@@ -141,7 +144,8 @@
                 <span class="input-group-text" id="basic-addon1"><i class="far fa-calendar-alt"></i></span>
               </div>
             </div>
-            <small *ngIf="!validForm && !initialDateAplication" class="form-text text-muted crimson" style="margin-top: -10px;">
+            <small *ngIf="!validForm && !initialDateAplication" class="form-text text-muted crimson"
+              style="margin-top: -10px;">
               Selecione uma data
             </small>
           </div>
@@ -155,7 +159,8 @@
                 <span class="input-group-text" id="basic-addon1"><i class="far fa-clock"></i></span>
               </div>
             </div>
-            <small *ngIf="!validForm && !initialTimeAplication" class="form-text text-muted crimson" style="margin-top: -10px;">
+            <small *ngIf="!validForm && !initialTimeAplication" class="form-text text-muted crimson"
+              style="margin-top: -10px;">
               Selecione um horário
             </small>
           </div>
@@ -175,7 +180,8 @@
                 <span class="input-group-text" id="basic-addon1"><i class="far fa-calendar-alt"></i></span>
               </div>
             </div>
-            <small *ngIf="!validForm && !finalDateAplication" class="form-text text-muted crimson" style="margin-top: -10px;">
+            <small *ngIf="!validForm && !finalDateAplication" class="form-text text-muted crimson"
+              style="margin-top: -10px;">
               Selecione uma data
             </small>
           </div>
@@ -190,15 +196,109 @@
               </div>
             </div>
 
-            <small *ngIf="!validForm && !finalTimeAplication" class="form-text text-muted crimson" style="margin-top: -10px;">
+            <small *ngIf="!validForm && !finalTimeAplication" class="form-text text-muted crimson"
+              style="margin-top: -10px;">
               Selecione um horário
             </small>
           </div>
         </div>
       </div>
-    </div>
-    <div class="modal-footer">
-      <button (click)="confirm(ngForm)" class="btn btn-secondary" type="submit">Confirmar</button>
-    </div>
   </form>
+
+  </div>
+  <div class="modal-footer">
+    <button (click)="confirm()" class="btn btn-secondary" type="button">Confirmar</button>
+  </div>
+</ng-template>
+
+<ng-template #listModal>
+  <div class="modal-header">
+    <h5 class="modal-title">Lista: {{ currentList.name || 'Não informado' }}</h5>
+    <button (click)="modalRef.hide()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="container">
+      <div class="modal-content-row">
+        <div class="container-fluid">
+          <p><b>Autor:</b> {{ currentList.user || 'Não informado' }}</p>
+          <p><b>Tempo Máximo:</b> 10 minutos</p>
+          <p><b>Nível de dificuldade: </b>
+            <span [class.badge-danger]="currentList.difficultyLevel === 5"
+              [class.badge-success]="currentList.difficultyLevel < 3"
+              [class.badge-warning]="currentList.difficultyLevel > 3 " class="badge badge-pill">
+              {{ translateDifficultyLevel(currentList.difficultyLevel) || 'Não informado' }}
+            </span>
+          </p>
+        </div>
+        <div class="container-fluid">
+          <p><b>Assunto:</b></p>
+          <div class="assunto-content">
+            <p>Área de Conhecimento</p>
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let area of currentList.knowledgeAreas" class="list-group-item">
+                {{ area.descricao || 'Não informado' }}</li>
+            </ul>
+            <i *ngIf="!currentList.knowledgeAreas || currentList.knowledgeAreas.length == 0">
+              Não há Áreas de Conhecimento
+            </i>
+            <p>Disciplinas</p>
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let sub of currentList.subjects" class="list-group-item">
+                {{ sub.descricao || 'Não informado' }}</li>
+            </ul>
+            <i *ngIf="!currentList.subjects || currentList.subjects.length == 0">
+              Não há Disciplinas
+            </i>
+            <p>Tags</p>
+            <span *ngFor="let tag of currentList.tags" class="badge badge-pill badge-primary">
+              {{ tag || 'Não informado' }}
+            </span>
+            <i *ngIf="!currentList.tags || currentList.tags.length == 0">
+              Não há Tags
+            </i>
+          </div>
+        </div>
+      </div>
+      <div class="modal-content-row">
+        <div class="container-fluid">
+          <div class="card questions-card">
+            <div class="card-body">
+              <h5 class="card-title">Questões</h5>
+
+              <div class="accordion" id="questionsAccordion">
+                <div *ngFor="let question of currentList.questions; let i = index" class="card">
+                  <div class="card-header list-header" id="headingOne">
+                    <div>
+                      <h2 class="mb-0">
+                        <button [attr.data-target]="'#'+ i" class="btn btn-link" data-toggle="collapse" type="button">
+                          {{ question.name || 'Não informado' }}
+                        </button>
+                      </h2>
+                      <p class="text-grey anwser">Resposta Esperada: {{ question.answer || 'Não informado' }}</p>
+                    </div>
+                    <div>
+                      <span class="badge badge-pill badge-info">Discursiva</span>
+                    </div>
+                  </div>
+
+                  <div [attr.id]="i" class="collapse" data-parent="#questionsAccordion">
+                    <div class="card-body">
+                      <p><b>Opções: </b> <i>Não há opções</i></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <i *ngIf="!currentList.questions || currentList.questions.length == 0">
+                Não há Questões
+              </i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div></div>
+    </div>
+  </div>
 </ng-template>
