@@ -5,10 +5,10 @@
             <div class="form-group">
                 <div class="card">
                     <div class="card-header">
-                        <h5>{{ classroom.name }}</h5>
+                        <h5 style="margin-bottom: -10px;">{{ classroom.name }}</h5>
                         <a *ngIf="this.accessUser" (click)="showClassroomCode(codeModal, classroom.code)"
-                            style="font-size:13px; text-decoration: underline; cursor: pointer;">Exibir código da
-                            Turma</a>
+                            style="font-size:13px; text-decoration: underline; cursor: pointer;">
+                            Exibir código da Turma</a>
                     </div>
                     <div class="card-body">
                         <div class="form-row">
@@ -20,17 +20,13 @@
                                         <i class="fas fa-users" style="margin-right: 2px;"></i>
                                         Ver alunos inscritos
                                     </button>
-<<<<<<< HEAD
-                                    <button type="button" *ngIf="this.accessUser" class="list-group-item list-group-item-action">
-=======
-                                  <button (click)="openStatisticsModal(statisticsModal, classroom.id)"
-                                          class="list-group-item list-group-item-action"
-                                          type="button">
->>>>>>> 6d1a1ae90f66113f4f18761366be27ad68731067
+                                    <button (click)="openStatisticsModal(statisticsModal, classroom.id)"
+                                        class="list-group-item list-group-item-action" type="button">
                                         <i class="far fa-chart-bar" style="font-size: 20px; margin-right: 2px;"></i>
                                         Ver estatísticas da turma
                                     </button>
-                                    <button type="button" *ngIf="this.accessUser" class="list-group-item list-group-item-action">
+                                    <button type="button" *ngIf="this.accessUser"
+                                        class="list-group-item list-group-item-action">
                                         <i class="fas fa-file-alt" style="font-size: 19px; margin-right: 8px"></i>
                                         Ver listas aplicadas
                                     </button>
