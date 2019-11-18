@@ -26,6 +26,7 @@
     "angular2-notifications": "^2.0.0",
     "bootstrap": "^4.3.1",
     "express": "^4.17.1",
+    "ng-bootstrap-form-validation": "^5.0.0",
     "ngx-bootstrap": "^5.1.2",
     "path": "^0.12.7",
     "rxjs": "~6.4.0",

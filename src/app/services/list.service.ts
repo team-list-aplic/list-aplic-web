@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { List } from '../models/list.model';
 import { Subject } from "../models/subject.model";
 import { environment } from '../../environments/environment';
+import { Apply } from '../models/apply.model';
 
 const ALLCLASSROOM = 'allClassroom';
 
@@ -68,14 +69,8 @@ export class ListService {
     });
   }
 
-  sendListToGroup(group: string, classroomId: string, listId: string): Promise<any> {
-    const body = {
-      allClassroom: group === ALLCLASSROOM,
-      group,
-      classroomId,
-      listId,
-    };
-    return this._http.post<List[]>(this._baseurl + '/lists/apply', JSON.stringify(body), this._httpOptions).toPromise();
+  sendListToGroup(apply: any): Promise<Apply> {
+    return this._http.post<Apply>(this._baseurl + '/lists/apply', JSON.stringify(apply), this._httpOptions).toPromise();
   }
 
   sendAnswers(list: any, studentId: string): Promise<any> {
