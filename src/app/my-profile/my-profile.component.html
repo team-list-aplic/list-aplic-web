@@ -20,7 +20,7 @@
           <div *ngIf="loggedUser?.role == 'DISCENTE'" class="profile-content-row buttons">
             <button class="btn btn-light" routerLink="/edit-profile">Editar Dados</button>
           </div>
-          <div align="center">
+          <div *ngIf="loggedUser?.role == 'DOCENTE'" align="center">
             <a (click)="openStatisticsModal(statisticsModal)" class="statistics-link">Consultar Estatísticas do
               Docente</a>
           </div>
