@@ -161,7 +161,6 @@ export class SearchClassroomComponent implements OnInit {
     try {
       this._loadingService.processing = true;
 
-      debugger
       //Preenche objeto
       this.apply.allClassroom = true;
       this.apply.classroomId = this.classroom.id;
