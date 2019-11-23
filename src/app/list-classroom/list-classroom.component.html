@@ -39,8 +39,8 @@
 
                         <div *ngIf="this.accessUser" class="form-row">
                             <div class="col-md-6 text-left">
-                                <button [routerLink]="['/search-classroom', classroom.id]"
-                                    class="btn btn-sm btn-outline-primary">Aplicar lista
+                              <button (click)="viewClassroomAttempt(classroom.id)"
+                                      class="btn btn-sm btn-outline-primary">Aplicar lista
                                 </button>&nbsp;
                             </div>
                             <div class="col-md-6 text-right">

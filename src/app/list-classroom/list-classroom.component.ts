@@ -32,13 +32,13 @@ export class ListClassroomComponent implements OnInit {
   innerHTMLToStatistics = '';
 
   constructor(private readonly _router: Router,
-    private readonly _classroomService: ClassroomService,
-    private readonly _studentService: StudentService,
-    private readonly _notificationsService: NotificationsService,
-    private readonly _loadingService: LoadingService,
-    private readonly _modalService: BsModalService,
-    private readonly _loginService: LoginService,
-    private readonly _statisticsService: StatisticsService) {
+              private readonly _classroomService: ClassroomService,
+              private readonly _studentService: StudentService,
+              private readonly _notificationsService: NotificationsService,
+              private readonly _loadingService: LoadingService,
+              private readonly _modalService: BsModalService,
+              private readonly _loginService: LoginService,
+              private readonly _statisticsService: StatisticsService) {
     this.accessUser = this._loginService.checkAccessUser();
     this.user = this._loginService.readLoggedUser();
   }
@@ -83,6 +83,26 @@ export class ListClassroomComponent implements OnInit {
           }
         }).finally(() => this._loadingService.processing = false);
       ;
+    }
+  }
+
+  async viewClassroomAttempt(classroomId: string) {
+    try {
+      this._loadingService.processing = true;
+      const students = await this._studentService.findStudentsByClassroom(classroomId);
+      if (students && students.length > 0) {
+        this._router.navigate(['/search-classroom', classroomId]);
+      } else {
+        this._notificationsService.alert('', 'Não é possível aplicar lista a uma turma sem alunos inscritos.', { timeOut: 3000 });
+      }
+    } catch (error) {
+      if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
+        this.response.error.fieldErrors.forEach(error => {
+          this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
+        });
+      }
+    } finally {
+      this._loadingService.processing = false;
     }
   }
 
@@ -141,11 +161,11 @@ export class ListClassroomComponent implements OnInit {
   private buildInnerHTMLToStatistics(statistic: Statistic) {
     if (statistic && statistic.errorMessage) {
       this.innerHTMLToStatistics =
-        `<p>${statistic.errorMessage}</p>`;
+        `<p>${ statistic.errorMessage }</p>`;
     } else if (statistic) {
       this.innerHTMLToStatistics =
         `<p>Porcentagem de listas respondidas:</p>
-        <p><h3 style="text-align: center">${ ((statistic.completionPercentage || 0) * 100).toFixed(2)}%</h3></p>`;
+        <p><h3 style="text-align: center">${ ((statistic.completionPercentage || 0) * 100).toFixed(2) }%</h3></p>`;
     }
   }
 
