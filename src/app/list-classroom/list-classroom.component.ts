@@ -11,6 +11,17 @@ import { Student } from '../models/student.model';
 import { StudentService } from '../services/student.service';
 import { StatisticsService } from "../services/statistics.service";
 import { Statistic } from "../models/statistic.model";
+import { ListService } from "../services/list.service";
+import { List } from "../models/list.model";
+import { ApplicationListStatus } from "../models/enums/application-list-status";
+
+type IEnumApplicationListStatus<R> = { [key in keyof typeof ApplicationListStatus]: R };
+
+const translatedApplicationStatus: IEnumApplicationListStatus<string> = {
+  ENCERRADA: 'Encerrada',
+  EM_ANDAMENTO: 'Em andamento',
+  NAO_INICIADA: 'Não iniciada',
+};
 
 @Component({
   selector: 'list-aplic-list-classroom',
@@ -31,6 +42,8 @@ export class ListClassroomComponent implements OnInit {
 
   innerHTMLToStatistics = '';
 
+  lists: List[] = [];
+
   constructor(private readonly _router: Router,
               private readonly _classroomService: ClassroomService,
               private readonly _studentService: StudentService,
@@ -38,7 +51,8 @@ export class ListClassroomComponent implements OnInit {
               private readonly _loadingService: LoadingService,
               private readonly _modalService: BsModalService,
               private readonly _loginService: LoginService,
-              private readonly _statisticsService: StatisticsService) {
+              private readonly _statisticsService: StatisticsService,
+              private readonly _listService: ListService) {
     this.accessUser = this._loginService.checkAccessUser();
     this.user = this._loginService.readLoggedUser();
   }
@@ -158,6 +172,24 @@ export class ListClassroomComponent implements OnInit {
     }
   }
 
+  async openAppliedListsModal(template: TemplateRef<any>, classroomId: string) {
+    try {
+      this._loadingService.processing = true;
+      this.lists = await this._listService.getListsByClassroom(classroomId);
+      this._modalService.config.class = "modal-xl";
+      this.modalRef = this._modalService.show(template);
+    } catch (error) {
+      if (error.error && error.error.message) {
+        this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
+      }
+      (error.error.fieldErrors || []).forEach(error => {
+        this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
+      });
+    } finally {
+      this._loadingService.processing = false;
+    }
+  }
+
   private buildInnerHTMLToStatistics(statistic: Statistic) {
     if (statistic && statistic.errorMessage) {
       this.innerHTMLToStatistics =
@@ -166,6 +198,28 @@ export class ListClassroomComponent implements OnInit {
       this.innerHTMLToStatistics =
         `<p>Porcentagem de listas respondidas:</p>
         <p><h3 style="text-align: center">${ ((statistic.completionPercentage || 0) * 100).toFixed(2) }%</h3></p>`;
+    }
+  }
+
+  translateApplicationStatus(status: ApplicationListStatus) {
+    return translatedApplicationStatus[status];
+  }
+
+  async finishListApplication(list: List) {
+    try {
+      this._loadingService.processing = true;
+      const resp = await this._listService.finishListApplication(list.listApplicationId);
+      list.status = ApplicationListStatus.ENCERRADA;
+      this._notificationsService.success('Lista Encerrada com sucesso', { timeOut: 3000 });
+    } catch (error) {
+      if (error.error && error.error.message) {
+        this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
+      }
+      (error.error.fieldErrors || []).forEach(error => {
+        this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
+      });
+    } finally {
+      this._loadingService.processing = false;
     }
   }
 
