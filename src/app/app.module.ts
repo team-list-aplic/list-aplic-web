@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import localePt from '@angular/common/locales/pt';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
@@ -23,7 +24,9 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { EnrollmentClassroomComponent } from './enrollment-classroom/enrollment-classroom.component';
 import { ViewClassroomComponent } from './view-classroom/view-classroom.component';
 import { SearchClassroomComponent } from './search-classroom/search-classroom.component';
-import { DatePipe } from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
+
+registerLocaleData(localePt, 'pt');
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -75,4 +78,5 @@ const appRoutes: Routes = [
   providers: [StudentService, ClassroomService, DatePipe],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
