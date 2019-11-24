@@ -20,7 +20,7 @@
           <div *ngIf="loggedUser?.role == 'DISCENTE'" class="profile-content-row buttons">
             <button class="btn btn-light" routerLink="/edit-profile">Editar Dados</button>
           </div>
-          <div align="center">
+          <div *ngIf="loggedUser?.role == 'DOCENTE'" align="center">
             <a (click)="openStatisticsModal(statisticsModal)" class="statistics-link">Consultar Estatísticas do
               Docente</a>
           </div>
@@ -45,17 +45,20 @@
       <div *ngIf="!statistics.errorMessage; else message" class="questions-content-row">
         <div>
           <i class="font-weight-bold">Questão</i>
+          <br><br>
           <p *ngFor="let question of statistics.topFiveQuestions; let i = index">
-            {{i + 1}}ª - {{question.name || 'Não identificado'}}
+            {{i + 1}}ª - {{question.question?.name || 'Não identificado'}}
           </p>
         </div>
         <div>
           <i class="font-weight-bold">Número de aplicações</i>
+          <br><br>
           <p *ngFor="let question of statistics.topFiveQuestions">
             {{question.counter + ' vezes' || 'Não identificado'}}
           </p>
         </div>
       </div>
+      <p *ngIf="statistics?.topFiveQuestions?.length <= 0"><i>O docente não possui questões aplicadas.</i></p>
       <ng-template #message>
         <p><i>{{statistics.errorMessage}}</i></p>
       </ng-template>
