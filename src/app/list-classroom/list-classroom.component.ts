@@ -101,9 +101,6 @@ export class ListClassroomComponent implements OnInit {
 
   showStudentsClassroom(template: TemplateRef<any>, id, name) {
     this.listStudents = [];
-    this.classroomName = name;
-    this._modalService.config.class = "modal-lg";
-    this.modalRef = this._modalService.show(template);
 
     this._studentService.findStudentsByClassroom(id)
       .then(data => {
@@ -119,6 +116,15 @@ export class ListClassroomComponent implements OnInit {
         //Success
         else {
           this.listStudents = data;
+          this.classroomName = name;
+
+          if (this.listStudents.length === 0) {
+            this._notificationsService.warn('Atenção!', "Nenhum aluno se inscreveu nessa turma.", { timeOut: 3000 });
+          }
+          else {
+            this._modalService.config.class = "modal-lg";
+            this.modalRef = this._modalService.show(template);
+          }
         }
       }).finally(() => this._loadingService.processing = false);
   }
