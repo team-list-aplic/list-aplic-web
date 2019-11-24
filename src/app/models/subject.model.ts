@@ -1,4 +1,4 @@
 export interface Subject {
   code?: string;
-  descricao?: string;
+  name?: string;
 }

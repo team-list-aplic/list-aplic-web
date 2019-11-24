@@ -13,6 +13,8 @@ import { Subject } from "../models/subject.model";
 import { DatePipe } from '@angular/common';
 import { Apply } from '../models/apply.model';
 import { DifficultyLevel } from "../models/enums/difficulty-level";
+import { KnowledgeAreas } from "../models/knowledge-areas.model";
+import { FiltersList } from "../models/filters-list.model";
 
 @Component({
   selector: 'list-aplic-search-classroom',
@@ -26,40 +28,41 @@ export class SearchClassroomComponent implements OnInit {
   response: any;
   user: any;
 
-  nameList: string;
+  currentTag: string;
+  difficultyLevel: number;
+  answerTime: number;
   subjectFilter: string;
-  filterSubject = false;
-  showResult: boolean = false;
+  knowledgeFilter: string;
+  showResult = false;
+
+  tags: string[] = [];
+  difficultyLevels = [1, 2, 3, 4, 5];
+  subjects: Subject[] = [];
+  knowledgeAreas: KnowledgeAreas[] = [];
+
   lists: List[] = [];
   currentList: List;
 
-  subjects: Subject[] = [];
   selectedGroup?: string;
   initialDateAplication: string;
   finalDateAplication: string;
   initialTimeAplication: string;
   finalTimeAplication: string;
 
-  validForm: boolean = true;
-  showGroupWarning = false;
-  showSubjectWarning = false;
+  validForm = true;
 
   modalRef: BsModalRef;
 
   constructor(private readonly _route: ActivatedRoute,
-    private readonly _classroomService: ClassroomService,
-    private readonly _listService: ListService,
-    private readonly _loginService: LoginService,
-    private readonly _notificationsService: NotificationsService,
-    private readonly _loadingService: LoadingService,
-    private readonly _modalService: BsModalService,
-    private datePipe: DatePipe) {
+              private readonly _classroomService: ClassroomService,
+              private readonly _listService: ListService,
+              private readonly _loginService: LoginService,
+              private readonly _notificationsService: NotificationsService,
+              private readonly _loadingService: LoadingService,
+              private readonly _modalService: BsModalService,
+              private datePipe: DatePipe) {
     this.classroom.id = this._route.snapshot.paramMap.get('id');
     this.user = this._loginService.readLoggedUser();
-  }
-
-  get noGroupSelected(): boolean {
-    return !this.selectedGroup || this.selectedGroup.length <= 0;
   }
 
   ngOnInit(): void {
@@ -67,6 +70,7 @@ export class SearchClassroomComponent implements OnInit {
       this.loadDataClassroom(this.classroom.id);
     }
     this._loadSubjects();
+    this._loadKnowledgeAreas();
 
     //Pega a data e hora atual para a parte inicial
     this.initialDateAplication = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -76,39 +80,49 @@ export class SearchClassroomComponent implements OnInit {
     this.initialTimeAplication = this.datePipe.transform(time, "HH:mm");
   }
 
+  checkIsSelected(level: number) {
+    if (level === this.difficultyLevel) {
+      return { background: '#0056b3' };
+    }
+  }
+
+  setLevel(level: number) {
+    this.difficultyLevel = level === this.difficultyLevel ? null : level;
+  }
+
+  addTag(tag: string) {
+    this.tags.push(tag);
+    this.currentTag = '';
+    console.log(this.tags, this.currentTag);
+  }
+
+  removeTag(tag: string) {
+    this.tags = this.tags.filter(t => {
+      return t !== tag;
+    });
+  }
+
   async submitFilter(form: NgForm) {
     try {
       this._loadingService.processing = true;
 
-      if (!this.filterSubject) {
-        this.subjectFilter = '';
+      const filters: FiltersList = {
+        subjectCode: this.subjectFilter,
+        difficultyLevel: this.difficultyLevel,
+        knowledgeAreaCode: this.knowledgeFilter,
+        answerTime: this.answerTime,
+        tags: this.tags
+      };
+      this.lists = await this._listService.findListsByFilter(filters);
+
+    } catch (error) {
+      if (error.error && error.error.message) {
+        this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
       } else {
-        if (!this.subjectFilter || this.subjectFilter.length <= 0 || this.subjectFilter === 'undefined') {
-          this.showSubjectWarning = true;
-          return;
-        } else {
-          this.showSubjectWarning = false;
-        }
-      }
-      this._listService.findListsByFilter(this.nameList, this.subjectFilter)
-        .then(data => {
-          this.response = data;
-
-          //Error
-          if (this.response.error !== undefined && this.response.error.message != undefined) {
-            this._notificationsService.error('Ocorreu um erro', this.response.error.message, { timeOut: 3000 });
-          } else if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
-            this.response.error.fieldErrors.forEach(error => {
-              this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
-            });
-          }
-          //Success
-          else {
-            this.lists = data;
-          }
-
-          this._loadingService.processing = false;
+        (error.error.fieldErrors || []).forEach(error => {
+          this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
         });
+      }
     } finally {
       this._loadingService.processing = false;
       this.showResult = true;
@@ -153,8 +167,7 @@ export class SearchClassroomComponent implements OnInit {
     if (!this.validFormApplyList()) {
       this.validForm = false;
       return false;
-    }
-    else {
+    } else {
       this.validForm = true;
     }
 
@@ -199,6 +212,10 @@ export class SearchClassroomComponent implements OnInit {
 
   private async _loadSubjects() {
     this.subjects = await this._listService.getAllSubjects();
+  }
+
+  private async _loadKnowledgeAreas() {
+    this.knowledgeAreas = await this._listService.getAllKnowledgeAreas();
   }
 
   translateDifficultyLevel(level: number = 1) {
