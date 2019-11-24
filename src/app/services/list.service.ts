@@ -9,13 +9,6 @@ import { ApplicationListStatus } from "../models/enums/application-list-status";
 import { KnowledgeAreas } from "../models/knowledge-areas.model";
 import { FiltersList } from "../models/filters-list.model";
 
-const ALLCLASSROOM = 'allClassroom';
-
-interface SearchListOptions {
-  name?: string;
-  subjectCode?: string;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -37,6 +30,7 @@ export class ListService {
 
   findListsByFilter(filtersList: FiltersList): Promise<List[]> {
     const options = this._httpOptions;
+    options.params = new HttpParams();
     if (filtersList.knowledgeAreaCode) {
       options.params = options.params.append('knowledgeAreaCode', filtersList.knowledgeAreaCode);
     }
@@ -50,7 +44,7 @@ export class ListService {
       options.params = options.params.append('answerTime', String(filtersList.answerTime));
     }
     if (filtersList.tags && filtersList.tags.length > 0) {
-      options.params = options.params.append('tags', JSON.stringify(filtersList.tags));
+      options.params = options.params.append('tags', String(filtersList.tags));
     }
     return this._http.get<List[]>(this._baseurl + '/lists/', options).toPromise();
   }

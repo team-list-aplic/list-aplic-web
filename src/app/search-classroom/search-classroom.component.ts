@@ -91,7 +91,7 @@ export class SearchClassroomComponent implements OnInit {
   }
 
   addTag(tag: string) {
-    this.tags.push(tag);
+    this.tags.push(tag.trim());
     this.currentTag = '';
     console.log(this.tags, this.currentTag);
   }
