@@ -9,5 +9,4 @@ export interface Question {
   options?: string[];
   type?: QuestionType;
   answer?: string;
-  counter?: number;
 }

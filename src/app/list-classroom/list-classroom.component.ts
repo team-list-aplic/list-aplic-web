@@ -11,6 +11,17 @@ import { Student } from '../models/student.model';
 import { StudentService } from '../services/student.service';
 import { StatisticsService } from "../services/statistics.service";
 import { Statistic } from "../models/statistic.model";
+import { ListService } from "../services/list.service";
+import { List } from "../models/list.model";
+import { ApplicationListStatus } from "../models/enums/application-list-status";
+
+type IEnumApplicationListStatus<R> = { [key in keyof typeof ApplicationListStatus]: R };
+
+const translatedApplicationStatus: IEnumApplicationListStatus<string> = {
+  ENCERRADA: 'Encerrada',
+  EM_ANDAMENTO: 'Em andamento',
+  NAO_INICIADA: 'Não iniciada',
+};
 
 @Component({
   selector: 'list-aplic-list-classroom',
@@ -31,14 +42,17 @@ export class ListClassroomComponent implements OnInit {
 
   innerHTMLToStatistics = '';
 
+  lists: List[] = [];
+
   constructor(private readonly _router: Router,
-    private readonly _classroomService: ClassroomService,
-    private readonly _studentService: StudentService,
-    private readonly _notificationsService: NotificationsService,
-    private readonly _loadingService: LoadingService,
-    private readonly _modalService: BsModalService,
-    private readonly _loginService: LoginService,
-    private readonly _statisticsService: StatisticsService) {
+              private readonly _classroomService: ClassroomService,
+              private readonly _studentService: StudentService,
+              private readonly _notificationsService: NotificationsService,
+              private readonly _loadingService: LoadingService,
+              private readonly _modalService: BsModalService,
+              private readonly _loginService: LoginService,
+              private readonly _statisticsService: StatisticsService,
+              private readonly _listService: ListService) {
     this.accessUser = this._loginService.checkAccessUser();
     this.user = this._loginService.readLoggedUser();
   }
@@ -83,6 +97,26 @@ export class ListClassroomComponent implements OnInit {
           }
         }).finally(() => this._loadingService.processing = false);
       ;
+    }
+  }
+
+  async viewClassroomAttempt(classroomId: string) {
+    try {
+      this._loadingService.processing = true;
+      const students = await this._studentService.findStudentsByClassroom(classroomId);
+      if (students && students.length > 0) {
+        this._router.navigate(['/search-classroom', classroomId]);
+      } else {
+        this._notificationsService.alert('', 'Não é possível aplicar lista a uma turma sem alunos inscritos.', { timeOut: 3000 });
+      }
+    } catch (error) {
+      if (this.response.error !== undefined && this.response.error.fieldErrors.length > 0) {
+        this.response.error.fieldErrors.forEach(error => {
+          this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
+        });
+      }
+    } finally {
+      this._loadingService.processing = false;
     }
   }
 
@@ -144,14 +178,54 @@ export class ListClassroomComponent implements OnInit {
     }
   }
 
+  async openAppliedListsModal(template: TemplateRef<any>, classroomId: string) {
+    try {
+      this._loadingService.processing = true;
+      this.lists = await this._listService.getListsByClassroom(classroomId);
+      this._modalService.config.class = "modal-xl";
+      this.modalRef = this._modalService.show(template);
+    } catch (error) {
+      if (error.error && error.error.message) {
+        this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
+      }
+      (error.error.fieldErrors || []).forEach(error => {
+        this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
+      });
+    } finally {
+      this._loadingService.processing = false;
+    }
+  }
+
   private buildInnerHTMLToStatistics(statistic: Statistic) {
     if (statistic && statistic.errorMessage) {
       this.innerHTMLToStatistics =
-        `<p>${statistic.errorMessage}</p>`;
+        `<p>${ statistic.errorMessage }</p>`;
     } else if (statistic) {
       this.innerHTMLToStatistics =
         `<p>Porcentagem de listas respondidas:</p>
-        <p><h3 style="text-align: center">${ ((statistic.completionPercentage || 0) * 100).toFixed(2)}%</h3></p>`;
+        <p><h3 style="text-align: center">${ ((statistic.completionPercentage || 0) * 100).toFixed(2) }%</h3></p>`;
+    }
+  }
+
+  translateApplicationStatus(status: ApplicationListStatus) {
+    return translatedApplicationStatus[status];
+  }
+
+  async finishListApplication(list: List) {
+    try {
+      this._loadingService.processing = true;
+      const resp = await this._listService.finishListApplication(list.listApplicationId);
+      list.status = ApplicationListStatus.ENCERRADA;
+      this._notificationsService.success('Lista Encerrada com sucesso', { timeOut: 3000 });
+    } catch (error) {
+      if (error.error && error.error.message) {
+        this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
+      }
+      (error.error.fieldErrors || []).forEach(error => {
+        this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
+      });
+    } finally {
+      this._loadingService.processing = false;
     }
   }
 
