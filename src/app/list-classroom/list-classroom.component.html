@@ -65,7 +65,7 @@
   </div>
   <ng-container *ngIf="!listClassrooms || listClassrooms?.length <= 0">
     <div class="none-classroom">
-      <p>Nenhum resultado encontrado!</p>
+      <p><i>Nenhuma turma encontrada!</i></p>
     </div>
   </ng-container>
 </div>
@@ -147,7 +147,7 @@
           </td>
           <td>
             <li *ngFor="let sub of list.subjects">
-              {{ sub.descricao }}
+              {{ sub.name }}
             </li>
           </td>
           <td>

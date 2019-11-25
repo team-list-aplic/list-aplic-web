@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Injectable } from '@angular/core';
 import { List } from '../models/list.model';
@@ -6,13 +6,8 @@ import { Subject } from "../models/subject.model";
 import { environment } from '../../environments/environment';
 import { Apply } from '../models/apply.model';
 import { ApplicationListStatus } from "../models/enums/application-list-status";
-
-const ALLCLASSROOM = 'allClassroom';
-
-interface SearchListOptions {
-  name?: string;
-  subjectCode?: string;
-}
+import { KnowledgeAreas } from "../models/knowledge-areas.model";
+import { FiltersList } from "../models/filters-list.model";
 
 @Injectable({
   providedIn: 'root'
@@ -26,30 +21,32 @@ export class ListService {
   private _httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-    })
+    }),
+    params: new HttpParams(),
   };
 
   constructor(private readonly _http: HttpClient) {
   }
 
-  findListsByFilter(name: string, subjectCode: string): Promise<List[]> {
-    const params = {};
-    if (name && name.length > 0) {
-      (params as SearchListOptions).name = name;
+  findListsByFilter(filtersList: FiltersList): Promise<List[]> {
+    const options = this._httpOptions;
+    options.params = new HttpParams();
+    if (filtersList.knowledgeAreaCode) {
+      options.params = options.params.append('knowledgeAreaCode', filtersList.knowledgeAreaCode);
     }
-    if (subjectCode && subjectCode.length > 0) {
-      (params as SearchListOptions).subjectCode = subjectCode;
+    if (filtersList.subjectCode) {
+      options.params = options.params.append('subjectCode', filtersList.subjectCode);
     }
-    return new Promise(resolve => {
-      this._http.get<List[]>(this._baseurl + '/lists/', {
-        params
-      }).subscribe(data => {
-          resolve(data);
-        },
-        err => {
-          resolve(err);
-        });
-    });
+    if (filtersList.difficultyLevel) {
+      options.params = options.params.append('difficultyLevel', String(filtersList.difficultyLevel));
+    }
+    if (filtersList.answerTime) {
+      options.params = options.params.append('answerTime', String(filtersList.answerTime));
+    }
+    if (filtersList.tags && filtersList.tags.length > 0) {
+      options.params = options.params.append('tags', String(filtersList.tags));
+    }
+    return this._http.get<List[]>(this._baseurl + '/lists/', options).toPromise();
   }
 
   findPendingLists(studentId: string): Promise<List[]> {
@@ -78,6 +75,10 @@ export class ListService {
 
   getAllSubjects(): Promise<Subject[]> {
     return this._http.get<Subject[]>(this._baseurl + '/subjects', this._httpOptions).toPromise();
+  }
+
+  getAllKnowledgeAreas(): Promise<KnowledgeAreas[]> {
+    return this._http.get<KnowledgeAreas[]>(this._baseurl + '/knowledge-areas', this._httpOptions).toPromise();
   }
 
   getListsByClassroom(classroomId: string, status?: ApplicationListStatus): Promise<List[]> {
