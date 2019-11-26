@@ -64,8 +64,8 @@
                 <div class="col-md-6 custom-control">
                   <select [(ngModel)]="subjectFilter" class="custom-select" name="subjectFilter">
                     <option [defaultSelected]="true" [value]="undefined" disabled>Selecione</option>
-                    <option *ngFor="let subject of subjects" [value]="subject.code">{{subject.code}}
-                      - {{subject.name}}</option>
+                    <option *ngFor="let subject of subjects" [value]="subject.codigo">{{subject.codigo}}
+                      - {{subject.descricao}}</option>
                   </select>
                 </div>
               </div>
@@ -116,7 +116,7 @@
                     <td align="center">{{ list.answerTime + ' minuto(s)' || 'Não informado'}}</td>
                     <td>
                       <li *ngFor="let sub of list.subjects">
-                        {{ sub.name }}
+                        {{ sub.descricao }}
                       </li>
                     </td>
                     <td class="text-right">
@@ -298,7 +298,7 @@
             <p>Disciplinas</p>
             <ul class="list-group list-group-flush">
               <li *ngFor="let sub of currentList.subjects" class="list-group-item">
-                {{ sub.name || 'Não informado' }}</li>
+                {{ sub.descricao || 'Não informado' }}</li>
             </ul>
             <i *ngIf="!currentList.subjects || currentList.subjects.length == 0">
               Não há Disciplinas
@@ -325,7 +325,7 @@
                     <h4 class="mb-0">
                       {{ question.name || 'Não informado' }}
                     </h4>
-                    <p class="text-grey anwser">Resposta Esperada: {{ question.answer || 'Não informado' }}</p>
+                    <p class="text-grey anwser">Resposta Esperada: {{ question.expectedAnswers || 'Não informado' }}</p>
                   </div>
                   <div>
                     <span class="badge badge-pill badge-info">Discursiva</span>
