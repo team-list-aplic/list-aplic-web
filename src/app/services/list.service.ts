@@ -5,7 +5,6 @@ import { List } from '../models/list.model';
 import { Subject } from "../models/subject.model";
 import { environment } from '../../environments/environment';
 import { Apply } from '../models/apply.model';
-import { ApplicationListStatus } from "../models/enums/application-list-status";
 
 const ALLCLASSROOM = 'allClassroom';
 
@@ -33,6 +32,7 @@ export class ListService {
   }
 
   findListsByFilter(name: string, subjectCode: string): Promise<List[]> {
+    console.log(subjectCode);
     const params = {};
     if (name && name.length > 0) {
       (params as SearchListOptions).name = name;
@@ -40,12 +40,13 @@ export class ListService {
     if (subjectCode && subjectCode.length > 0) {
       (params as SearchListOptions).subjectCode = subjectCode;
     }
+    console.log(params);
     return new Promise(resolve => {
       this._http.get<List[]>(this._baseurl + '/lists/', {
         params
       }).subscribe(data => {
-          resolve(data);
-        },
+        resolve(data);
+      },
         err => {
           resolve(err);
         });
@@ -60,8 +61,8 @@ export class ListService {
       this._http.get<List[]>(this._baseurl + '/lists/pending', {
         params
       }).subscribe(data => {
-          resolve(data);
-        },
+        resolve(data);
+      },
         err => {
           resolve(err);
         });
@@ -79,18 +80,4 @@ export class ListService {
   getAllSubjects(): Promise<Subject[]> {
     return this._http.get<Subject[]>(this._baseurl + '/subjects', this._httpOptions).toPromise();
   }
-
-  getListsByClassroom(classroomId: string, status?: ApplicationListStatus): Promise<List[]> {
-    const options = {
-      headers: this._httpOptions.headers,
-      params: status ? { status: status.toString() } : null,
-    };
-
-    return this._http.get<List[]>(this._baseurl + '/lists/applications/' + classroomId, options).toPromise();
-  }
-
-  finishListApplication(listApplicationId: string): Promise<any> {
-    return this._http.post<any>(this._baseurl + '/lists/finish/' + listApplicationId, this._httpOptions).toPromise();
-  }
-
 }
