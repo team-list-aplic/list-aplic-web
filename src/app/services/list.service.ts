@@ -90,7 +90,7 @@ export class ListService {
   }
 
   finishListApplication(listApplicationId: string): Promise<any> {
-    return this._http.get<any>(this._baseurl + '/lists/finish/' + listApplicationId, this._httpOptions).toPromise();
+    return this._http.post<any>(this._baseurl + '/lists/finish/' + listApplicationId, this._httpOptions).toPromise();
   }
 
 }
