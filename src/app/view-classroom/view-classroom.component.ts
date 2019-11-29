@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
 import { Classroom } from '../models/classroom.model';
@@ -8,6 +8,7 @@ import { ListService } from '../services/list.service';
 import { LoadingService } from '../services/loading.service';
 import { LoginService } from '../services/login.service';
 import { NotificationsService } from 'angular2-notifications';
+import { ApplicationListStatus } from '../models/enums/application-list-status';
 
 @Component({
   selector: 'list-aplic-view-classroom',
@@ -16,8 +17,14 @@ import { NotificationsService } from 'angular2-notifications';
 })
 export class ViewClassroomComponent implements OnInit {
 
+  @ViewChild("myDiv", { static: true }) divView: ElementRef;
+
   classroom: Classroom = {};
-  pendingList: List[];
+
+  newLists: List[] = [];
+  startedLists: List[] = [];
+  finishedLists: List[] = [];
+
   list: any;
   questions: any;
   user: any;
@@ -28,8 +35,7 @@ export class ViewClassroomComponent implements OnInit {
     private readonly _listService: ListService,
     private readonly _notificationsService: NotificationsService,
     private readonly _loadingService: LoadingService,
-    private readonly _loginService: LoginService,
-    private el: ElementRef) {
+    private readonly _loginService: LoginService) {
     this.classroom.id = this._route.snapshot.paramMap.get('id');
     this.user = this._loginService.readLoggedUser();
   }
@@ -38,7 +44,8 @@ export class ViewClassroomComponent implements OnInit {
     if (this.classroom.id !== null) {
       this.loadDataClassroom(this.classroom.id);
     }
-    this.listPendingLists();
+
+    this.loadLists();
     this.list = null;
     this.questions = null;
   }
@@ -65,10 +72,10 @@ export class ViewClassroomComponent implements OnInit {
       });
   }
 
-  listPendingLists() {
+  loadLists() {
     this._loadingService.processing = true;
 
-    this._listService.findPendingLists(this.user.id)
+    this._listService.findLists(this.user.id, this.classroom.id)
       .then(data => {
         this.response = data;
 
@@ -80,27 +87,45 @@ export class ViewClassroomComponent implements OnInit {
         }
         //Success
         else {
-          this.pendingList = data;
+          this.newLists = [];
+          this.startedLists = [];
+          this.finishedLists = [];
+
+          //Separa as listas por status
+          data.forEach(list => {
+            if (list.status === ApplicationListStatus.NAO_INICIADA) {
+              this.newLists.push(list);
+            }
+            else if (list.status === ApplicationListStatus.EM_ANDAMENTO) {
+              this.startedLists.push(list);
+            }
+            else {
+              this.finishedLists.push(list);
+            }
+          });
         }
       }).finally(() => this._loadingService.processing = false);
   }
 
-  async sendAnswers() {
-    console.log(this.list);
+  async sendAnswers(status: string) {
     let validate = true;
-    if (this.list && this.list.questions) {
-      this.list.questions.forEach(question => {
-        if (!question.answer) {
-          validate = false;
-          return;
-        }
-      });
+
+    //Só valida as questões se for um envio de respostas completo
+    if (status === 'SAVE') {
+      if (this.list && this.list.questions) {
+        this.list.questions.forEach(question => {
+          if (!question.answer) {
+            validate = false;
+            return;
+          }
+        });
+      }
     }
 
     if (validate) {
       try {
         this._loadingService.processing = true;
-        await this._listService.sendAnswers(this.list, this.user.id);
+        await this._listService.sendAnswers(this.list, status, this.user.id);
         this._notificationsService.success('Respostas enviadas', '', { timeOut: 3000 });
         this.ngOnInit();
       } catch (error) {
@@ -125,17 +150,22 @@ export class ViewClassroomComponent implements OnInit {
 
     e.preventDefault();
 
-    let myTagActive = this.el.nativeElement.querySelector(".active");
-    let myTabActive = this.el.nativeElement.querySelector(".show");
+    let myTagActive = this.divView.nativeElement.querySelector(".active");
+    let myTabActive = this.divView.nativeElement.querySelector(".show");
 
-    myTagActive.classList.remove('active');
-    myTabActive.classList.remove('active');
-    myTabActive.classList.remove('show');
-
-    let tab = this.el.nativeElement.querySelector("." + e.currentTarget.id);
-
+    if(myTabActive != null){
+      myTagActive.classList.remove('active');
+      myTabActive.classList.remove('active');
+      myTabActive.classList.remove('show');
+    }
+   
     e.currentTarget.classList.add('active');
-    tab.classList.add('active');
-    tab.classList.add('show');
+
+    let tab = this.divView.nativeElement.querySelector("." + e.currentTarget.id);
+
+    if(tab != null){
+      tab.classList.add('active');
+      tab.classList.add('show');
+    }
   }
 }

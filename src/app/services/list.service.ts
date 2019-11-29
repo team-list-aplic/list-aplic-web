@@ -49,16 +49,18 @@ export class ListService {
     return this._http.get<List[]>(this._baseurl + '/lists/', options).toPromise();
   }
 
-  findPendingLists(studentId: string): Promise<List[]> {
+  findLists(studentId: string, classroomId: string): Promise<List[]> {
     const params = {
-      studentId: studentId
+      studentId: studentId,
+      classroomId: classroomId
     };
+    
     return new Promise(resolve => {
       this._http.get<List[]>(this._baseurl + '/lists/pending', {
         params
       }).subscribe(data => {
-          resolve(data);
-        },
+        resolve(data);
+      },
         err => {
           resolve(err);
         });
@@ -69,8 +71,8 @@ export class ListService {
     return this._http.post<Apply>(this._baseurl + '/lists/apply', JSON.stringify(apply), this._httpOptions).toPromise();
   }
 
-  sendAnswers(list: any, studentId: string): Promise<any> {
-    return this._http.post<List[]>(this._baseurl + '/lists/answer?studentId=' + studentId, list, this._httpOptions).toPromise();
+  sendAnswers(list: any, status: string, studentId: string): Promise<any> {
+    return this._http.post<List[]>(this._baseurl + '/lists/answer/' + status + '?studentId=' + studentId, list, this._httpOptions).toPromise();
   }
 
   getAllSubjects(): Promise<Subject[]> {

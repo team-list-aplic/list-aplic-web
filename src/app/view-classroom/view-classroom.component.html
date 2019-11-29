@@ -1,5 +1,5 @@
 <br>
-<div class="container">
+<div #myDiv class="container">
   <div class="form-row">
     <div class="col-md-12">
       <div class="card">
@@ -11,30 +11,62 @@
           <div class="bd-example bd-example-tabs">
             <div class="row">
               <div class="col-md-4">
-                <h6>Listas Pendentes:</h6>
-                <div class="col-md-12" *ngFor="let list of pendingList">
+                <h6>Listas Novas:</h6>
+                <div class="col-md-12" *ngFor="let list of newLists">
                   <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link" id="listasPendentes" data-toggle="pill" href="#" role="tab" aria-selected="true"
+                    <a class="nav-link" id="listas" data-toggle="pill" href="#" role="tab" aria-selected="true"
                       (click)="tab($event, list)">
                       {{list.name}}
                     </a>
                   </div>
                 </div>
-                <div class="col-md-12" *ngIf="pendingList?.length == 0">
-                  Nenhuma lista pendente
+                <div class="col-md-12" *ngIf="newLists?.length == 0">
+                  Nenhuma lista nova
+                </div>
+
+                <br>
+
+                <h6>Listas Começadas:</h6>
+                <div class="col-md-12" *ngFor="let list of startedLists">
+                  <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link" id="listas" data-toggle="pill" href="#" role="tab" aria-selected="true"
+                      (click)="tab($event, list)">
+                      {{list.name}}
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="startedLists?.length == 0">
+                  Nenhuma lista foi começada
+                </div>
+
+                <br>
+
+                <h6>Listas Finalizadas:</h6>
+                <div class="col-md-12" *ngFor="let list of finishedLists">
+                  <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link" id="listas" data-toggle="pill" href="#" role="tab" aria-selected="true"
+                      (click)="tab($event, list)">
+                      {{list.name}}
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="finishedLists?.length == 0">
+                  Nenhuma lista foi finalizada
                 </div>
               </div>
+
               <div class="col-md-8">
                 <div *ngIf="questions">
                   <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane listasPendentes fade show active" role="tabpanel">
+                    <div class="tab-pane listas fade show active" role="tabpanel">
                       <div class="row">
                         <div class="col-md-12" *ngFor="let question of questions">
                           <div class="col-md-12">
                             <div class="form-group">
                               <span>{{question.name}}</span>
-                              <textarea style="margin-top: 5px;" class="form-control" [(ngModel)]="question.answer"
-                                placeholder="Resposta..." required></textarea>
+                              <textarea [disabled]="list.status=='ENCERRADA'" style="margin-top: 5px;"
+                                class="form-control" [(ngModel)]="question.answer" placeholder="Resposta..."
+                                required></textarea>
                             </div>
                           </div>
                         </div>
@@ -43,13 +75,24 @@
                   </div>
                   <hr>
 
-                  <button style="float: right;" (click)="sendAnswers()" class="btn btn-primary">Enviar
-                    Respostas
-                  </button>
+                  <div class="row" id="btnSaveSendQuestions" *ngIf="list.status!='ENCERRADA'">
+                    <div class="col-md-12">
+                      <div class="form-group" style="text-align: right;">
+                        <button (click)="sendAnswers('DRAFT')" class="btn btn-primary">
+                          Salvar
+                        </button>
+                        &nbsp;
+                        <button (click)="sendAnswers('SAVE')" class="btn btn-primary">
+                          Enviar Respostas
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
-                <div *ngIf="!questions&&pendingList?.length > 0">
+                <div *ngIf="!questions&&(newLists?.length > 0 || startedLists?.length > 0 || finishedLists?.length > 0)">
                   <br>
-                  <p  class="text-center">Selecione uma lista pendente ao lado para responder...</p>
+                  <p class="text-center">Selecione uma lista ao lado para responder...</p>
                 </div>
               </div>
             </div>
