@@ -1,7 +1,4 @@
-export enum QuestionType {
-  DISCURSIVE,
-  OBJECTIVE,
-}
+import { QuestionType } from "./enums/question-type";
 
 export interface Question {
   id?: string;

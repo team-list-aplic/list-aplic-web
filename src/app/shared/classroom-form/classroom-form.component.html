@@ -7,8 +7,8 @@
     <div class="form-group">
       <select [(ngModel)]="classroom.subjectCode" class="custom-select" name="subjectCode">
         <option [defaultSelected]="true" [value]="undefined">Disciplina</option>
-        <option *ngFor="let subject of subjects" [value]="subject.codigo">{{subject.codigo}}
-          - {{subject.descricao}}</option>
+        <option *ngFor="let subject of subjects" [value]="subject.code">{{subject.code}}
+          - {{subject.name}}</option>
       </select>
     </div>
 

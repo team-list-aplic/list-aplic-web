@@ -147,7 +147,7 @@
           </td>
           <td>
             <li *ngFor="let sub of list.subjects">
-              {{ sub.descricao }}
+              {{ (sub.name || sub.descricao) || 'Não informado' }}
             </li>
           </td>
           <td>
