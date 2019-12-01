@@ -1,0 +1,35 @@
+<div *ngFor="let question of questions" class="card">
+  <div class="card-header list-header" id="headingOne">
+    <div>
+      <h5>
+        {{ question.name || 'Não informado' }} <span class="badge badge-pill badge-info" style="font-size: 13px">Múltipla Escolha</span>
+      </h5>
+      <p class="text-grey anwser">Respostas: </p>
+      <div class="associate-question">
+        <div>
+          <b>Coluna principal</b>
+          <ul>
+            <li *ngFor="let answer of question.expectedAnswers">
+              ({{ answer.colunaPrincipal?.letra}}) {{ answer.colunaPrincipal?.descricao || 'Não informado' }}
+            </li>
+          </ul>
+        </div>
+        <div>
+          <b>Coluna associada</b>
+          <ul>
+            <li *ngFor="let answer of question.expectedAnswers">
+              ({{ answer.colunaAssociada?.letra}}) {{ answer.colunaAssociada?.descricao || 'Não informado' }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+<p>
+  <i *ngIf="!questions || questions.length == 0">
+    Não há Questões
+  </i>
+</p>

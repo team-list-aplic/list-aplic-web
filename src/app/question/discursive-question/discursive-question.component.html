@@ -1,0 +1,20 @@
+<div *ngFor="let question of questions" class="card">
+  <div class="card-header list-header" id="headingOne">
+    <div>
+      <h5>
+        {{ question.name || 'Não informado' }} <span class="badge badge-pill badge-info" style="font-size: 13px">Discursiva</span>
+      </h5>
+      <p class="text-grey anwser">Resposta Esperada:
+        <i *ngFor="let answer of question.expectedAnswers; let i = index"> {{ answer.descricao || 'Não informado' }}
+          <span *ngIf="i != question.expectedAnswers.length - 1">, </span></i>
+      </p>
+    </div>
+  </div>
+</div>
+
+<br>
+<p>
+  <i *ngIf="!questions || questions.length == 0">
+    Não há Questões
+  </i>
+</p>

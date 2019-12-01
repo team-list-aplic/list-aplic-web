@@ -1,14 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
-import { Classroom } from '../models/classroom.model';
-import { ClassroomService } from '../services/classroom.service';
-import { List } from '../models/list.model';
-import { ListService } from '../services/list.service';
-import { LoadingService } from '../services/loading.service';
-import { LoginService } from '../services/login.service';
+import { Classroom } from '../../models/classroom.model';
+import { ClassroomService } from '../../services/classroom.service';
+import { List } from '../../models/list.model';
+import { ListService } from '../../services/list.service';
+import { LoadingService } from '../../services/loading.service';
+import { LoginService } from '../../services/login.service';
 import { NotificationsService } from 'angular2-notifications';
-import { ApplicationListStatus } from '../models/enums/application-list-status';
+import { ApplicationListStatus } from '../../models/enums/application-list-status';
 
 @Component({
   selector: 'list-aplic-view-classroom',
@@ -158,7 +158,7 @@ export class ViewClassroomComponent implements OnInit {
       myTabActive.classList.remove('active');
       myTabActive.classList.remove('show');
     }
-   
+
     e.currentTarget.classList.add('active');
 
     let tab = this.divView.nativeElement.querySelector("." + e.currentTarget.id);

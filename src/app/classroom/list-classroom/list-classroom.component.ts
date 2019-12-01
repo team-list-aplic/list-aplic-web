@@ -1,19 +1,19 @@
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 
-import { Classroom } from '../models/classroom.model';
-import { ClassroomService } from '../services/classroom.service';
-import { LoadingService } from '../services/loading.service';
-import { LoginService } from '../services/login.service';
+import { Classroom } from '../../models/classroom.model';
+import { ClassroomService } from '../../services/classroom.service';
+import { LoadingService } from '../../services/loading.service';
+import { LoginService } from '../../services/login.service';
 import { NotificationsService } from 'angular2-notifications';
 import { Router } from '@angular/router';
-import { Student } from '../models/student.model';
-import { StudentService } from '../services/student.service';
-import { StatisticsService } from "../services/statistics.service";
-import { Statistic } from "../models/statistic.model";
-import { ListService } from "../services/list.service";
-import { List } from "../models/list.model";
-import { ApplicationListStatus } from "../models/enums/application-list-status";
+import { Student } from '../../models/student.model';
+import { StudentService } from '../../services/student.service';
+import { StatisticsService } from "../../services/statistics.service";
+import { Statistic } from "../../models/statistic.model";
+import { ListService } from "../../services/list.service";
+import { List } from "../../models/list.model";
+import { ApplicationListStatus } from "../../models/enums/application-list-status";
 
 type IEnumApplicationListStatus<R> = { [key in keyof typeof ApplicationListStatus]: R };
 
