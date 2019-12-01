@@ -75,7 +75,7 @@ export class SearchClassroomComponent implements OnInit {
     //Pega a data e hora atual para a parte inicial
     this.initialDateAplication = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
 
-    var time = new Date();
+    const time = new Date();
     time.setHours(time.getHours() + 1);
     this.initialTimeAplication = this.datePipe.transform(time, "HH:mm");
   }
