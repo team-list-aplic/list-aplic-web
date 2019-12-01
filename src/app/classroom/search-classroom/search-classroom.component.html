@@ -318,24 +318,7 @@
           <div class="card questions-card">
             <div class="card-body">
               <h5 class="card-title">Questões</h5>
-
-              <div *ngFor="let question of currentList.questions" class="card">
-                <div class="card-header list-header" id="headingOne">
-                  <div>
-                    <h4 class="mb-0">
-                      {{ question.name || 'Não informado' }}
-                    </h4>
-                    <p class="text-grey anwser">Resposta Esperada: {{ question.expectedAnswers || 'Não informado' }}</p>
-                  </div>
-                  <div>
-                    <span class="badge badge-pill badge-info">Discursiva</span>
-                  </div>
-                </div>
-              </div>
-
-              <i *ngIf="!currentList.questions || currentList.questions.length == 0">
-                Não há Questões
-              </i>
+              <list-aplic-question [questions]="currentList.questions || []"></list-aplic-question>
             </div>
           </div>
         </div>

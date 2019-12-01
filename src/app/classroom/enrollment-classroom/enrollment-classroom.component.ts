@@ -1,11 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {Classroom} from '../models/classroom.model';
-import {NgForm} from '@angular/forms';
-import {StudentService} from '../services/student.service';
-import {NotificationsService} from 'angular2-notifications';
-import {LoadingService} from '../services/loading.service';
-import {Router} from '@angular/router';
-import {LoginService} from '../services/login.service';
+import { Component, OnInit } from '@angular/core';
+import { Classroom } from '../../models/classroom.model';
+import { NgForm } from '@angular/forms';
+import { StudentService } from '../../services/student.service';
+import { NotificationsService } from 'angular2-notifications';
+import { LoadingService } from '../../services/loading.service';
+import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'list-aplic-enrollment-classroom',

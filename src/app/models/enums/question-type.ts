@@ -1,6 +1,6 @@
 export enum QuestionType {
-  DISCURSIVE = 'Discursiva',
-  MULTIPLE_CHOICE = 'Múltipla escolha',
-  TRUE_OR_FALSE = 'Verdadeiro ou Falso',
-  COLUMN_BINDING = 'Associativas',
+  DISCURSIVE = 'DISCURSIVE',
+  MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
+  TRUE_OR_FALSE = 'TRUE_OR_FALSE',
+  COLUMN_BINDING = 'COLUMN_BINDING',
 }

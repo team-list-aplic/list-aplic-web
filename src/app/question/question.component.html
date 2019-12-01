@@ -1,0 +1,32 @@
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a aria-controls="dis" aria-selected="true" class="nav-link active" data-toggle="tab" href="#dis" id="dis-tab"
+       role="tab">Discursivas</a>
+  </li>
+  <li class="nav-item">
+    <a aria-controls="mult" aria-selected="false" class="nav-link" data-toggle="tab" href="#mult" id="mult-tab"
+       role="tab">Múltipla Escolha</a>
+  </li>
+  <li class="nav-item">
+    <a aria-controls="vf" aria-selected="false" class="nav-link" data-toggle="tab" href="#vf" id="vf-tab" role="tab">Verdadeiro
+      ou Falso</a>
+  </li>
+  <li class="nav-item">
+    <a aria-controls="assoc" aria-selected="false" class="nav-link" data-toggle="tab" href="#assoc" id="assoc-tab"
+       role="tab">Associativas</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div aria-labelledby="dis-tab" class="tab-pane fade show active" id="dis" role="tabpanel">
+    <list-aplic-discursive-question [questions]="discursiveQuestions"></list-aplic-discursive-question>
+  </div>
+  <div aria-labelledby="mult-tab" class="tab-pane fade" id="mult" role="tabpanel">
+    <list-aplic-multiple-choices-question [questions]="multipleChoicesQuestions"></list-aplic-multiple-choices-question>
+  </div>
+  <div aria-labelledby="vf-tab" class="tab-pane fade" id="vf" role="tabpanel">
+    <list-aplic-true-false-question [questions]="trueFalseQuestions"></list-aplic-true-false-question>
+  </div>
+  <div aria-labelledby="assoc-tab" class="tab-pane fade" id="assoc" role="tabpanel">
+    <list-aplic-associate-question [questions]="associativeQuestions"></list-aplic-associate-question>
+  </div>
+</div>
