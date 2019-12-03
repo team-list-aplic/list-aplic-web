@@ -9,7 +9,7 @@
         </div>
         <div class="card-body">
           <form #form="ngForm" (ngSubmit)="submitFilter(form)">
-            <div class="container col-md-8">
+            <div class="container col-md-10">
               <div class="row">
                 <div class="col-md-6 custom-control">
                   <p><b>Área de Conhecimento</b></p>
@@ -26,9 +26,9 @@
                 </div>
                 <div class="col-md-6 custom-control">
                   <div aria-label="First group" class="btn-group mr-2" role="group">
-                    <button (click)="setLevel(level)" *ngFor="let level of difficultyLevels"
+                    <button (click)="setLevel(level)" *ngFor="let level of difficultyLevels" class="btn btn-primary"
                             [ngStyle]="checkIsSelected(level)"
-                            class="btn btn-primary" type="button">{{ level }}
+                            style="font-size: 14px" type="button">{{ translateDifficultyLevel(level) }}
                     </button>
                   </div>
                 </div>
@@ -64,8 +64,8 @@
                 <div class="col-md-6 custom-control">
                   <select [(ngModel)]="subjectFilter" class="custom-select" name="subjectFilter">
                     <option [defaultSelected]="true" [value]="undefined" disabled>Selecione</option>
-                    <option *ngFor="let subject of subjects" [value]="subject.codigo">{{subject.codigo}}
-                      - {{subject.descricao}}</option>
+                    <option *ngFor="let subject of subjects" [value]="subject.code">{{subject.code}}
+                      - {{subject.name}}</option>
                   </select>
                 </div>
               </div>
@@ -116,7 +116,7 @@
                     <td align="center">{{ list.answerTime + ' minuto(s)' || 'Não informado'}}</td>
                     <td>
                       <li *ngFor="let sub of list.subjects">
-                        {{ sub.descricao }}
+                        {{ (sub.name || sub.descricao) || 'Não informado' }}
                       </li>
                     </td>
                     <td class="text-right">
@@ -298,7 +298,7 @@
             <p>Disciplinas</p>
             <ul class="list-group list-group-flush">
               <li *ngFor="let sub of currentList.subjects" class="list-group-item">
-                {{ sub.descricao || 'Não informado' }}</li>
+                {{ (sub.name || sub.descricao) || 'Não informado' }}</li>
             </ul>
             <i *ngIf="!currentList.subjects || currentList.subjects.length == 0">
               Não há Disciplinas
@@ -318,24 +318,7 @@
           <div class="card questions-card">
             <div class="card-body">
               <h5 class="card-title">Questões</h5>
-
-              <div *ngFor="let question of currentList.questions" class="card">
-                <div class="card-header list-header" id="headingOne">
-                  <div>
-                    <h4 class="mb-0">
-                      {{ question.name || 'Não informado' }}
-                    </h4>
-                    <p class="text-grey anwser">Resposta Esperada: {{ question.expectedAnswers || 'Não informado' }}</p>
-                  </div>
-                  <div>
-                    <span class="badge badge-pill badge-info">Discursiva</span>
-                  </div>
-                </div>
-              </div>
-
-              <i *ngIf="!currentList.questions || currentList.questions.length == 0">
-                Não há Questões
-              </i>
+              <list-aplic-question [questions]="currentList.questions || []"></list-aplic-question>
             </div>
           </div>
         </div>

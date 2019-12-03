@@ -1,20 +1,20 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { Classroom } from '../models/classroom.model';
+import { Classroom } from '../../models/classroom.model';
 import { ActivatedRoute } from '@angular/router';
-import { ClassroomService } from '../services/classroom.service';
+import { ClassroomService } from '../../services/classroom.service';
 import { NotificationsService } from 'angular2-notifications';
-import { LoadingService } from '../services/loading.service';
+import { LoadingService } from '../../services/loading.service';
 import { NgForm } from '@angular/forms';
-import { List } from '../models/list.model';
-import { ListService } from '../services/list.service';
-import { LoginService } from '../services/login.service';
+import { List } from '../../models/list.model';
+import { ListService } from '../../services/list.service';
+import { LoginService } from '../../services/login.service';
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
-import { Subject } from "../models/subject.model";
+import { Subject } from "../../models/subject.model";
 import { DatePipe } from '@angular/common';
-import { Apply } from '../models/apply.model';
-import { DifficultyLevel } from "../models/enums/difficulty-level";
-import { KnowledgeAreas } from "../models/knowledge-areas.model";
-import { FiltersList } from "../models/filters-list.model";
+import { Apply } from '../../models/apply.model';
+import { DifficultyLevel } from "../../models/enums/difficulty-level";
+import { KnowledgeAreas } from "../../models/knowledge-areas.model";
+import { FiltersList } from "../../models/filters-list.model";
 
 @Component({
   selector: 'list-aplic-search-classroom',
@@ -75,7 +75,7 @@ export class SearchClassroomComponent implements OnInit {
     //Pega a data e hora atual para a parte inicial
     this.initialDateAplication = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
 
-    var time = new Date();
+    const time = new Date();
     time.setHours(time.getHours() + 1);
     this.initialTimeAplication = this.datePipe.transform(time, "HH:mm");
   }
@@ -93,7 +93,6 @@ export class SearchClassroomComponent implements OnInit {
   addTag(tag: string) {
     this.tags.push(tag.trim());
     this.currentTag = '';
-    console.log(this.tags, this.currentTag);
   }
 
   removeTag(tag: string) {

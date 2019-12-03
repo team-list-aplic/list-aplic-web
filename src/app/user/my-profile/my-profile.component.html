@@ -58,7 +58,8 @@
           </p>
         </div>
       </div>
-      <p *ngIf="statistics?.topFiveQuestions?.length <= 0"><i>O docente não possui questões aplicadas.</i></p>
+      <p *ngIf="statistics?.topFiveQuestions?.length <= 0 && !statistics.errorMessage"><i>O docente não possui questões
+        aplicadas.</i></p>
       <ng-template #message>
         <p><i>{{statistics.errorMessage}}</i></p>
       </ng-template>
