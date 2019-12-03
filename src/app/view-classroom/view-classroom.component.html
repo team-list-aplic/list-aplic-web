@@ -5,7 +5,7 @@
       <div class="card">
         <div class="card-header">
           <h4 class="card-title font-weight-bold">{{ classroom.name }}</h4>
-          <p><span style="font-style: italic;">{{ classroom.subjectCode }}</span></p>
+          <p><span style="font-style: italic;">{{ classroom.code }}</span></p>
         </div>
         <div class="card-body">
           <div class="bd-example bd-example-tabs">
@@ -61,12 +61,72 @@
                     <div class="tab-pane listas fade show active" role="tabpanel">
                       <div class="row">
                         <div class="col-md-12" *ngFor="let question of questions">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <span>{{question.name}}</span>
-                              <textarea [disabled]="list.status=='ENCERRADA'" style="margin-top: 5px;"
-                                class="form-control" [(ngModel)]="question.answer" placeholder="Resposta..."
-                                required></textarea>
+                          <div class="form-group" *ngIf="question.type=='DISCURSIVE'">
+                            <strong>{{question.name}}</strong>
+                            <textarea [disabled]="list.status=='ENCERRADA'" style="margin-top: 5px;"
+                              class="form-control" [(ngModel)]="question.answer" placeholder="Resposta..."
+                              required></textarea>
+                          </div>
+
+                          <div class="form-group" *ngIf="question.type=='MULTIPLE_CHOICE'">
+                            <strong>{{question.name}}</strong>
+
+                            <div class="custom-control custom-radio" *ngFor="let option of question.expectedAnswers">
+                              <input type="radio" class="custom-control-input" id="{{option.descricao}}"
+                                [(ngModel)]="question.answer" [value]="option.descricao" name="{{question.id}}"
+                                [disabled]="list.status=='ENCERRADA'">
+                              <label class="custom-control-label"
+                                for="{{option.descricao}}">{{option.descricao}}</label>
+                            </div>
+                          </div>
+
+                          <div class="form-group" *ngIf="question.type=='TRUE_OR_FALSE'">
+                            <strong>{{question.name}}</strong>
+
+                            <div class="form-row">
+                              <div class="col-md-4">
+                                <div class="custom-control custom-radio">
+                                  <input type="radio" class="custom-control-input" id="{{question.id}}-Verdadeiro"
+                                    [(ngModel)]="question.answer" [value]="true" name="{{question.id}}"
+                                    [disabled]="list.status=='ENCERRADA'">
+                                  <label class="custom-control-label"
+                                    for="{{question.id}}-Verdadeiro">Verdadeiro</label>
+                                </div>
+                              </div>
+
+                              <div class="col-md-4">
+                                <div class="custom-control custom-radio">
+                                  <input type="radio" class="custom-control-input" id="{{question.id}}-Falso"
+                                    [(ngModel)]="question.answer" [value]="false" name="{{question.id}}"
+                                    [disabled]="list.status=='ENCERRADA'">
+                                  <label class="custom-control-label" for="{{question.id}}-Falso">Falso</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="form-group" *ngIf="question.type=='COLUMN_BINDING'">
+                            <strong>{{question.name}}</strong>
+                            <div class="form-row">
+                              <div class="col-md-4">
+                                <div *ngFor="let coluna of question.expectedAnswers">
+                                  <label>
+                                    {{coluna.colunaPrincipal.letra}} - {{coluna.colunaPrincipal.descricao}}
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div *ngFor="let coluna of question.expectedAnswers">
+                                  <div class="input-group input-group-sm mb-1">
+                                    <input [(ngModel)]="coluna.colunaAssociada.answer" type="text"
+                                      class="form-control form-control-sm col-1"
+                                      [disabled]="list.status=='ENCERRADA'" />
+                                    <div class="input-group-append">
+                                      <span class="input-group-text"> - {{coluna.colunaAssociada.descricao}}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -90,7 +150,8 @@
                   </div>
 
                 </div>
-                <div *ngIf="!questions&&(newLists?.length > 0 || startedLists?.length > 0 || finishedLists?.length > 0)">
+                <div
+                  *ngIf="!questions&&(newLists?.length > 0 || startedLists?.length > 0 || finishedLists?.length > 0)">
                   <br>
                   <p class="text-center">Selecione uma lista ao lado para responder...</p>
                 </div>

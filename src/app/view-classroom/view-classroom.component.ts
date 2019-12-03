@@ -93,13 +93,26 @@ export class ViewClassroomComponent implements OnInit {
 
           //Separa as listas por status
           data.forEach(list => {
-            if (list.status === ApplicationListStatus.NAO_INICIADA) {
-              this.newLists.push(list);
+            //Se a lista estiver disponível para ser respondida ela pode ser vista de duas formas:
+            if (list.status === ApplicationListStatus.EM_ANDAMENTO) {
+              let started = false;
+
+              list.questions.forEach(question => {
+                if (question.answer !== undefined) {
+                  started = true;
+                }
+              });
+
+              //lista nova
+              if (!started) {
+                this.newLists.push(list);
+              }
+              //lista começada
+              else {
+                this.startedLists.push(list);
+              }
             }
-            else if (list.status === ApplicationListStatus.EM_ANDAMENTO) {
-              this.startedLists.push(list);
-            }
-            else {
+            else if (list.status === ApplicationListStatus.ENCERRADA) {
               this.finishedLists.push(list);
             }
           });
@@ -122,6 +135,11 @@ export class ViewClassroomComponent implements OnInit {
       }
     }
 
+    this.list.questions.forEach(question => {
+      question.expectedAnswers = null;
+    });
+
+    debugger
     if (validate) {
       try {
         this._loadingService.processing = true;
@@ -153,17 +171,17 @@ export class ViewClassroomComponent implements OnInit {
     let myTagActive = this.divView.nativeElement.querySelector(".active");
     let myTabActive = this.divView.nativeElement.querySelector(".show");
 
-    if(myTabActive != null){
+    if (myTabActive != null) {
       myTagActive.classList.remove('active');
       myTabActive.classList.remove('active');
       myTabActive.classList.remove('show');
     }
-   
+
     e.currentTarget.classList.add('active');
 
     let tab = this.divView.nativeElement.querySelector("." + e.currentTarget.id);
 
-    if(tab != null){
+    if (tab != null) {
       tab.classList.add('active');
       tab.classList.add('show');
     }
