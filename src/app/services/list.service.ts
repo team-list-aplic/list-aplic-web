@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
+import { ApplicationListStatus } from "../models/enums/application-list-status";
+import { Apply } from '../models/apply.model';
+import { FiltersList } from "../models/filters-list.model";
 import { Injectable } from '@angular/core';
+import { KnowledgeAreas } from "../models/knowledge-areas.model";
 import { List } from '../models/list.model';
 import { Subject } from "../models/subject.model";
 import { environment } from '../../environments/environment';
-import { Apply } from '../models/apply.model';
-import { ApplicationListStatus } from "../models/enums/application-list-status";
-import { KnowledgeAreas } from "../models/knowledge-areas.model";
-import { FiltersList } from "../models/filters-list.model";
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +54,7 @@ export class ListService {
       studentId: studentId,
       classroomId: classroomId
     };
-    
+
     return new Promise(resolve => {
       this._http.get<List[]>(this._baseurl + '/lists/pending', {
         params
@@ -92,8 +92,8 @@ export class ListService {
     return this._http.get<List[]>(this._baseurl + '/lists/applications/' + classroomId, options).toPromise();
   }
 
-  finishListApplication(listApplicationId: string): Promise<any> {
-    return this._http.get<any>(this._baseurl + '/lists/finish/' + listApplicationId, this._httpOptions).toPromise();
+  finishListApplication(id: string): Promise<any> {
+    return this._http.post<any>(this._baseurl + '/lists/finish/' + id, this._httpOptions).toPromise();
   }
 
 }
