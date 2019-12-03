@@ -1,19 +1,19 @@
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 
+import { ApplicationListStatus } from "../../models/enums/application-list-status";
 import { Classroom } from '../../models/classroom.model';
 import { ClassroomService } from '../../services/classroom.service';
+import { List } from "../../models/list.model";
+import { ListService } from "../../services/list.service";
 import { LoadingService } from '../../services/loading.service';
 import { LoginService } from '../../services/login.service';
 import { NotificationsService } from 'angular2-notifications';
 import { Router } from '@angular/router';
+import { Statistic } from "../../models/statistic.model";
+import { StatisticsService } from "../../services/statistics.service";
 import { Student } from '../../models/student.model';
 import { StudentService } from '../../services/student.service';
-import { StatisticsService } from "../../services/statistics.service";
-import { Statistic } from "../../models/statistic.model";
-import { ListService } from "../../services/list.service";
-import { List } from "../../models/list.model";
-import { ApplicationListStatus } from "../../models/enums/application-list-status";
 
 type IEnumApplicationListStatus<R> = { [key in keyof typeof ApplicationListStatus]: R };
 
@@ -214,14 +214,14 @@ export class ListClassroomComponent implements OnInit {
   async finishListApplication(list: List) {
     try {
       this._loadingService.processing = true;
-      const resp = await this._listService.finishListApplication(list.listApplicationId);
+      const resp = await this._listService.finishListApplication(list.id);
       list.status = ApplicationListStatus.ENCERRADA;
-      this._notificationsService.success('Lista Encerrada com sucesso', { timeOut: 3000 });
+      this._notificationsService.success('Lista encerrada com sucesso', '', { timeOut: 3000 });
     } catch (error) {
       if (error.error && error.error.message) {
         this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
       }
-      (error.error.fieldErrors || []).forEach(error => {
+      (error.fieldErrors || []).forEach(error => {
         this._notificationsService.error('Ocorreu um erro', error.message, { timeOut: 3000 });
       });
     } finally {
