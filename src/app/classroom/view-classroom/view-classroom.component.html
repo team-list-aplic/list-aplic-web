@@ -108,8 +108,9 @@
                                     <input [(ngModel)]="coluna.colunaAssociada.letra" type="text"
                                       class="form-control form-control-sm col-1"
                                       [disabled]="list.status=='ENCERRADA'" />
-                                    <div class="input-group-append">
-                                      <span class="input-group-text">{{coluna.colunaAssociada.descricao}}</span>
+                                    <div class="input-group-append" style="max-width: 90%;">
+                                      <span class="input-group-text" style="white-space: normal;
+                                      max-width: 100%; text-align: left;">{{coluna.colunaAssociada.descricao}}</span>
                                     </div>
                                   </div>
                                 </div>
