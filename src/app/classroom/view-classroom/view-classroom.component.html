@@ -59,6 +59,12 @@
                 <div *ngIf="questions">
                   <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane listas fade show active" role="tabpanel">
+                      <div *ngIf="list.status !== 'ENCERRADA'">
+                        <strong>Data de Encerramento da Lista:
+                          {{list.finalDate | date: 'dd/MM/yyyy HH:mm:ss'}}</strong>
+                        <br /><br />
+                      </div>
+
                       <div class="row">
                         <div class="col-md-12" *ngFor="let question of questions">
                           <div class="form-group" *ngIf="question.type=='DISCURSIVE'">
