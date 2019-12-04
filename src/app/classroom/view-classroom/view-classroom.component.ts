@@ -1,6 +1,9 @@
+import * as uuid from 'uuid';
+
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { ActivatedRoute } from '@angular/router';
+import { ApplicationListStatus } from '../../models/enums/application-list-status';
 import { Classroom } from '../../models/classroom.model';
 import { ClassroomService } from '../../services/classroom.service';
 import { List } from '../../models/list.model';
@@ -8,7 +11,6 @@ import { ListService } from '../../services/list.service';
 import { LoadingService } from '../../services/loading.service';
 import { LoginService } from '../../services/login.service';
 import { NotificationsService } from 'angular2-notifications';
-import { ApplicationListStatus } from '../../models/enums/application-list-status';
 
 @Component({
   selector: 'list-aplic-view-classroom',
@@ -93,28 +95,54 @@ export class ViewClassroomComponent implements OnInit {
 
           //Separa as listas por status
           data.forEach(list => {
-            //Se a lista estiver disponível para ser respondida ela pode ser vista de duas formas:
-            if (list.status === ApplicationListStatus.EM_ANDAMENTO) {
-              let started = false;
+            list.questions.forEach(question => {
+              if (question.type === 'TRUE_OR_FALSE') {
+                question.expectedAnswers.forEach(expectAnswer => {
+                  expectAnswer.correta = false;
+                  if (question.answer !== undefined) {
+                    let answersArray = question.answer.split('|');
+                    answersArray.forEach(answer => {
+                      expectAnswer.id = uuid.v4();
+                      if (expectAnswer.descricao === answer) {
+                        expectAnswer.correta = true;
+                      }
+                    })
+                  }
+                });
+              }
+              if (question.type === 'COLUMN_BINDING') {
+                question.expectedAnswers.forEach(expectAnswer => {
+                  expectAnswer.colunaAssociada.letra = null;
+                  if (question.answer !== undefined) {
+                    let colunasAssociadas = question.answer.split('|');
+                    colunasAssociadas.forEach(colunaAssociada => {
+                      let answer = colunaAssociada.split('@');
+                      if (expectAnswer.colunaAssociada.descricao === answer[1]) {
+                        expectAnswer.colunaAssociada.letra = answer[0];
+                      }
+                    })
+                  }
+                });
+              }
+            });
 
-              list.questions.forEach(question => {
-                if (question.answer !== undefined) {
-                  started = true;
-                }
-              });
-
-              //lista nova
-              if (!started) {
+            switch(list.status) {
+              case ApplicationListStatus.NAO_INICIADA: {
                 this.newLists.push(list);
+                break;
               }
-              //lista começada
-              else {
+              case ApplicationListStatus.EM_ANDAMENTO: {
                 this.startedLists.push(list);
+                break;
               }
-            }
-            else if (list.status === ApplicationListStatus.ENCERRADA) {
-              this.finishedLists.push(list);
-            }
+              case ApplicationListStatus.ENCERRADA: {
+                this.finishedLists.push(list);
+                break;
+             }
+              default: {
+                break;
+              }
+           }
           });
         }
       }).finally(() => this._loadingService.processing = false);
@@ -136,10 +164,25 @@ export class ViewClassroomComponent implements OnInit {
     }
 
     this.list.questions.forEach(question => {
+      if (question.type === 'TRUE_OR_FALSE') {
+        question.answer = '';
+        question.expectedAnswers.forEach(expectedAnswer => {
+          if (expectedAnswer.correta) {
+            question.answer += expectedAnswer.descricao + '|';
+          }
+        });
+      }
+      if (question.type === 'COLUMN_BINDING') {
+        question.answer = '';
+        question.expectedAnswers.forEach(expectedAnswer => {
+          if (expectedAnswer.colunaAssociada.letra) {
+            question.answer += expectedAnswer.colunaAssociada.letra + '@' + expectedAnswer.colunaAssociada.descricao + '|';
+          }
+        });
+      }
       question.expectedAnswers = null;
     });
 
-    debugger
     if (validate) {
       try {
         this._loadingService.processing = true;
@@ -186,4 +229,5 @@ export class ViewClassroomComponent implements OnInit {
       tab.classList.add('show');
     }
   }
+
 }

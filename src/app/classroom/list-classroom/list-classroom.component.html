@@ -135,7 +135,7 @@
           <th scope="col">Título</th>
           <th scope="col">Disciplinas</th>
           <th scope="col">Áreas de Conhecimento</th>
-          <th scope="col">Data de Aplicação</th>
+          <th scope="col" width="16%">Data de Aplicação</th>
           <th scope="col">Status</th>
           <th scope="col"></th>
         </tr>
@@ -156,7 +156,7 @@
             </li>
           </td>
           <td>
-            {{ list.applicationDateTime | date: 'dd/MM/yyyy' }}
+            {{ list.applicationDateTime | date: 'dd/MM/yyyy HH:mm:ss' }}
           </td>
           <td>
             {{ translateApplicationStatus(list.status) }}
@@ -174,7 +174,7 @@
     <div *ngIf="!lists || lists?.length <= 0" class="row" style="margin-top: 25px;">
       <div class="col-md-12">
         <p class="text-center" style="font-style: italic;">Nenhuma lista foi
-          encontrada...</p>
+          aplicada!</p>
       </div>
     </div>
   </div>
