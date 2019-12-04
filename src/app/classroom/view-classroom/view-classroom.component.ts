@@ -188,7 +188,6 @@ export class ViewClassroomComponent implements OnInit {
         this._loadingService.processing = true;
         await this._listService.sendAnswers(this.list, status, this.user.id);
         this._notificationsService.success('Respostas enviadas', '', { timeOut: 3000 });
-        this.ngOnInit();
       } catch (error) {
         if (!error.error.fieldErrors || error.error.fieldErrors === []) {
           this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
@@ -198,6 +197,7 @@ export class ViewClassroomComponent implements OnInit {
           });
         }
       } finally {
+        this.ngOnInit();
         this._loadingService.processing = false;
       }
     } else {
