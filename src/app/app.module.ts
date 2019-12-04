@@ -85,5 +85,4 @@ const appRoutes: Routes = [
   providers: [StudentService, ClassroomService, DatePipe],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }

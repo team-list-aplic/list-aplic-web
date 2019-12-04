@@ -1,7 +1,7 @@
-import { QuestionCounter } from './question-counter.model';
+import { Question } from './question.model';
 
 export interface Statistic {
   completionPercentage?: number;
   errorMessage?: string;
-  topFiveQuestions?: QuestionCounter[];
+  topFiveQuestions?: Question[];
 }

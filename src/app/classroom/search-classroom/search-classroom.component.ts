@@ -183,6 +183,7 @@ export class SearchClassroomComponent implements OnInit {
 
       const value = await this._listService.sendListToGroup(this.apply);
       this._notificationsService.success('Lista enviada', '', { timeOut: 3000 });
+      this.modalRef.hide();
     } catch (error) {
       if (!error.error.fieldErrors || error.error.fieldErrors === []) {
         this._notificationsService.error('Ocorreu um erro', error.error.message, { timeOut: 3000 });
@@ -193,7 +194,6 @@ export class SearchClassroomComponent implements OnInit {
       }
     } finally {
       this._loadingService.processing = false;
-      this.modalRef.hide();
     }
   }
 
