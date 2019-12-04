@@ -32,4 +32,5 @@ export interface Question {
   type?: QuestionType;
   answer?: string;
   expectedAnswers?: any[];
+  counter?: number;
 }
