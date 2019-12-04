@@ -202,6 +202,7 @@ export class ViewClassroomComponent implements OnInit {
       }
     } else {
       this._notificationsService.error('Algumas perguntas ainda não foram respondidas.', '', { timeOut: 3000 });
+      this.ngOnInit();
     }
   }
 
