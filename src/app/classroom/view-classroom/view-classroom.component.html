@@ -73,35 +73,22 @@
 
                             <div class="custom-control custom-radio" *ngFor="let option of question.expectedAnswers">
                               <input type="radio" class="custom-control-input" id="{{option.descricao}}"
-                                [(ngModel)]="question.answer" [value]="option.descricao" name="{{question.id}}"
+                                name="{{question.id}}" [(ngModel)]="question.answer" [value]="option.descricao"
                                 [disabled]="list.status=='ENCERRADA'">
                               <label class="custom-control-label"
                                 for="{{option.descricao}}">{{option.descricao}}</label>
                             </div>
                           </div>
 
-                          <div class="form-group" *ngIf="question.type=='TRUE_OR_FALSE'">
+                          <div class="form-group" *ngIf="question.type === 'TRUE_OR_FALSE'">
                             <strong>{{question.name}}</strong>
 
-                            <div class="form-row">
-                              <div class="col-md-4">
-                                <div class="custom-control custom-radio">
-                                  <input type="radio" class="custom-control-input" id="{{question.id}}-Verdadeiro"
-                                    [(ngModel)]="question.answer" [value]="true" name="{{question.id}}"
-                                    [disabled]="list.status=='ENCERRADA'">
-                                  <label class="custom-control-label"
-                                    for="{{question.id}}-Verdadeiro">Verdadeiro</label>
-                                </div>
-                              </div>
-
-                              <div class="col-md-4">
-                                <div class="custom-control custom-radio">
-                                  <input type="radio" class="custom-control-input" id="{{question.id}}-Falso"
-                                    [(ngModel)]="question.answer" [value]="false" name="{{question.id}}"
-                                    [disabled]="list.status=='ENCERRADA'">
-                                  <label class="custom-control-label" for="{{question.id}}-Falso">Falso</label>
-                                </div>
-                              </div>
+                            <div class="custom-control custom-checkbox" *ngFor="let option of question.expectedAnswers">
+                              <input type="checkbox" class="custom-control-input" id="{{option.descricao}}"
+                                name="{{question.id}}" [(ngModel)]="option.correta"
+                                [disabled]="list.status=='ENCERRADA'" />
+                              <label class="custom-control-label"
+                                for="{{option.descricao}}">{{option.descricao}}</label>
                             </div>
                           </div>
 
@@ -115,14 +102,14 @@
                                   </label>
                                 </div>
                               </div>
-                              <div class="col-md-6">
+                              <div class="col-md-8">
                                 <div *ngFor="let coluna of question.expectedAnswers">
                                   <div class="input-group input-group-sm mb-1">
-                                    <input [(ngModel)]="coluna.colunaAssociada.answer" type="text"
+                                    <input [(ngModel)]="coluna.colunaAssociada.letra" type="text"
                                       class="form-control form-control-sm col-1"
                                       [disabled]="list.status=='ENCERRADA'" />
                                     <div class="input-group-append">
-                                      <span class="input-group-text"> - {{coluna.colunaAssociada.descricao}}</span>
+                                      <span class="input-group-text">{{coluna.colunaAssociada.descricao}}</span>
                                     </div>
                                   </div>
                                 </div>
