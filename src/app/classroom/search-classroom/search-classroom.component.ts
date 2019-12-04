@@ -91,7 +91,7 @@ export class SearchClassroomComponent implements OnInit {
   }
 
   addTag(tag: string) {
-    this.tags.push(tag.trim());
+    this.tags.push(tag.trim().replace(',', ''));
     this.currentTag = '';
   }
 
@@ -106,9 +106,9 @@ export class SearchClassroomComponent implements OnInit {
       this._loadingService.processing = true;
 
       const filters: FiltersList = {
-        subjectCode: this.subjectFilter,
+        subjectCode: this.subjectFilter === 'undefined' ? undefined : this.subjectFilter,
         difficultyLevel: this.difficultyLevel,
-        knowledgeAreaCode: this.knowledgeFilter,
+        knowledgeAreaCode: this.knowledgeFilter === 'undefined' ? undefined : this.knowledgeFilter,
         answerTime: this.answerTime,
         tags: this.tags
       };

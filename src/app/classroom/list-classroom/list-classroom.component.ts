@@ -216,6 +216,7 @@ export class ListClassroomComponent implements OnInit {
       this._loadingService.processing = true;
       const resp = await this._listService.finishListApplication(list.id);
       list.status = ApplicationListStatus.ENCERRADA;
+      this.modalRef.hide();
       this._notificationsService.success('Lista encerrada com sucesso', '', { timeOut: 3000 });
     } catch (error) {
       if (error.error && error.error.message) {

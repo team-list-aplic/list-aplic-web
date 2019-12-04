@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-md-6 custom-control">
                   <select [(ngModel)]="knowledgeFilter" class="custom-select" name="knowledgeFilter">
-                    <option [defaultSelected]="true" [value]="undefined" disabled>Selecione</option>
+                    <option [defaultSelected]="true" [value]="undefined">Selecione</option>
                     <option *ngFor="let knowledge of knowledgeAreas" [value]="knowledge.codigo">{{knowledge.codigo}}
                       - {{knowledge.descricao}}</option>
                   </select>
@@ -37,8 +37,8 @@
                 </div>
                 <div class="col-md-6 custom-control">
                   <div class="input-group mb-3">
-                    <input (keyup.space)="addTag(currentTag)" [(ngModel)]="currentTag" class="form-control" name="tag"
-                           placeholder="Entre com uma tag"
+                    <input (keyup.,)="addTag(currentTag)" [(ngModel)]="currentTag" class="form-control" name="tag"
+                           placeholder="Insira as tags separando-as por vírgulas"
                            type="text">
                   </div>
                   <p>
@@ -47,7 +47,7 @@
                   </p>
                 </div>
                 <div class="col-md-6 custom-control">
-                  <p><b>Tempo máximo de resposta</b></p>
+                  <p><b>Tempo máximo de resposta por questão</b></p>
                 </div>
                 <div class="col-md-6 custom-control">
                   <div class="input-group mb-3">
@@ -63,7 +63,7 @@
                 </div>
                 <div class="col-md-6 custom-control">
                   <select [(ngModel)]="subjectFilter" class="custom-select" name="subjectFilter">
-                    <option [defaultSelected]="true" [value]="undefined" disabled>Selecione</option>
+                    <option [defaultSelected]="true" [value]="undefined">Selecione</option>
                     <option *ngFor="let subject of subjects" [value]="subject.code">{{subject.code}}
                       - {{subject.name}}</option>
                   </select>
@@ -221,7 +221,7 @@
 
       <div class="form-row">
         <div class="col-md-5">
-          <p>Entregar em:</p>
+          <p>Entregar até:</p>
         </div>
 
         <div class="col-md-4">
@@ -275,7 +275,7 @@
       <div class="modal-content-row">
         <div class="container-fluid">
           <p><b>Autor:</b> {{ currentList.user || 'Não informado' }}</p>
-          <p><b>Tempo Máximo:</b> {{ currentList.answerTime + ' minuto(s)' || 'Não informado'}}</p>
+          <p><b>Tempo de resposta:</b> {{ currentList.answerTime + ' minuto(s)' || 'Não informado'}}</p>
           <p><b>Nível de dificuldade: </b>
             <span [class.badge-danger]="currentList.difficultyLevel === 5"
                   [class.badge-success]="currentList.difficultyLevel < 3"
