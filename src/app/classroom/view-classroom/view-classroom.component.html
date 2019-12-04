@@ -1,0 +1,152 @@
+<br>
+<div #myDiv class="container">
+  <div class="form-row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title font-weight-bold">{{ classroom.name }}</h4>
+          <p><span style="font-style: italic;">{{ classroom.code }}</span></p>
+        </div>
+        <div class="card-body">
+          <div class="bd-example bd-example-tabs">
+            <div class="row">
+              <div class="col-md-4">
+                <h6>Listas Novas:</h6>
+                <div class="col-md-12" *ngFor="let list of newLists">
+                  <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link" id="listas" data-toggle="pill" href="#" role="tab" aria-selected="true"
+                      (click)="tab($event, list)">
+                      {{list.name}}
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="newLists?.length == 0">
+                  Nenhuma lista nova
+                </div>
+
+                <br>
+
+                <h6>Listas Começadas:</h6>
+                <div class="col-md-12" *ngFor="let list of startedLists">
+                  <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link" id="listas" data-toggle="pill" href="#" role="tab" aria-selected="true"
+                      (click)="tab($event, list)">
+                      {{list.name}}
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="startedLists?.length == 0">
+                  Nenhuma lista foi começada
+                </div>
+
+                <br>
+
+                <h6>Listas Finalizadas:</h6>
+                <div class="col-md-12" *ngFor="let list of finishedLists">
+                  <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link" id="listas" data-toggle="pill" href="#" role="tab" aria-selected="true"
+                      (click)="tab($event, list)">
+                      {{list.name}}
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-12" *ngIf="finishedLists?.length == 0">
+                  Nenhuma lista foi finalizada
+                </div>
+              </div>
+
+              <div class="col-md-8">
+                <div *ngIf="questions">
+                  <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane listas fade show active" role="tabpanel">
+                      <div class="row">
+                        <div class="col-md-12" *ngFor="let question of questions">
+                          <div class="form-group" *ngIf="question.type=='DISCURSIVE'">
+                            <strong>{{question.name}}</strong>
+                            <textarea [disabled]="list.status=='ENCERRADA'" style="margin-top: 5px;"
+                              class="form-control" [(ngModel)]="question.answer" placeholder="Resposta..."
+                              required></textarea>
+                          </div>
+
+                          <div class="form-group" *ngIf="question.type=='MULTIPLE_CHOICE'">
+                            <strong>{{question.name}}</strong>
+
+                            <div class="custom-control custom-radio" *ngFor="let option of question.expectedAnswers">
+                              <input type="radio" class="custom-control-input" id="{{option.descricao}}"
+                                name="{{question.id}}" [(ngModel)]="question.answer" [value]="option.descricao"
+                                [disabled]="list.status=='ENCERRADA'">
+                              <label class="custom-control-label"
+                                for="{{option.descricao}}">{{option.descricao}}</label>
+                            </div>
+                          </div>
+
+                          <div class="form-group" *ngIf="question.type === 'TRUE_OR_FALSE'">
+                            <strong>{{question.name}}</strong>
+
+                            <div class="custom-control custom-checkbox" *ngFor="let option of question.expectedAnswers">
+                              <input type="checkbox" class="custom-control-input" id="{{option.descricao}}"
+                                name="{{question.id}}" [(ngModel)]="option.correta"
+                                [disabled]="list.status=='ENCERRADA'" />
+                              <label class="custom-control-label"
+                                for="{{option.descricao}}">{{option.descricao}}</label>
+                            </div>
+                          </div>
+
+                          <div class="form-group" *ngIf="question.type=='COLUMN_BINDING'">
+                            <strong>{{question.name}}</strong>
+                            <div class="form-row">
+                              <div class="col-md-4">
+                                <div *ngFor="let coluna of question.expectedAnswers">
+                                  <label>
+                                    {{coluna.colunaPrincipal.letra}} - {{coluna.colunaPrincipal.descricao}}
+                                  </label>
+                                </div>
+                              </div>
+                              <div class="col-md-8">
+                                <div *ngFor="let coluna of question.expectedAnswers">
+                                  <div class="input-group input-group-sm mb-1">
+                                    <input [(ngModel)]="coluna.colunaAssociada.letra" type="text"
+                                      class="form-control form-control-sm col-1"
+                                      [disabled]="list.status=='ENCERRADA'" />
+                                    <div class="input-group-append">
+                                      <span class="input-group-text">{{coluna.colunaAssociada.descricao}}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+
+                  <div class="row" id="btnSaveSendQuestions" *ngIf="list.status!='ENCERRADA'">
+                    <div class="col-md-12">
+                      <div class="form-group" style="text-align: right;">
+                        <button (click)="sendAnswers('DRAFT')" class="btn btn-primary">
+                          Salvar
+                        </button>
+                        &nbsp;
+                        <button (click)="sendAnswers('SAVE')" class="btn btn-primary">
+                          Enviar Respostas
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div
+                  *ngIf="!questions&&(newLists?.length > 0 || startedLists?.length > 0 || finishedLists?.length > 0)">
+                  <br>
+                  <p class="text-center">Selecione uma lista ao lado para responder...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

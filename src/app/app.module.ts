@@ -9,21 +9,26 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { ClassroomFormComponent } from './shared/classroom-form/classroom-form.component';
 import { ClassroomService } from './services/classroom.service';
 import { ClassroomComponent } from './classroom/classroom.component';
-import { ListClassroomComponent } from './list-classroom/list-classroom.component';
+import { ListClassroomComponent } from './classroom/list-classroom/list-classroom.component';
 import { AppComponent } from './app.component';
 import { StudentService } from './services/student.service';
-import { MyProfileComponent } from './my-profile/my-profile.component';
-import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { MyProfileComponent } from './user/my-profile/my-profile.component';
+import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalModule } from 'ngx-bootstrap';
 import { LoginModule } from './login/login.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthGuardService } from './services/auth-guard.service';
-import { EnrollmentClassroomComponent } from './enrollment-classroom/enrollment-classroom.component';
-import { ViewClassroomComponent } from './view-classroom/view-classroom.component';
-import { SearchClassroomComponent } from './search-classroom/search-classroom.component';
+import { EnrollmentClassroomComponent } from './classroom/enrollment-classroom/enrollment-classroom.component';
+import { ViewClassroomComponent } from './classroom/view-classroom/view-classroom.component';
+import { SearchClassroomComponent } from './classroom/search-classroom/search-classroom.component';
 import { DatePipe } from '@angular/common';
+import { QuestionComponent } from './question/question.component';
+import { DiscursiveQuestionComponent } from './question/discursive-question/discursive-question.component';
+import { AssociateQuestionComponent } from './question/associate-question/associate-question.component';
+import { MultipleChoicesQuestionComponent } from './question/multiple-choices-question/multiple-choices-question.component';
+import { TrueFalseQuestionComponent } from './question/true-false-question/true-false-question.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -59,6 +64,11 @@ const appRoutes: Routes = [
     EnrollmentClassroomComponent,
     ViewClassroomComponent,
     SearchClassroomComponent,
+    QuestionComponent,
+    DiscursiveQuestionComponent,
+    AssociateQuestionComponent,
+    MultipleChoicesQuestionComponent,
+    TrueFalseQuestionComponent,
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

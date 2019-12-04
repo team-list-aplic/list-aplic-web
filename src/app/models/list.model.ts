@@ -14,4 +14,6 @@ export interface List {
   status?: string;
   tags?: string[];
   subjects?: Subject[];
+  applicationDateTime?: Date;
+  answerTime?: number;
 }

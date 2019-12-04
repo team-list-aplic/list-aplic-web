@@ -1,11 +1,11 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from "ngx-bootstrap";
-import { Student } from "../models/student.model";
-import { LoginService } from "../services/login.service";
+import { Student } from "../../models/student.model";
+import { LoginService } from "../../services/login.service";
 import { NotificationsService } from "angular2-notifications";
-import { LoadingService } from "../services/loading.service";
-import { Statistic } from "../models/statistic.model";
-import { StatisticsService } from "../services/statistics.service";
+import { LoadingService } from "../../services/loading.service";
+import { Statistic } from "../../models/statistic.model";
+import { StatisticsService } from "../../services/statistics.service";
 
 @Component({
   selector: 'list-aplic-my-profile',

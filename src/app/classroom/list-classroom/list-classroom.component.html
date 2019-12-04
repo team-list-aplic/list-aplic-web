@@ -1,0 +1,181 @@
+<br>
+<div class="container">
+  <div class="form-row">
+    <div *ngFor="let classroom of listClassrooms" class="col-md-4">
+      <div class="form-group">
+        <div class="card">
+          <div class="card-header">
+            <h5 style="margin-bottom: -10px;">{{ classroom.name }}</h5>
+            <a (click)="showClassroomCode(codeModal, classroom.code)" *ngIf="this.accessUser"
+               style="font-size:13px; text-decoration: underline; cursor: pointer;">
+              Exibir código da Turma</a>
+          </div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="col-md-12">
+                <div *ngIf="this.accessUser" class="list-group">
+                  <button (click)="showStudentsClassroom(studentsClassroom, classroom.id, classroom.name)"
+                          class=" list-group-item list-group-item-action"
+                          type="button">
+                    <i class="fas fa-users" style="margin-right: 2px;"></i>
+                    Ver alunos inscritos
+                  </button>
+                  <button (click)="openStatisticsModal(statisticsModal, classroom.id)"
+                          class="list-group-item list-group-item-action" type="button">
+                    <i class="far fa-chart-bar" style="font-size: 20px; margin-right: 2px;"></i>
+                    Ver estatísticas da turma
+                  </button>
+                  <button (click)="openAppliedListsModal(appliedListsModal, classroom.id)"
+                          class="list-group-item list-group-item-action"
+                          type="button">
+                    <i class="fas fa-file-alt" style="font-size: 19px; margin-right: 8px"></i>
+                    Ver listas aplicadas
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <br>
+
+            <div *ngIf="this.accessUser" class="form-row">
+              <div class="col-md-6 text-left">
+                <button (click)="viewClassroomAttempt(classroom.id)"
+                        class="btn btn-sm btn-outline-primary">Aplicar lista
+                </button>&nbsp;
+              </div>
+              <div class="col-md-6 text-right">
+                <button [routerLink]="['/edit-classroom', classroom.id]"
+                        class="btn btn-sm btn-outline-dark">Editar
+                </button>&nbsp;
+              </div>
+            </div>
+
+            <div *ngIf="!this.accessUser" class="form-row">
+              <div class="col-md-12 text-right">
+                <button [routerLink]="['/view-classroom', classroom.id]"
+                        class="btn btn-sm btn-outline-primary" type="button">
+                  Visualizar turma
+                </button>&nbsp;
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="!listClassrooms || listClassrooms?.length <= 0">
+    <div class="none-classroom">
+      <p><i>Nenhuma turma encontrada!</i></p>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #codeModal>
+  <div class="modal-header">
+    <h5 class="modal-title">Código da Turma</h5>
+    <button (click)="modalRef.hide()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <br>
+    <h1 style="text-align: center;">{{ codeForShow }}</h1>
+    <br>
+  </div>
+</ng-template>
+
+<ng-template #studentsClassroom>
+  <div class="modal-header">
+    <h5 class="modal-title">Alunos inscritos em: "{{ classroomName }}" </h5>
+    <button (click)="modalRef.hide()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="col-md-12">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th class="alert-info">#</th>
+            <th class="alert-info">Nome do aluno</th>
+            <th class="alert-info">Email do aluno</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let student of listStudents; let i = index">
+            <td>{{i + 1}}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.email }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #statisticsModal>
+  <list-aplic-modal-info [innerHTML]="innerHTMLToStatistics" [modalRef]="modalRef" title="Estatísticas da Turma">
+  </list-aplic-modal-info>
+</ng-template>
+
+<ng-template #appliedListsModal>
+  <div class="modal-header">
+    <h5 class="modal-title">Listas Aplicadas</h5>
+    <button (click)="modalRef.hide()" aria-label="Close" class="close" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div *ngIf="lists && lists.length > 0" class="table-responsive">
+      <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+          <th scope="col">Título</th>
+          <th scope="col">Disciplinas</th>
+          <th scope="col">Áreas de Conhecimento</th>
+          <th scope="col" width="16%">Data de Aplicação</th>
+          <th scope="col">Status</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let list of lists" style="cursor: pointer">
+          <td>
+            {{ list.name }}
+          </td>
+          <td>
+            <li *ngFor="let sub of list.subjects">
+              {{ (sub.name || sub.descricao) || 'Não informado' }}
+            </li>
+          </td>
+          <td>
+            <li *ngFor="let know of list.knowledgeAreas">
+              {{ know.descricao }}
+            </li>
+          </td>
+          <td>
+            {{ list.applicationDateTime | date: 'dd/MM/yyyy HH:mm:ss' }}
+          </td>
+          <td>
+            {{ translateApplicationStatus(list.status) }}
+          </td>
+          <td>
+            <button (click)="finishListApplication(list)" *ngIf="list.status !== 'ENCERRADA'" class="btn btn-secondary">
+              Encerrar
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="!lists || lists?.length <= 0" class="row" style="margin-top: 25px;">
+      <div class="col-md-12">
+        <p class="text-center" style="font-style: italic;">Nenhuma lista foi
+          aplicada!</p>
+      </div>
+    </div>
+  </div>
+</ng-template>
